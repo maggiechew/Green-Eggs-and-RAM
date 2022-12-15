@@ -1,12 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
+import NavigationWrapper from './components/NavigationWrapper';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>WAZZAAAA!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider>
+      <NavigationWrapper />
+    </PaperProvider>
   );
 }
 
