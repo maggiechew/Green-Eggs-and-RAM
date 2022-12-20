@@ -3,7 +3,7 @@ import { Provider as PaperProvider, Button } from "react-native-paper";
 import { BounceIn, FadeIn } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 
-const HomePage = () => (
+const HomePage = ({navigation}) => (
   <View style={styles.container}>
     <ImageBackground
       source={require("../wonderlandSculpture-egg.jpg")}
@@ -25,7 +25,7 @@ const HomePage = () => (
         icon="account"
         mode="contained-tonal"
         style={styles.button}
-        onPress={() => alert("Button Pressed")}
+        onPress={() => navigation.navigate('MapPage')}
       >
         {" "}
         Log In
