@@ -1,6 +1,17 @@
-import { ImageBackground, StyleSheet, Text, View, Easing } from "react-native";
+import {
+  ImageBackground,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Easing,
+} from "react-native";
+import { useEffect } from "react";
 import React from "react";
 import MapView, { Marker } from "react-native-maps";
+import MapButton from "../components/MapButton";
+import * as Location from "expo-location"; // for using Location for Geofencing (?)
+import { Button } from "react-native-paper";
 
 const listOfMarkers = [
   { name: "marker-1", latitude: 51.049999, longitude: -114.066666 },
@@ -9,12 +20,23 @@ const listOfMarkers = [
   { name: "marker-4", latitude: 51.045999, longitude: -114.071666 },
 ];
 
+let theLocation;
+
+function zorg () {
+
+    useEffect(() => {
+
+    }, [])
+}
+
 const MapPage = () => {
   return (
     <View style={styles.container}>
+    {/* <View style={styles.testContainer}><Text>Map</Text></View> */}
       <MapView
         style={styles.map}
-        showsUserLocation='true'
+        showsUserLocation="true"
+        provider="google"
         initialRegion={{
           latitude: 51.049999,
           longitude: -114.066666,
@@ -37,55 +59,69 @@ const MapPage = () => {
           //   image={{uri: 'custom_pin'}}
         />
       </MapView>
+      <View style={styles.buttonContainer}>
+        {/* <MapButton onPress={async () => 
+    {theLocation = await Location.getLastKnownPositionAsync();
+    console.log("hi")}} /> */}
+        <MapButton />
+      </View>
     </View>
+
+    // <View style={styles.container}>
+    //     <View style={styles.testContainer}></View>
+    //     <View style={styles.buttonContainer}>
+    //     <MapButton />
+    //     </View>
+    // </View>
   );
 };
+
+//TODO: add drawer/ change icon on mapbutton click
+//TODO: what happens if they give one permission vs another for location?
+//TODO: what is the practical difference in using fine vs coarse location?
+//TODO: will the map page start focused on their location? If they are not within x distance of a zone, what (if anything) happens?
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // flexWrap: 'wrap-reverse',
+    backgroundColor:'blue',
+    alignItems: 'flex-end',
+    justifyContent:'flex-end'
+    // flexDirection: 'ltr',
+    // height:'100%'
+    // padding: 20
+  },
+  testContainer: {
+    flex: 1,
+    position: 'absolute',
+    width: "100%",
+    height: "100%",
+    // position:'absolute',
+    backgroundColor:'pink'
+  },
+  buttonContainer: {
+    // flex: 1,
+    paddingRight: 10,
+    paddingBottom:20,
+    zIndex: 46,
+    alignItems: 'flex-end',
+    // position:'absolute',
+    // backgroundColor:'red'
+  },
+  button: {
+    // alignSelf:'flex-end',
+    zIndex: 45,
+    // flex:1,
+    paddingRight:10,
+    // position: 'absolute',
   },
   map: {
+    // flex: 9,
+    position: 'absolute',
     width: "100%",
     height: "100%",
   },
 });
-// {/* <View style={styles.container}>
-// <View style={styles.textContainer}>
-//       <Text style={styles.text}>MapPage</Text>
-//       </View>
-//     </View> */}
-// const styles = StyleSheet.create({
-//     container: {
-//       flex: 1,
-//       justifyContent: "space-between",
-//       backgroundColor:'pink'
-//     },
-//     textContainer: {
-//       flex: 1,
-//       justifyContent: "center",
-//       maxHeight: 200,
-//       marginTop: 20,
-//     },
-//     text: {
-//       color: "white",
-//       fontSize: 42,
-//       lineHeight: 84,
-//       fontWeight: "bold",
-//       textAlign: "center",
-//       backgroundColor: "#000000c0",
-//     },
-//     buttonContainer: {
-//       marginBottom: 10,
-//       // backgroundColor: 'pink'
-//     },
-//     button: {
-//       marginBottom: 10,
-//       marginHorizontal: 10,
-//       backgroundColor: "#FFCC33",
-//       color: "black",
-//       // textColor: 'blue'
-//     },
-//   });
 
 export default MapPage;
