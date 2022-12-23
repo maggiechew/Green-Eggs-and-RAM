@@ -20,22 +20,22 @@ const listOfMarkers = [
   { name: "marker-4", latitude: 51.045999, longitude: -114.071666 },
 ];
 
-let theLocation;
-
-function zorg () {
-
-    useEffect(() => {
-
-    }, [])
-}
-
 const MapPage = () => {
+  useEffect(() => {
+    Location.requestForegroundPermissionsAsync();
+    // Location.requestBackgroundPermissionsAsync()
+    // Location.getCurrentPositionAsync().then((response) => {
+    //   console.log(response)
+    // })
+    // Location.getForegroundPermissionsAsync().then((response) => {
+    //   console.log(response);
+    // });
+  }, []);
   return (
     <View style={styles.container}>
-    {/* <View style={styles.testContainer}><Text>Map</Text></View> */}
       <MapView
         style={styles.map}
-        showsUserLocation="true"
+        showsUserLocation
         provider="google"
         initialRegion={{
           latitude: 51.049999,
@@ -60,9 +60,6 @@ const MapPage = () => {
         />
       </MapView>
       <View style={styles.buttonContainer}>
-        {/* <MapButton onPress={async () => 
-    {theLocation = await Location.getLastKnownPositionAsync();
-    console.log("hi")}} /> */}
         <MapButton />
       </View>
     </View>
@@ -85,27 +82,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // flexWrap: 'wrap-reverse',
-    backgroundColor:'blue',
-    alignItems: 'flex-end',
-    justifyContent:'flex-end'
+    backgroundColor: "blue",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
     // flexDirection: 'ltr',
     // height:'100%'
     // padding: 20
   },
   testContainer: {
     flex: 1,
-    position: 'absolute',
+    position: "absolute",
     width: "100%",
     height: "100%",
     // position:'absolute',
-    backgroundColor:'pink'
+    backgroundColor: "pink",
   },
   buttonContainer: {
     // flex: 1,
     paddingRight: 10,
-    paddingBottom:20,
+    paddingBottom: 20,
     zIndex: 46,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
     // position:'absolute',
     // backgroundColor:'red'
   },
@@ -113,12 +110,12 @@ const styles = StyleSheet.create({
     // alignSelf:'flex-end',
     zIndex: 45,
     // flex:1,
-    paddingRight:10,
+    paddingRight: 10,
     // position: 'absolute',
   },
   map: {
     // flex: 9,
-    position: 'absolute',
+    position: "absolute",
     width: "100%",
     height: "100%",
   },
