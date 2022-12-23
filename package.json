@@ -2,11 +2,14 @@
   "name": "green-eggs-and-ram",
   "version": "1.0.0",
   "description": "",
-  "workspaces": ["green-eggs-app"],
+  "workspaces": [
+    "green-eggs-app"
+  ],
   "scripts": {
-    "start:app": "npm run start --workspace=green-eggs-app"
+    "start:app": "npm run start --workspace=green-eggs-app",
+    "start:app:cache": "npm run start:cache --workspace=green-eggs-app"
   },
   "keywords": [],
   "author": "",
-  "license": "UNLICENSED" 
+  "license": "UNLICENSED"
 }

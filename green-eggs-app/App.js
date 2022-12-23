@@ -1,20 +1,31 @@
-import { StyleSheet } from 'react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
-import NavigationWrapper from './components/NavigationWrapper';
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
+import MapPage from './pages/MapPage';
+import AuthPage from './pages/AuthPage';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const App = () => {
   return (
-    <PaperProvider>
-      <NavigationWrapper />
-    </PaperProvider>
+    <NavigationContainer>
+      <Stack.Navigator
+      initialRouteName='HomePage'
+      screenOptions={{headerShown: false}}>
+        <Stack.Screen
+          name="HomePage"
+          component={HomePage}
+          // options={{ title: 'Welcome' }}
+        />
+        <Stack.Screen name="Profile" component={ProfilePage} />
+        <Stack.Screen name="MapPage" component={MapPage} />
+        <Stack.Screen name="AuthPage" component={AuthPage} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
