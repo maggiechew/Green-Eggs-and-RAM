@@ -2,13 +2,14 @@ import { View, Text, StyleSheet, Modal, StatusBar, TouchableWithoutFeedback } fr
 import { Audio } from 'expo-av';
 import { Button, IconButton, MD3Colors } from 'react-native-paper';
 import React, { useEffect, useState } from 'react';
+import Slider from '@react-native-community/slider';
 
 // Modal is visible or not
-
 const AudioPlayer = ({ visible }) => {
 	const [sound, setSound] = useState();
 	const [button, setButton] = useState('play-circle');
 	const [playing, setPlaying] = useState(false);
+	const [volume, setVolume] = useState(0.1);
 
 	async function playSound() {
 		console.log('Loading Sound');
@@ -21,6 +22,7 @@ const AudioPlayer = ({ visible }) => {
 		setSound(sound);
 
 		console.log('Playing Sound');
+		await sound.setVolumeAsync(volume);
 		await sound.playAsync();
 	}
 
@@ -66,6 +68,16 @@ const AudioPlayer = ({ visible }) => {
 								pauseSound();
 							}
 						}}
+					/>
+					<Slider
+						style={{ width: 200, height: 40 }}
+						minimumValue={0}
+						maximumValue={1}
+						value={volume}
+						onValueChange={(value) => sound.setVolumeAsync(value)}
+						minimumTrackTintColor="#cccccc"
+						maximumTrackTintColor="#000000"
+						padding={60}
 					/>
 				</View>
 			</Modal>
