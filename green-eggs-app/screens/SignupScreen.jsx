@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Formik } from "formik";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { TextInput, Logo, Button, FormErrorMessage } from "../components";
-import { Images, Colors, auth } from "../config";
+import { Images, Colors, auth, db } from "../config";
 import { useTogglePasswordVisibility } from "../hooks";
 import { signupValidationSchema } from "../utils";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -28,6 +29,9 @@ export const SignupScreen = ({ navigation }) => {
     createUserWithEmailAndPassword(auth, email, password).catch((error) =>
       setErrorState(error.message)
     );
+    await setDoc(doc(db, "users", email), {
+      audiolist: [],
+    });
   };
 
   return (
