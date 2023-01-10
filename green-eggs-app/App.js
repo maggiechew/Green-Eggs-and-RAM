@@ -13,17 +13,17 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="HomePage"
+        initialRouteName='HomePage'
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen
-          name="HomePage"
+          name='HomePage'
           component={HomePage}
           // options={{ title: 'Welcome' }}
         />
-        <Stack.Screen name="Profile" component={ProfilePage} />
-        <Stack.Screen name="MapPage" component={MapPage} />
-        <Stack.Screen name="AuthPage" component={AuthPage} />
+        <Stack.Screen name='Profile' component={ProfilePage} />
+        <Stack.Screen name='MapPage' component={MapPage} />
+        <Stack.Screen name='AuthPage' component={AuthPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
