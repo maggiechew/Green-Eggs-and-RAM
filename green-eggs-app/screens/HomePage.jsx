@@ -3,7 +3,7 @@ import { Provider as PaperProvider, Button } from 'react-native-paper';
 import { BounceIn, FadeIn } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 
-const HomePage = ({ navigation }) => (
+export const HomePage = ({ navigation }) => (
   <View style={styles.container}>
     <ImageBackground
       source={require('../wonderlandSculpture-egg.jpg')}
@@ -24,8 +24,8 @@ const HomePage = ({ navigation }) => (
           // easing= {Easing.sin}
           icon="account"
           mode="contained-tonal"
-          style={styles.button}
-          onPress={() => navigation.navigate('MapPage')}
+          style={styles.Button}
+          onPress={() => navigation.navigate('Login')}
         >
           {' '}
           Log In
@@ -61,13 +61,9 @@ const styles = StyleSheet.create({
     marginBottom: 10
     // backgroundColor: 'pink'
   },
-  button: {
+  Button: {
     marginBottom: 10,
     marginHorizontal: 10,
-    backgroundColor: '#FFCC33',
-    color: 'black'
-    // textColor: 'blue'
+    backgroundColor: '#FFCC33'
   }
 });
-
-export default HomePage;

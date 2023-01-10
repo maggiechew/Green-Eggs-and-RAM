@@ -19,4 +19,7 @@ config.resolver.nodeModulesPaths = [
 // 3. Force Metro to resolve (sub)dependencies only from the `nodeModulesPaths`
 config.resolver.disableHierarchicalLookup = true;
 
+// Required for Google sign-in
+config.resolver.assetExts.push('cjs');
+
 module.exports = config;

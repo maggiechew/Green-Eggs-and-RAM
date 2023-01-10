@@ -1,18 +1,8 @@
-import {
-  ImageBackground,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Easing
-} from 'react-native';
-import { useEffect, useState } from 'react';
-import React from 'react';
-import MapView, { Marker } from 'react-native-maps';
-// import MapButton from '../components/MapButton';
-// put MapButton here cause i couldn't remember how to pass state up
 import * as Location from 'expo-location'; // for using Location for Geofencing (?)
-import { Button, IconButton, MD3Colors } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { IconButton, MD3Colors } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
 
 const listOfMarkers = [
@@ -22,9 +12,8 @@ const listOfMarkers = [
   { name: 'marker-4', latitude: 51.045999, longitude: -114.071666 }
 ];
 
-const MapPage = () => {
+export const MapPage = () => {
   const [showModal, setShowModal] = useState(false);
-
   useEffect(() => {
     Location.requestForegroundPermissionsAsync();
     // Location.requestBackgroundPermissionsAsync()
@@ -132,5 +121,3 @@ const styles = StyleSheet.create({
     height: '100%'
   }
 });
-
-export default MapPage;
