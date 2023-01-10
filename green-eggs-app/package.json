@@ -2,6 +2,10 @@
   "name": "green-eggs-app",
   "version": "1.0.0",
   "main": "index.js",
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
   "scripts": {
     "start": "expo start",
     "start:cache": "expo start -c",

@@ -13,8 +13,9 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      initialRouteName='HomePage'
-      screenOptions={{headerShown: false}}>
+        initialRouteName="HomePage"
+        screenOptions={{ headerShown: false }}
+      >
         <Stack.Screen
           name="HomePage"
           component={HomePage}
@@ -28,4 +29,4 @@ const App = () => {
   );
 };
 
-export default App
+export default App;
