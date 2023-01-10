@@ -20,7 +20,7 @@ const listOfMarkers = [
   { name: "marker-4", latitude: 51.045999, longitude: -114.071666 },
 ];
 
-const MapPage = () => {
+export const MapPage = () => {
   useEffect(() => {
     Location.requestForegroundPermissionsAsync();
     // Location.requestBackgroundPermissionsAsync()
@@ -120,5 +120,3 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
-
-export default MapPage;
