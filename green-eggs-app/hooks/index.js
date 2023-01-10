@@ -1,3 +1,3 @@
-import { useTogglePasswordVisibility } from "./useTogglePasswordVisibility";
+import { useTogglePasswordVisibility } from './useTogglePasswordVisibility';
 
 export { useTogglePasswordVisibility };

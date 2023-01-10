@@ -1,9 +1,9 @@
-import { initializeApp } from "firebase/app";
-import { initializeAuth, getReactNativePersistence } from "firebase/auth";
-import Constants from "expo-constants";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getStorage } from "firebase/storage";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp } from 'firebase/app';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import Constants from 'expo-constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getStorage } from 'firebase/storage';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: Constants.manifest.extra.apiKey,
@@ -12,9 +12,9 @@ const firebaseConfig = {
   storageBucket: Constants.manifest.extra.storageBucket,
   messagingSenderId: Constants.manifest.extra.messagingSenderId,
   appId: Constants.manifest.extra.appId,
-  measurementId: Constants.manifest.extra.measurementId,
+  measurementId: Constants.manifest.extra.measurementId
 };
-console.log("This is firebasConfig", firebaseConfig);
+console.log('This is firebasConfig', firebaseConfig);
 
 // initialize firebase
 const app = initializeApp(firebaseConfig);
@@ -22,9 +22,9 @@ const app = initializeApp(firebaseConfig);
 //instead of using firebase.auth() we use initializeAuth
 // initialize auth
 export const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage),
+  persistence: getReactNativePersistence(AsyncStorage)
 });
 export const storage = getStorage(app);
-console.log("This is auth", auth);
+console.log('This is auth', auth);
 
 export const db = getFirestore(app);

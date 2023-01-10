@@ -4,20 +4,20 @@ import {
   StyleSheet,
   Text,
   View,
-  Easing,
-} from "react-native";
-import { useEffect } from "react";
-import React from "react";
-import MapView, { Marker } from "react-native-maps";
-import MapButton from "../components/MapButton";
-import * as Location from "expo-location"; // for using Location for Geofencing (?)
-import { Button } from "react-native-paper";
+  Easing
+} from 'react-native';
+import { useEffect } from 'react';
+import React from 'react';
+import MapView, { Marker } from 'react-native-maps';
+import MapButton from '../components/MapButton';
+import * as Location from 'expo-location'; // for using Location for Geofencing (?)
+import { Button } from 'react-native-paper';
 
 const listOfMarkers = [
-  { name: "marker-1", latitude: 51.049999, longitude: -114.066666 },
-  { name: "marker-2", latitude: 51.050995, longitude: -114.071666 },
-  { name: "marker-3", latitude: 51.049999, longitude: -114.076666 },
-  { name: "marker-4", latitude: 51.045999, longitude: -114.071666 },
+  { name: 'marker-1', latitude: 51.049999, longitude: -114.066666 },
+  { name: 'marker-2', latitude: 51.050995, longitude: -114.071666 },
+  { name: 'marker-3', latitude: 51.049999, longitude: -114.076666 },
+  { name: 'marker-4', latitude: 51.045999, longitude: -114.071666 }
 ];
 
 export const MapPage = () => {
@@ -41,7 +41,7 @@ export const MapPage = () => {
           latitude: 51.049999,
           longitude: -114.066666,
           latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
+          longitudeDelta: 0.1
         }}
       >
         {listOfMarkers.map((marker, index) => (
@@ -49,7 +49,7 @@ export const MapPage = () => {
             key={index}
             coordinate={{
               latitude: marker.latitude,
-              longitude: marker.longitude,
+              longitude: marker.longitude
             }}
           />
         ))}
@@ -82,27 +82,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // flexWrap: 'wrap-reverse',
-    backgroundColor: "blue",
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
+    backgroundColor: 'blue',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
     // flexDirection: 'ltr',
     // height:'100%'
     // padding: 20
   },
   testContainer: {
     flex: 1,
-    position: "absolute",
-    width: "100%",
-    height: "100%",
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
     // position:'absolute',
-    backgroundColor: "pink",
+    backgroundColor: 'pink'
   },
   buttonContainer: {
     // flex: 1,
     paddingRight: 10,
     paddingBottom: 20,
     zIndex: 46,
-    alignItems: "flex-end",
+    alignItems: 'flex-end'
     // position:'absolute',
     // backgroundColor:'red'
   },
@@ -110,13 +110,13 @@ const styles = StyleSheet.create({
     // alignSelf:'flex-end',
     zIndex: 45,
     // flex:1,
-    paddingRight: 10,
+    paddingRight: 10
     // position: 'absolute',
   },
   map: {
     // flex: 9,
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-  },
+    position: 'absolute',
+    width: '100%',
+    height: '100%'
+  }
 });

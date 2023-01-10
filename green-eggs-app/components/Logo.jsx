@@ -1,5 +1,5 @@
-import React from "react";
-import { Image, StyleSheet } from "react-native";
+import React from 'react';
+import { Image, StyleSheet } from 'react-native';
 
 export const Logo = ({ uri }) => {
   return <Image source={uri} style={styles.image} />;
@@ -8,6 +8,6 @@ export const Logo = ({ uri }) => {
 const styles = StyleSheet.create({
   image: {
     width: 200,
-    height: 200,
-  },
+    height: 200
+  }
 });

@@ -1,12 +1,12 @@
-import * as React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import * as React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import {
   LoginScreen,
   SignupScreen,
   HomePage,
-  ForgotPasswordScreen,
-} from "../screens";
+  ForgotPasswordScreen
+} from '../screens';
 
 const Stack = createStackNavigator();
 

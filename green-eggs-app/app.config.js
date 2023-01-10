@@ -1,46 +1,46 @@
-import "dotenv/config";
+import 'dotenv/config';
 export default {
   expo: {
-    name: "green-eggs-app",
-    slug: "green-eggs-app",
-    version: "1.0.0",
-    orientation: "portrait",
-    icon: "./assets/icon.png",
-    userInterfaceStyle: "light",
-    scheme: "com.greeneggandram.greeneggsapp",
+    name: 'green-eggs-app',
+    slug: 'green-eggs-app',
+    version: '1.0.0',
+    orientation: 'portrait',
+    icon: './assets/icon.png',
+    userInterfaceStyle: 'light',
+    scheme: 'com.greeneggandram.greeneggsapp',
     splash: {
-      image: "./assets/splash.png",
-      resizeMode: "contain",
-      backgroundColor: "#ffffff",
+      image: './assets/splash.png',
+      resizeMode: 'contain',
+      backgroundColor: '#ffffff'
     },
     updates: {
-      fallbackToCacheTimeout: 0,
+      fallbackToCacheTimeout: 0
     },
-    assetBundlePatterns: ["**/*"],
+    assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "com.greeneggandram.greeneggsapp",
+      bundleIdentifier: 'com.greeneggandram.greeneggsapp',
       infoPlist: {
         NSLocationWhenInUseUsageDescription:
-          "This app uses your location to identify nearby eggs.",
-      },
+          'This app uses your location to identify nearby eggs.'
+      }
     },
     android: {
-      package: "com.greeneggandram.greeneggsapp",
+      package: 'com.greeneggandram.greeneggsapp',
       versionCode: 1,
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon.png",
-        backgroundColor: "#FFFFFF",
+        foregroundImage: './assets/adaptive-icon.png',
+        backgroundColor: '#FFFFFF'
       },
       permissions: [
-        "FOREGROUND_SERVICE",
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION",
-      ],
+        'FOREGROUND_SERVICE',
+        'ACCESS_COARSE_LOCATION',
+        'ACCESS_FINE_LOCATION',
+        'ACCESS_BACKGROUND_LOCATION'
+      ]
     },
     web: {
-      favicon: "./assets/favicon.png",
+      favicon: './assets/favicon.png'
     },
     extra: {
       apiKey: process.env.API_KEY,
@@ -51,8 +51,8 @@ export default {
       appId: process.env.APP_ID,
       measurementId: process.env.MEASUREMENT_ID,
       eas: {
-        projectId: "82bf0bc5-44e4-4575-b07e-f4a1fa3b5389",
-      },
-    },
-  },
+        projectId: '82bf0bc5-44e4-4575-b07e-f4a1fa3b5389'
+      }
+    }
+  }
 };
