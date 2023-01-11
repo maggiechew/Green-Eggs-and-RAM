@@ -77,17 +77,21 @@ const AudioPlayer = ({ visible }) => {
                 }
               }}
             />
-            <Slider
-              style={{ width: 200, height: 40 }}
-              minimumValue={0}
-              maximumValue={1}
-              value={volume}
-              onValueChange={(value) => sound.setVolumeAsync(value)}
-              minimumTrackTintColor="#cccccc"
-              maximumTrackTintColor="#000000"
-              // paddingVertical={150}
-              padding={50}
-            />
+            {sound ? (
+              <Slider
+                style={{ width: 200, height: 40 }}
+                minimumValue={0}
+                maximumValue={1}
+                value={volume}
+                onValueChange={(value) => sound.setVolumeAsync(value)}
+                minimumTrackTintColor="#cccccc"
+                maximumTrackTintColor="#000000"
+                // paddingVertical={150}
+                padding={50}
+              />
+            ) : (
+              <View />
+            )}
           </View>
         </View>
       </Modal>
