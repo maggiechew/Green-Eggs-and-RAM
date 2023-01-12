@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { Formik } from 'formik';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc, Timestamp } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { TextInput, Logo, Button, FormErrorMessage } from '../components';
@@ -26,12 +26,13 @@ export const SignupScreen = ({ navigation }) => {
   const handleSignup = async (values) => {
     const { email, password } = values;
 
-    createUserWithEmailAndPassword(auth, email, password).catch((error) =>
-      setErrorState(error.message)
-    );
-    await setDoc(doc(db, 'users', email), {
-      audiolist: []
-    });
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async () => {
+        await setDoc(doc(db, 'users', email), {
+          audiolist: []
+        });
+      })
+      .catch((error) => setErrorState(error.message));
   };
 
   return (
