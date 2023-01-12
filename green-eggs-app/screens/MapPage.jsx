@@ -1,9 +1,10 @@
 import * as Location from 'expo-location'; // for using Location for Geofencing (?)
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, View, StatusBar } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { IconButton, MD3Colors } from 'react-native-paper';
+import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
+import AvatarMenu from '../components/AvatarMenu';
 
 const listOfMarkers = [
   { name: 'marker-1', latitude: 51.049999, longitude: -114.066666 },
@@ -12,21 +13,24 @@ const listOfMarkers = [
   { name: 'marker-4', latitude: 51.045999, longitude: -114.071666 }
 ];
 
-export const MapPage = () => {
+export const MapPage = ({navigation}) => {
   const [showModal, setShowModal] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleMenu = () => {
+    setShowMenu(!showMenu)
+  }
+
+  const handleModal = () => {
+    setShowModal(!showModal)
+  }
+
   useEffect(() => {
     Location.requestForegroundPermissionsAsync();
-    // Location.requestBackgroundPermissionsAsync()
-    // Location.getCurrentPositionAsync().then((response) => {
-    //   console.log(response)
-    // })
-    // Location.getForegroundPermissionsAsync().then((response) => {
-    //   console.log(response);
-    // });
   }, []);
   return (
     <View style={styles.container}>
-      <AudioPlayer visible={showModal} />
+    <StatusBar hidden />
       <MapView
         style={styles.map}
         showsUserLocation
@@ -53,10 +57,26 @@ export const MapPage = () => {
           //   image={{uri: 'custom_pin'}}
         />
       </MapView>
-      <View style={styles.buttonContainer}>
+      <View style={styles.avatarButtonContainer}>
+        <Pressable
+          onPress={() => {
+            handleMenu();
+          }}
+        >
+          <Avatar.Image
+            style={styles.avatar}
+            source={require('../sample-face.jpg')}
+          />
+        </Pressable>
+      </View>
+      <AvatarMenu visible={showMenu} handleMenu={handleMenu} />
+
+      <AudioPlayer visible={showModal} handleModal={handleModal} navigation />
+
+      <View style={styles.playButtonContainer}>
         <IconButton
           icon="play-circle"
-          iconColor={MD3Colors.Neutral10}
+          iconColor={MD3Colors.error50}
           mode={'contained-tonal'}
           containerColor={'#ffffff'}
           size={35}
@@ -64,58 +84,38 @@ export const MapPage = () => {
         />
       </View>
     </View>
-
-    // <View style={styles.container}>
-    //     <View style={styles.testContainer}></View>
-    //     <View style={styles.buttonContainer}>
-    //     <MapButton />
-    //     </View>
-    // </View>
   );
 };
-
-//TODO: add drawer/ change icon on mapbutton click
-//TODO: what happens if they give one permission vs another for location?
-//TODO: what is the practical difference in using fine vs coarse location?
-//TODO: will the map page start focused on their location? If they are not within x distance of a zone, what (if anything) happens?
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // flexWrap: 'wrap-reverse',
-    backgroundColor: 'blue',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end'
-    // flexDirection: 'ltr',
-    // height:'100%'
-    // padding: 20
+    alignItems: 'flex-start',
+    justifyContent: 'space-between'
   },
-  testContainer: {
-    flex: 1,
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    // position:'absolute',
-    backgroundColor: 'pink'
+  avatarButtonContainer: {
+    paddingLeft: 20,
+    paddingTop: 20,
+    zIndex: 46,
+    alignSelf: 'flex-start'
   },
-  buttonContainer: {
-    // flex: 1,
+  avatar: {
+    // borderColor:'gray',
+    // borderWidth: 50,
+    // borderRadius:300,
+  },
+
+  playButtonContainer: {
     paddingRight: 10,
     paddingBottom: 20,
-    zIndex: 46,
-    alignItems: 'flex-end'
-    // position:'absolute',
-    // backgroundColor:'red'
+    zIndex: 5,
+    alignSelf: 'flex-end'
   },
   button: {
-    // alignSelf:'flex-end',
     zIndex: 45,
-    // flex:1,
     paddingRight: 10
-    // position: 'absolute',
   },
   map: {
-    // flex: 9,
     position: 'absolute',
     width: '100%',
     height: '100%'
