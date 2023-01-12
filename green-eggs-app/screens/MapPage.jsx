@@ -13,7 +13,7 @@ const listOfMarkers = [
   { name: 'marker-4', latitude: 51.045999, longitude: -114.071666 }
 ];
 
-export const MapPage = () => {
+export const MapPage = ({navigation}) => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -71,7 +71,7 @@ export const MapPage = () => {
       </View>
       <AvatarMenu visible={showMenu} handleMenu={handleMenu} />
 
-      <AudioPlayer visible={showModal} handleModal={handleModal} />
+      <AudioPlayer visible={showModal} handleModal={handleModal} navigation />
 
       <View style={styles.playButtonContainer}>
         <IconButton
