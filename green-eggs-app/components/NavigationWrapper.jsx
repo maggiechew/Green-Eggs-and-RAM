@@ -33,7 +33,7 @@ const NavigationWrapper = () => {
       key: 'music',
       title: 'Favorites',
       focusedIcon: 'heart',
-      unfocusedIcon: 'heart-outline',
+      unfocusedIcon: 'heart-outline'
     },
     { key: 'albums', title: 'Albums', focusedIcon: 'album' },
     { key: 'recents', title: 'Recents', focusedIcon: 'history' },
@@ -41,15 +41,15 @@ const NavigationWrapper = () => {
       key: 'notifications',
       title: 'Notifications',
       focusedIcon: 'bell',
-      unfocusedIcon: 'bell-outline',
-    },
+      unfocusedIcon: 'bell-outline'
+    }
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     music: MusicRoute,
     albums: AlbumsRoute,
     recents: RecentsRoute,
-    notifications: NotificationsRoute,
+    notifications: NotificationsRoute
   });
 
   return (

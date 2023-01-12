@@ -2,8 +2,10 @@
 
 ## Running the App
 
-Run 
+Run
+
 ```
 npm run start:app
 ```
+
 to start the app.

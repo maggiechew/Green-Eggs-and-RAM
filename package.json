@@ -11,5 +11,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@react-native-community/slider": "4.2.4"
+  }
 }
