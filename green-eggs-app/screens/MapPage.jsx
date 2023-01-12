@@ -1,9 +1,10 @@
 import * as Location from 'expo-location'; // for using Location for Geofencing (?)
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, View, StatusBar } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Avatar, IconButton, MD3Colors } from 'react-native-paper';
+import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
+import AvatarMenu from '../components/AvatarMenu';
 
 const listOfMarkers = [
   { name: 'marker-1', latitude: 51.049999, longitude: -114.066666 },
@@ -14,23 +15,22 @@ const listOfMarkers = [
 
 export const MapPage = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleMenu = () => {
+    setShowMenu(!showMenu)
+  }
 
   const handleModal = () => {
     setShowModal(!showModal)
   }
+
   useEffect(() => {
     Location.requestForegroundPermissionsAsync();
   }, []);
   return (
     <View style={styles.container}>
-      <View style={styles.avatarButtonContainer}>
-        <Avatar.Image
-          style={styles.avatar}
-          source={require('../sample-face.jpg')}
-        />
-      </View>
-      <AudioPlayer visible={showModal} />
-
+    <StatusBar hidden />
       <MapView
         style={styles.map}
         showsUserLocation
@@ -57,8 +57,22 @@ export const MapPage = () => {
           //   image={{uri: 'custom_pin'}}
         />
       </MapView>
+      <View style={styles.avatarButtonContainer}>
+        <Pressable
+          onPress={() => {
+            handleMenu();
+          }}
+        >
+          <Avatar.Image
+            style={styles.avatar}
+            source={require('../sample-face.jpg')}
+          />
+        </Pressable>
+      </View>
+      <AvatarMenu visible={showMenu} handleMenu={handleMenu} />
 
       <AudioPlayer visible={showModal} handleModal={handleModal} />
+
       <View style={styles.playButtonContainer}>
         <IconButton
           icon="play-circle"
@@ -70,63 +84,33 @@ export const MapPage = () => {
         />
       </View>
     </View>
-
-    // <View style={styles.container}>
-    //     <View style={styles.testContainer}></View>
-    //     <View style={styles.buttonContainer}>
-    //     <MapButton />
-    //     </View>
-    // </View>
   );
 };
-
-//TODO: add drawer/ change icon on mapbutton click
-//TODO: what happens if they give one permission vs another for location?
-//TODO: what is the practical difference in using fine vs coarse location?
-//TODO: will the map page start focused on their location? If they are not within x distance of a zone, what (if anything) happens?
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // borderColor: 'blue',
     alignItems: 'flex-start',
     justifyContent: 'space-between'
   },
-  // avatarContainer: {
-  //   borderColor: 'pink',
-  //   borderWidth: 4,
-  //   zIndex: 47
-  // },
   avatarButtonContainer: {
     paddingLeft: 20,
     paddingTop: 20,
     zIndex: 46,
-    // alignItems: 'flex-end',
     alignSelf: 'flex-start'
-    // borderColor: 'blue',
-    // borderWidth: 4
   },
   avatar: {
     // borderColor:'gray',
-    // borderWidth: 50
+    // borderWidth: 50,
+    // borderRadius:300,
   },
 
   playButtonContainer: {
     paddingRight: 10,
     paddingBottom: 20,
-    zIndex: 46,
+    zIndex: 5,
     alignSelf: 'flex-end'
-    // borderColor: 'red',
-    // borderWidth: 4
   },
-  // playButton: {
-  //   paddingRight: 10,
-  //   paddingBottom: 20,
-  //   zIndex: 46,
-  //   alignItems: 'flex-end',
-  //   borderColor: 'green',
-  //   borderWidth: 4
-  // },
   button: {
     zIndex: 45,
     paddingRight: 10
