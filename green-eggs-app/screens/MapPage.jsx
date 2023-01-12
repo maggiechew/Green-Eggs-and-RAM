@@ -14,6 +14,10 @@ const listOfMarkers = [
 
 export const MapPage = () => {
   const [showModal, setShowModal] = useState(false);
+
+  const handleModal = () => {
+    setShowModal(!showModal)
+  }
   useEffect(() => {
     Location.requestForegroundPermissionsAsync();
   }, []);
@@ -53,6 +57,8 @@ export const MapPage = () => {
           //   image={{uri: 'custom_pin'}}
         />
       </MapView>
+
+      <AudioPlayer visible={showModal} handleModal={handleModal} />
       <View style={styles.playButtonContainer}>
         <IconButton
           icon="play-circle"

@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   Modal,
-  StatusBar,
   TouchableWithoutFeedback
 } from 'react-native';
 import { Audio } from 'expo-av';
@@ -12,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import Slider from '@react-native-community/slider';
 
 // Modal is visible or not
-const AudioPlayer = ({ visible }) => {
+const AudioPlayer = ({ visible, handleModal }) => {
   const [sound, setSound] = useState();
   const [button, setButton] = useState('play-circle');
   const [playing, setPlaying] = useState(false);
@@ -49,8 +48,8 @@ const AudioPlayer = ({ visible }) => {
 
   return (
     <>
-      <StatusBar hidden />
-      <Modal animationType="slide" transparent visible={visible}>
+      
+      <Modal animationType="slide" transparent visible={visible} onDismiss={handleModal}>
         <View style={styles.modal}>
           <Text style={styles.title} numberOfLines={2}>
             Egg Title. This is a very important piece of content.
@@ -92,6 +91,7 @@ const AudioPlayer = ({ visible }) => {
             ) : (
               <View />
             )}
+            <Button onPress={() => { handleModal();}}>Click Me</Button>
           </View>
         </View>
       </Modal>
