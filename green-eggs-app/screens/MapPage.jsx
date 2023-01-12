@@ -2,7 +2,7 @@ import * as Location from 'expo-location'; // for using Location for Geofencing 
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { IconButton, MD3Colors } from 'react-native-paper';
+import { Avatar, IconButton, MD3Colors } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
 
 const listOfMarkers = [
@@ -16,17 +16,17 @@ export const MapPage = () => {
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     Location.requestForegroundPermissionsAsync();
-    // Location.requestBackgroundPermissionsAsync()
-    // Location.getCurrentPositionAsync().then((response) => {
-    //   console.log(response)
-    // })
-    // Location.getForegroundPermissionsAsync().then((response) => {
-    //   console.log(response);
-    // });
   }, []);
   return (
     <View style={styles.container}>
+      <View style={styles.avatarButtonContainer}>
+        <Avatar.Image
+          style={styles.avatar}
+          source={require('../sample-face.jpg')}
+        />
+      </View>
       <AudioPlayer visible={showModal} />
+
       <MapView
         style={styles.map}
         showsUserLocation
@@ -53,10 +53,10 @@ export const MapPage = () => {
           //   image={{uri: 'custom_pin'}}
         />
       </MapView>
-      <View style={styles.buttonContainer}>
+      <View style={styles.playButtonContainer}>
         <IconButton
           icon="play-circle"
-          iconColor={MD3Colors.Neutral10}
+          iconColor={MD3Colors.error50}
           mode={'contained-tonal'}
           containerColor={'#ffffff'}
           size={35}
@@ -82,40 +82,50 @@ export const MapPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // flexWrap: 'wrap-reverse',
-    backgroundColor: 'blue',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end'
-    // flexDirection: 'ltr',
-    // height:'100%'
-    // padding: 20
+    // borderColor: 'blue',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between'
   },
-  testContainer: {
-    flex: 1,
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    // position:'absolute',
-    backgroundColor: 'pink'
+  // avatarContainer: {
+  //   borderColor: 'pink',
+  //   borderWidth: 4,
+  //   zIndex: 47
+  // },
+  avatarButtonContainer: {
+    paddingLeft: 20,
+    paddingTop: 20,
+    zIndex: 46,
+    // alignItems: 'flex-end',
+    alignSelf: 'flex-start'
+    // borderColor: 'blue',
+    // borderWidth: 4
   },
-  buttonContainer: {
-    // flex: 1,
+  avatar: {
+    // borderColor:'gray',
+    // borderWidth: 50
+  },
+
+  playButtonContainer: {
     paddingRight: 10,
     paddingBottom: 20,
     zIndex: 46,
-    alignItems: 'flex-end'
-    // position:'absolute',
-    // backgroundColor:'red'
+    alignSelf: 'flex-end'
+    // borderColor: 'red',
+    // borderWidth: 4
   },
+  // playButton: {
+  //   paddingRight: 10,
+  //   paddingBottom: 20,
+  //   zIndex: 46,
+  //   alignItems: 'flex-end',
+  //   borderColor: 'green',
+  //   borderWidth: 4
+  // },
   button: {
-    // alignSelf:'flex-end',
     zIndex: 45,
-    // flex:1,
     paddingRight: 10
-    // position: 'absolute',
   },
   map: {
-    // flex: 9,
     position: 'absolute',
     width: '100%',
     height: '100%'
