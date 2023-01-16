@@ -40,10 +40,10 @@ const ContentScreen = () => {
             <Divider />
           <View style={styles.buttons}>
           <Card.Actions style={styles.buttons}>
-          <Button>Love</Button>
-          <Button>Save</Button>
-          <Button>Share</Button>
-          <Button>Report</Button>
+          <Button onPress={() => {console.log('Loved it')}}>Love</Button>
+          <Button onPress={() => {console.log('Saved it')}}>Save</Button>
+          <Button onPress={() => {console.log('Shared it')}}>Share</Button>
+          <Button onPress={() => {console.log('Reported it')}}>Report</Button>
         </Card.Actions>
         </View>
           </Card.Content>
@@ -128,7 +128,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     shortDescription: {
-        paddingVertical: 5,
+        paddingVertical: 10,
+        paddingTop: 15,
     }
 });
 
