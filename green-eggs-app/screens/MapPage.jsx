@@ -13,24 +13,24 @@ const listOfMarkers = [
   { name: 'marker-4', latitude: 51.045999, longitude: -114.071666 }
 ];
 
-export const MapPage = ({navigation}) => {
+export const MapPage = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
   const handleMenu = () => {
-    setShowMenu(!showMenu)
-  }
+    setShowMenu(!showMenu);
+  };
 
   const handleModal = () => {
-    setShowModal(!showModal)
-  }
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     Location.requestForegroundPermissionsAsync();
   }, []);
   return (
     <View style={styles.container}>
-    <StatusBar hidden />
+      <StatusBar hidden />
       <MapView
         style={styles.map}
         showsUserLocation
@@ -70,8 +70,6 @@ export const MapPage = ({navigation}) => {
         </Pressable>
       </View>
       <AvatarMenu visible={showMenu} handleMenu={handleMenu} />
-
-      <AudioPlayer visible={showModal} handleModal={handleModal} navigation />
 
       <View style={styles.playButtonContainer}>
         <IconButton
