@@ -8,6 +8,7 @@ import { auth } from '../config';
 import { AccountScreen } from '../screens/AccountScreen';
 import { FriendsScreen } from '../screens/FriendsScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
+import ContentScreen from '../screens/ContentScreen';
 
 const Stack = createStackNavigator();
 const handleLogout = () => {
@@ -64,6 +65,20 @@ export const AppStack = () => {
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
+        options={{
+          headerRight: ({ tintColor }) => (
+            <IconButton
+              icon="exit"
+              color={tintColor}
+              size={24}
+              onPress={handleLogout}
+            />
+          )
+        }}
+      />
+      <Stack.Screen
+        name="Content"
+        component={ContentScreen}
         options={{
           headerRight: ({ tintColor }) => (
             <IconButton
