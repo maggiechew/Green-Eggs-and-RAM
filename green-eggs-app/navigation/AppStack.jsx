@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import IconButton from '../components/IconButton';
-import { Button } from 'react-native-paper';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { MapPage } from '../screens';
 import { AccountScreen } from '../screens/AccountScreen';
 import { FriendsScreen } from '../screens/FriendsScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { useNavigation } from '@react-navigation/native';
+import { Entypo } from '@expo/vector-icons';
+
 const Stack = createStackNavigator();
 
 export const AppStack = () => {
@@ -22,19 +23,36 @@ export const AppStack = () => {
         name='Friends'
         component={FriendsScreen}
         options={{
-          headerTintColor: 'red',
-          headerStyle: { backgroundColor: 'blue' },
           headerLeft: () => (
-            <Button
-              style={{ marginLeft: 20 }}
+            <TouchableOpacity
+              style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
-              Back
-            </Button>
+              <Entypo name='chevron-left' size={24} color='black' />
+            </TouchableOpacity>
           )
         }}
       />
-      <Stack.Screen name='Profile' component={ProfileScreen} />
+      <Stack.Screen
+        name='Profile'
+        component={ProfileScreen}
+        options={{
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Entypo name='chevron-left' size={24} color='black' />
+            </TouchableOpacity>
+          )
+        }}
+      />
     </Stack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  backButton: {
+    marginLeft: 16
+  }
+});
