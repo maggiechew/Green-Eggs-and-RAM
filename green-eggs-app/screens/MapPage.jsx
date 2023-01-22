@@ -1,7 +1,7 @@
 import * as Location from 'expo-location'; // for using Location for Geofencing (?)
 import React, { useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, View, StatusBar } from 'react-native';
-import MapView, { Callout, Marker } from 'react-native-maps';
+import MapView, { Callout, Marker, Polygon } from 'react-native-maps';
 import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
 import { useNavigation } from '@react-navigation/native';
@@ -14,24 +14,38 @@ const listOfMarkers = [
   { name: 'marker-4', latitude: 51.045999, longitude: -114.071666 }
 ];
 
-export const MapPage = ({navigation}) => {
+const polygonPoints = [
+  { latitude: 51.0506186802187, longitude: -114.08367378327999 },
+  { latitude: 51.053312338017435, longitude: -114.07846131626596 },
+  { latitude: 51.05417256819195, longitude: -114.06697534262804 },
+  { latitude: 51.05217362530177, longitude: -114.0622938623375 },
+  { latitude: 51.051236724285225, longitude: -114.06024068209865 },
+  { latitude: 51.04397146747781, longitude: -114.061396652624 },
+  { latitude: 51.04436672076427, longitude: -114.07841507201293 },
+  { latitude: 51.047404302242114, longitude: -114.08261847677073 }
+];
+// 51.051236724285225, 
+
+export const MapPage = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [showMarkers, setShowMarkers] = useState(true);
+  const [showPolygon, setShowPolygon] = useState(true);
 
   const handleMenu = () => {
-    setShowMenu(!showMenu)
-  }
+    setShowMenu(!showMenu);
+  };
 
   const handleModal = () => {
-    setShowModal(!showModal)
-  }
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     Location.requestForegroundPermissionsAsync();
   }, []);
   return (
     <View style={styles.container}>
-    <StatusBar hidden />
+      <StatusBar hidden />
       <MapView
         style={styles.map}
         showsUserLocation
@@ -43,26 +57,36 @@ export const MapPage = ({navigation}) => {
           longitudeDelta: 0.1
         }}
       >
-        {listOfMarkers.map((marker, index) => (
-          <Marker
-            key={index}
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude
+        {showMarkers &&
+          listOfMarkers.map((marker, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: marker.latitude,
+                longitude: marker.longitude
+              }}
+              pinColor="blue"
+              onPress={(e) => console.log('You pressed me!')}
+            />
+          ))}
+        {showPolygon && (
+          <Polygon
+            coordinates={polygonPoints}
+            fillColor= 'rgb(173,216,230)'
+            strokeWidth= {0}
+            tappable = {true}
+            onPress = {() => {
+              console.log('hi')
             }}
-            pinColor='blue'
-          onPress={e => console.log('You pressed me!')}
-
           />
-        ))}
+        )}
 
         <Marker
           coordinate={{ latitude: 51.049999, longitude: -114.066666 }}
           //   image={{uri: 'custom_pin'}}
-          pinColor='yellow'
-          onPress={e => navigation.navigate('Content')}
-          >
-        </Marker>
+          pinColor="yellow"
+          onPress={(e) => navigation.navigate('Content')}
+        ></Marker>
       </MapView>
       <View style={styles.avatarButtonContainer}>
         <Pressable
