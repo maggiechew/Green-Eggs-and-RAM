@@ -76,7 +76,11 @@ export const MapPage = ({navigation}) => {
           />
         </Pressable>
       </View>
-      <AvatarMenu visible={showMenu} handleMenu={handleMenu} />
+      <AvatarMenu
+        visible={showMenu}
+        handleMenu={handleMenu}
+        navigation={navigation}
+      />
 
       <AudioPlayer visible={showModal} handleModal={handleModal} />
 

@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
-const AvatarMenu = ({ visible, handleMenu }) => {
-  const navigation = useNavigation();
+const AvatarMenu = ({ visible, handleMenu, navigation }) => {
+  // const navigation = useNavigation();
   return (
     // <View style={{height:25}}>
     //   <Provider>
@@ -14,10 +14,24 @@ const AvatarMenu = ({ visible, handleMenu }) => {
       <View>
         <Text style={styles.modalText}>Ms. Veronica LeStrange</Text>
         <Text style={styles.modalText}>@me.me</Text>
-        <Button style={styles.button} onPress={()=>navigation.navigate("Friends")}>My Friends</Button>
-        <Button style={styles.button} onPress={()=>navigation.navigate("Profile")}>My Profile</Button>
-        <Button style={styles.button} onPress={()=>navigation.navigate("Account")}>My Account</Button>
-
+        <Button
+          style={styles.button}
+          onPress={() => navigation.navigate('Friends')}
+        >
+          My Friends
+        </Button>
+        <Button
+          style={styles.button}
+          onPress={() => navigation.navigate('Profile')}
+        >
+          My Profile
+        </Button>
+        <Button
+          style={styles.button}
+          onPress={() => navigation.navigate('Account')}
+        >
+          My Account
+        </Button>
       </View>
     </Modal>
     //   </Portal>
@@ -29,12 +43,12 @@ const AvatarMenu = ({ visible, handleMenu }) => {
 const styles = StyleSheet.create({
   modal: {
     backgroundColor: '#484848',
-    margin:20,
+    margin: 20,
     marginTop: 60,
     marginBottom: 100,
     padding: 20,
     color: 'white',
-    zIndex:100000
+    zIndex: 100000
   },
   modalText: {
     color: 'white'
@@ -43,10 +57,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 10,
     backgroundColor: '#FFCC33',
-    textColor:'white'
-
+    textColor: 'white'
   }
-  
 });
 
-export default AvatarMenu
+export default AvatarMenu;
