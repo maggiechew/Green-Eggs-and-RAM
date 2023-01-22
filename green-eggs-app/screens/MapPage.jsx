@@ -13,28 +13,27 @@ const listOfMarkers = [
   { name: 'marker-4', latitude: 51.045999, longitude: -114.071666 }
 ];
 
-export const MapPage = ({navigation}) => {
+export const MapPage = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
   const handleMenu = () => {
-    setShowMenu(!showMenu)
-  }
+    setShowMenu(!showMenu);
+  };
 
   const handleModal = () => {
-    setShowModal(!showModal)
-  }
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     Location.requestForegroundPermissionsAsync();
   }, []);
   return (
     <View style={styles.container}>
-    <StatusBar hidden />
       <MapView
         style={styles.map}
         showsUserLocation
-        provider="google"
+        provider='google'
         initialRegion={{
           latitude: 51.049999,
           longitude: -114.066666,
@@ -75,7 +74,7 @@ export const MapPage = ({navigation}) => {
 
       <View style={styles.playButtonContainer}>
         <IconButton
-          icon="play-circle"
+          icon='play-circle'
           iconColor={MD3Colors.error50}
           mode={'contained-tonal'}
           containerColor={'#ffffff'}
@@ -83,6 +82,7 @@ export const MapPage = ({navigation}) => {
           onPress={() => setShowModal(true)}
         />
       </View>
+      <StatusBar style='light' />
     </View>
   );
 };
