@@ -7,12 +7,6 @@ import AudioPlayer from './AudioPlayer';
 const AvatarMenu = ({ visible, handleMenu }) => {
   const navigation = useNavigation();
 
-  // TEST FOR EGG // AUDIOPLAYER
-  const egg = {
-    uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
-    eggName: 'egg name is cool!'
-  };
-
   return (
     // <View style={{height:25}}>
     //   <Provider>
@@ -40,7 +34,6 @@ const AvatarMenu = ({ visible, handleMenu }) => {
         >
           My Account
         </Button>
-        <AudioPlayer egg={egg} />
       </View>
     </Modal>
     //   </Portal>
