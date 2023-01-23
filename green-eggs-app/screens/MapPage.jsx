@@ -5,6 +5,7 @@ import MapView, { Callout, Marker, Polygon } from 'react-native-maps';
 import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
 import { useNavigation } from '@react-navigation/native';
+import { isPointInPolygon } from 'geolib';
 import AvatarMenu from '../components/AvatarMenu';
 
 const listOfMarkers = [
@@ -22,15 +23,18 @@ const polygonPoints = [
   { latitude: 51.051236724285225, longitude: -114.06024068209865 },
   { latitude: 51.04397146747781, longitude: -114.061396652624 },
   { latitude: 51.04436672076427, longitude: -114.07841507201293 },
+  { latitude: 51.034114, longitude: -114.075421 },
   { latitude: 51.047404302242114, longitude: -114.08261847677073 }
 ];
-// 51.051236724285225, 
+// 51.051236724285225,
 
 export const MapPage = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showMarkers, setShowMarkers] = useState(true);
   const [showPolygon, setShowPolygon] = useState(true);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const handleMenu = () => {
     setShowMenu(!showMenu);
@@ -40,8 +44,59 @@ export const MapPage = ({ navigation }) => {
     setShowModal(!showModal);
   };
 
+  const handleMarkers = () => {
+    setShowMarkers(!showMarkers);
+  };
+  const handlePolygon = () => {
+    setShowPolygon(!showPolygon);
+  };
+
   useEffect(() => {
-    Location.requestForegroundPermissionsAsync();
+    const getForegroundPermission = async () => {
+      let status = await Location.requestForegroundPermissionsAsync();
+      console.log(status);
+      if (!status.granted) {
+        Alert.alert(
+          'Permission to access location was denied',
+          'Permissions are required to use this app! To turn location on, go to the App Settings from your phone menu.'
+        );
+        return;
+      }
+    };
+    getForegroundPermission();
+  }, []);
+
+
+// useEffect ( () => {
+// addEventListener
+
+// return () =< {
+// removeEventListener
+// }
+
+// },[])
+
+
+
+  useEffect(() => {
+    const getCurrentPosition = async () => {
+      let location = await Location.getCurrentPositionAsync();
+      // console.log(location);
+      console.log('Latitude is:' + location.coords.latitude);
+      console.log('Longitude is:' + location.coords.longitude);
+      console.log(polygonPoints);
+      console.log(
+        isPointInPolygon(
+          {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+          },
+          polygonPoints
+        )
+      );
+      return;
+    };
+    getCurrentPosition();
   }, []);
   return (
     <View style={styles.container}>
@@ -72,11 +127,11 @@ export const MapPage = ({ navigation }) => {
         {showPolygon && (
           <Polygon
             coordinates={polygonPoints}
-            fillColor= 'rgb(173,216,230)'
-            strokeWidth= {0}
-            tappable = {true}
-            onPress = {() => {
-              console.log('hi')
+            fillColor="rgb(173,216,230)"
+            strokeWidth={0}
+            tappable={true}
+            onPress={() => {
+              console.log('hi');
             }}
           />
         )}
