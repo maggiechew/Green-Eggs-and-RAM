@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { Formik } from 'formik';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { collection, doc, setDoc } from 'firebase/firestore';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { TextInput, Logo, Button, FormErrorMessage } from '../components';
@@ -25,11 +25,18 @@ export const SignupScreen = ({ navigation }) => {
 
   const handleSignup = async (values) => {
     const { email, password } = values;
-
+    const userRef = collection(db, 'users');
+    console.log('auth', auth);
     createUserWithEmailAndPassword(auth, email, password)
-      .then(async () => {
-        await setDoc(doc(db, 'users', email), {
-          audiolist: []
+      .then(async (response) => {
+        const user = response.user;
+        console.log(user);
+        await setDoc(doc(userRef, user.uid), {
+          firstname: '',
+          lastname: '',
+          email: email,
+          avartaruri: '',
+          friends: []
         });
       })
       .catch((error) => setErrorState(error.message));
@@ -64,12 +71,12 @@ export const SignupScreen = ({ navigation }) => {
             <>
               {/* Input fields */}
               <TextInput
-                name="email"
-                leftIconName="email"
-                placeholder="Enter email"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                textContentType="emailAddress"
+                name='email'
+                leftIconName='email'
+                placeholder='Enter email'
+                autoCapitalize='none'
+                keyboardType='email-address'
+                textContentType='emailAddress'
                 autoFocus={true}
                 value={values.email}
                 onChangeText={handleChange('email')}
@@ -77,13 +84,13 @@ export const SignupScreen = ({ navigation }) => {
               />
               <FormErrorMessage error={errors.email} visible={touched.email} />
               <TextInput
-                name="password"
-                leftIconName="key-variant"
-                placeholder="Enter password"
-                autoCapitalize="none"
+                name='password'
+                leftIconName='key-variant'
+                placeholder='Enter password'
+                autoCapitalize='none'
                 autoCorrect={false}
                 secureTextEntry={passwordVisibility}
-                textContentType="newPassword"
+                textContentType='newPassword'
                 rightIcon={rightIcon}
                 handlePasswordVisibility={handlePasswordVisibility}
                 value={values.password}
@@ -95,13 +102,13 @@ export const SignupScreen = ({ navigation }) => {
                 visible={touched.password}
               />
               <TextInput
-                name="confirmPassword"
-                leftIconName="key-variant"
-                placeholder="Enter password"
-                autoCapitalize="none"
+                name='confirmPassword'
+                leftIconName='key-variant'
+                placeholder='Enter password'
+                autoCapitalize='none'
                 autoCorrect={false}
                 secureTextEntry={confirmPasswordVisibility}
-                textContentType="password"
+                textContentType='password'
                 rightIcon={confirmPasswordIcon}
                 handlePasswordVisibility={handleConfirmPasswordVisibility}
                 value={values.confirmPassword}
