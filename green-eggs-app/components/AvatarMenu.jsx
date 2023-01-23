@@ -6,7 +6,7 @@ import AudioPlayer from './AudioPlayer';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 
-const handleLogout = () => {
+export const handleLogout = () => {
   signOut(auth).catch((error) => console.log('Error logging out: ', error));
 };
 const AvatarMenu = ({ visible, handleMenu }) => {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   button: {
     marginVertical: 5,
     marginHorizontal: 10,
-    textColor: 'white'
+    textColor: 'white',
     backgroundColor: '#FFCC33'
   },
   signOutButton: {

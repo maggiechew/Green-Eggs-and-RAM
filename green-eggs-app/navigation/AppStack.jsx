@@ -5,6 +5,9 @@ import { MapPage } from '../screens';
 import { AccountScreen } from '../screens/AccountScreen';
 import { FriendsScreen } from '../screens/FriendsScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
+import { useNavigation } from '@react-navigation/native';
+import { IconButton } from 'react-native-paper';
+import { handleLogout } from '../components/AvatarMenu';
 
 const Stack = createStackNavigator();
 
@@ -15,15 +18,15 @@ export const AppStack = () => {
       initialRouteName='Login'
       // screenOptions={{ headerShown: true }}
     >
-      <Stack.Screen name='Map' component={MapPage} />
-      <Stack.Screen name='Account' component={AccountScreen} />
+      {/* <Stack.Screen name='Map' component={MapPage} /> */}
+      {/* <Stack.Screen name='Account' component={AccountScreen} /> */}
       <Stack.Screen
         name='Map'
         component={MapPage}
         options={{
           headerRight: ({ tintColor }) => (
             <IconButton
-              icon='exit'
+              icon='exit-to-app'
               color={tintColor}
               size={24}
               onPress={handleLogout}
