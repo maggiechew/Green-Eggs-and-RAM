@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Modal } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import { IconButton } from 'react-native-paper';
 
-const AudioPlayer = ({ egg, visible, handleModal }) => {
+const AudioPlayer = ({ egg }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(undefined);
@@ -51,18 +51,12 @@ const AudioPlayer = ({ egg, visible, handleModal }) => {
       seekAudio();
       return position / duration;
     }
-
-    // if (currentAudio.lastPosition) {
-    //   return currentAudio.lastPosition / (currentAudio.duration * 1000);
-    // }
-
     return 0;
   }
 
   async function seekAudio() {
     sound.setOnPlaybackStatusUpdate((status) => {
       if (isPlayerReady) setPosition(status.positionMillis);
-      // console.log(status.positionMillis);
     });
     return position / duration;
   }
@@ -94,89 +88,63 @@ const AudioPlayer = ({ egg, visible, handleModal }) => {
   };
 
   const renderCurrentTime = () => {
-    // if (!context.soundObj && currentAudio.lastPosition) {
-    //   return convertTime(currentAudio.lastPosition / 1000);
-    // }
     return convertTime((duration - position) / 1000);
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent
-      visible
-      // onDismiss={handleModal}
-    >
-      <View style={styles.modal}>
-        <Text style={styles.eggName}>{egg.eggName} </Text>
-        <Text> </Text>
+    <View style={styles.container}>
+      <Text style={styles.eggName}>{egg.eggName} </Text>
+      <Text> </Text>
 
-        <View style={styles.audioPlayer}>
-          {isPlaying ? (
-            <IconButton
-              icon="play-circle"
-              // iconColor={MD3Colors.error50}
-              // mode={'contained-tonal'}
-              containerColor={'#ffffff'}
-              onPress={() => pausePlayAudio()}
-              size={35}
-              // onPress={() => setShowModal(true)}
-            />
-          ) : (
-            <IconButton
-              icon="pause-circle"
-              // iconColor={MD3Colors.error50}
-              // mode={'contained-tonal'}
-              containerColor={'#ffffff'}
-              onPress={() => pausePlayAudio()}
-              size={35}
-              // onPress={() => setShowModal(true)}
-            />
-          )}
-
-          <Slider
-            style={{ width: 220, height: 30 }}
-            minimumValue={0}
-            maximumValue={1}
-            value={calculateSeekBar()}
-            // minimumTrackTintColor={color.FONT_MEDIUM}
-            // maximumTrackTintColor={color.ACTIVE_BG}
-            onValueChange={(value) => {
-              setPosition(value * duration);
-            }}
-            // onSlidingStart={async () => {
-            //   if (!context.isPlaying) return;
-
-            //   try {
-            //     await pause(context.playbackObj);
-            //   } catch (error) {
-            //     console.log('error inside onSlidingStart callback', error);
-            //   }
-            // }}
-            onSlidingComplete={async (value) => {
-              await sound.setPositionAsync(value * duration);
-              setPosition(value * duration);
-            }}
+      <View style={styles.audioPlayer}>
+        {isPlaying ? (
+          <IconButton
+            icon="play-circle"
+            containerColor={'#ffffff'}
+            onPress={() => pausePlayAudio()}
+            size={35}
           />
-          <Text>-{renderCurrentTime()}</Text>
-        </View>
+        ) : (
+          <IconButton
+            icon="pause-circle"
+            containerColor={'#ffffff'}
+            onPress={() => pausePlayAudio()}
+            size={35}
+          />
+        )}
+
+        <Slider
+          style={{ width: 220, height: 30 }}
+          minimumValue={0}
+          maximumValue={1}
+          value={calculateSeekBar()}
+          onValueChange={(value) => {
+            setPosition(value * duration);
+          }}
+          onSlidingComplete={async (value) => {
+            await sound.setPositionAsync(value * duration);
+            setPosition(value * duration);
+          }}
+        />
+        <Text>-{renderCurrentTime()}</Text>
       </View>
-    </Modal>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  modal: {
+  container: {
     position: 'absolute',
     // flex: 1,
     bottom: 0,
     right: 0,
     left: 0,
+    width: '100%',
     backgroundColor: '#fff',
     // borderTopRightRadius: 20,
     // borderTopLeftRadius: 20,
     zIndex: 1000,
-    padding: 10
+    padding: 0
   },
   audioPlayer: {
     flex: 1,
@@ -190,7 +158,8 @@ const styles = StyleSheet.create({
   eggName: {
     fontSize: 16,
     marginLeft: 15,
-    marginTop: 15
+    marginTop: 15,
+    marginBottom: -20
   }
 });
 

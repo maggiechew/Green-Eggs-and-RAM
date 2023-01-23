@@ -87,7 +87,7 @@ export const MapPage = ({ navigation }) => {
         navigation
       />
 
-      <View style={styles.playButtonContainer}>
+      {/* <View style={styles.playButtonContainer}>
         <IconButton
           icon="play-circle"
           iconColor={MD3Colors.error50}
@@ -96,7 +96,7 @@ export const MapPage = ({ navigation }) => {
           size={35}
           onPress={() => setShowModal(true)}
         />
-      </View>
+      </View> */}
     </View>
   );
 };
