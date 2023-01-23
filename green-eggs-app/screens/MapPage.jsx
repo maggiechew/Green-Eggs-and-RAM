@@ -1,9 +1,10 @@
 import * as Location from 'expo-location'; // for using Location for Geofencing (?)
 import React, { useEffect, useState } from 'react';
 import { Alert, Pressable, StyleSheet, View, StatusBar } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Callout, Marker } from 'react-native-maps';
 import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
+import { useNavigation } from '@react-navigation/native';
 import AvatarMenu from '../components/AvatarMenu';
 
 const listOfMarkers = [
@@ -40,7 +41,7 @@ export const MapPage = ({ navigation }) => {
       <MapView
         style={styles.map}
         showsUserLocation
-        provider="google"
+        provider='google'
         initialRegion={{
           latitude: 51.049999,
           longitude: -114.066666,
@@ -55,13 +56,19 @@ export const MapPage = ({ navigation }) => {
               latitude: marker.latitude,
               longitude: marker.longitude
             }}
+            pinColor='blue'
+          onPress={e => console.log('You pressed me!')}
+
           />
         ))}
 
         <Marker
           coordinate={{ latitude: 51.049999, longitude: -114.066666 }}
           //   image={{uri: 'custom_pin'}}
-        />
+          pinColor='yellow'
+          onPress={e => navigation.navigate('Content')}
+          >
+        </Marker>
       </MapView>
 
       <View style={styles.avatarButtonContainer}>
@@ -89,7 +96,7 @@ export const MapPage = ({ navigation }) => {
 
       {/* <View style={styles.playButtonContainer}>
         <IconButton
-          icon="play-circle"
+          icon='play-circle'
           iconColor={MD3Colors.error50}
           mode={'contained-tonal'}
           containerColor={'#ffffff'}
@@ -97,6 +104,7 @@ export const MapPage = ({ navigation }) => {
           onPress={() => setShowModal(true)}
         />
       </View> */}
+      <StatusBar style='light' />
     </View>
   );
 };

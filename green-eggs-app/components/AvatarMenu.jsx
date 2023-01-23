@@ -3,7 +3,12 @@ import React from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AudioPlayer from './AudioPlayer';
+import { signOut } from 'firebase/auth';
+import { auth } from '../config';
 
+const handleLogout = () => {
+  signOut(auth).catch((error) => console.log('Error logging out: ', error));
+};
 const AvatarMenu = ({ visible, handleMenu }) => {
   const navigation = useNavigation();
 
@@ -18,21 +23,25 @@ const AvatarMenu = ({ visible, handleMenu }) => {
         <Text style={styles.modalText}>@me.me</Text>
         <Button
           style={styles.button}
-          onPress={() => navigation.navigate('Friends')}
+          onPress={() => navigation.push('Friends')}
         >
-          My Friends
+          <Text style={styles.buttonText}>My Friends</Text>
         </Button>
         <Button
           style={styles.button}
           onPress={() => navigation.navigate('Profile')}
         >
-          My Profile
+          <Text style={styles.buttonText}>My Profile</Text>
         </Button>
-        <Button
+        {/* Account page hidden for now */}
+        {/* <Button
           style={styles.button}
           onPress={() => navigation.navigate('Account')}
         >
-          My Account
+          <Text style={styles.buttonText}>My Account</Text>
+        </Button> */}
+        <Button style={styles.signOutButton} onPress={handleLogout}>
+          <Text style={styles.buttonText}>Sign Out</Text>
         </Button>
       </View>
     </Modal>
@@ -58,8 +67,18 @@ const styles = StyleSheet.create({
   button: {
     marginVertical: 5,
     marginHorizontal: 10,
-    backgroundColor: '#FFCC33',
     textColor: 'white'
+    backgroundColor: '#FFCC33'
+  },
+  signOutButton: {
+    marginVertical: 5,
+    marginHorizontal: 10,
+    backgroundColor: 'red'
+  },
+  buttonText: {
+    fontSize: 16,
+    color: 'white',
+    weight: 'bold'
   }
 });
 
