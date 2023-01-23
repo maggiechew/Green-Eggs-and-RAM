@@ -8,6 +8,8 @@ import { ProfileScreen } from '../screens/ProfileScreen';
 import { useNavigation } from '@react-navigation/native';
 import { IconButton } from 'react-native-paper';
 import { handleLogout } from '../components/AvatarMenu';
+import {ContentScreen} from '../screens/ContentScreen'
+import { Entypo } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 
@@ -23,30 +25,10 @@ export const AppStack = () => {
       <Stack.Screen
         name='Map'
         component={MapPage}
-        options={{
-          headerRight: ({ tintColor }) => (
-            <IconButton
-              icon='exit-to-app'
-              color={tintColor}
-              size={24}
-              onPress={handleLogout}
-            />
-          )
-        }}
       />
       <Stack.Screen
         name='Account'
         component={AccountScreen}
-        options={{
-          headerRight: ({ tintColor }) => (
-            <IconButton
-              icon='exit'
-              color={tintColor}
-              size={24}
-              onPress={handleLogout}
-            />
-          )
-        }}
       />
       <Stack.Screen
         name='Friends'
@@ -65,14 +47,18 @@ export const AppStack = () => {
       <Stack.Screen
         name='Profile'
         component={ProfileScreen}
+      />
+       <Stack.Screen
+        name="Content"
+        component={ContentScreen}
         options={{
-          headerRight: ({ tintColor }) => (
-            <IconButton
-              icon='exit'
-              color={tintColor}
-              size={24}
-              onPress={handleLogout}
-            />
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Entypo name='chevron-left' size={24} color='black' />
+            </TouchableOpacity>
           )
         }}
       />
