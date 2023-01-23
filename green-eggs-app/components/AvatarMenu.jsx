@@ -2,13 +2,16 @@ import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import AudioPlayer from './AudioPlayer';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
+
 const handleLogout = () => {
   signOut(auth).catch((error) => console.log('Error logging out: ', error));
 };
 const AvatarMenu = ({ visible, handleMenu }) => {
   const navigation = useNavigation();
+
   return (
     // <View style={{height:25}}>
     //   <Provider>
@@ -53,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#484848',
     margin: 20,
     marginTop: 60,
-    marginBottom: 100,
+    marginBottom: 200,
     padding: 20,
     color: 'white',
     zIndex: 100000
@@ -64,6 +67,7 @@ const styles = StyleSheet.create({
   button: {
     marginVertical: 5,
     marginHorizontal: 10,
+    textColor: 'white'
     backgroundColor: '#FFCC33'
   },
   signOutButton: {
