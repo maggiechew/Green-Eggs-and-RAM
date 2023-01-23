@@ -3,8 +3,9 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import { IconButton } from 'react-native-paper';
+import { EggContent } from './EggContent';
 
-const AudioPlayer = ({ egg }) => {
+const AudioPlayer = ({ egg, visible }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(undefined);
@@ -92,21 +93,21 @@ const AudioPlayer = ({ egg }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.modal}>
       <Text style={styles.eggName}>{egg.eggName} </Text>
       <Text> </Text>
 
       <View style={styles.audioPlayer}>
         {isPlaying ? (
           <IconButton
-            icon="play-circle"
+            icon='play-circle'
             containerColor={'#ffffff'}
             onPress={() => pausePlayAudio()}
             size={35}
           />
         ) : (
           <IconButton
-            icon="pause-circle"
+            icon='pause-circle'
             containerColor={'#ffffff'}
             onPress={() => pausePlayAudio()}
             size={35}
@@ -128,23 +129,25 @@ const AudioPlayer = ({ egg }) => {
         />
         <Text>-{renderCurrentTime()}</Text>
       </View>
+      <View>
+        <EggContent egg={egg} />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  modal: {
     position: 'absolute',
     // flex: 1,
     bottom: 0,
     right: 0,
     left: 0,
-    width: '100%',
     backgroundColor: '#fff',
-    // borderTopRightRadius: 20,
-    // borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
     zIndex: 1000,
-    padding: 0
+    padding: 10
   },
   audioPlayer: {
     flex: 1,

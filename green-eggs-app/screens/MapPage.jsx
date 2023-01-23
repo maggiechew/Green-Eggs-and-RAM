@@ -17,7 +17,8 @@ const listOfMarkers = [
 // TEST FOR EGG // AUDIOPLAYER
 const egg = {
   uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
-  eggName: 'egg name is cool!'
+  eggName: 'Egg name is cool!',
+  eggDescription: 'this is a cool egg Description!'
 };
 
 export const MapPage = ({ navigation }) => {
@@ -57,8 +58,7 @@ export const MapPage = ({ navigation }) => {
               longitude: marker.longitude
             }}
             pinColor='blue'
-          onPress={e => console.log('You pressed me!')}
-
+            onPress={(e) => console.log('You pressed me!')}
           />
         ))}
 
@@ -66,9 +66,8 @@ export const MapPage = ({ navigation }) => {
           coordinate={{ latitude: 51.049999, longitude: -114.066666 }}
           //   image={{uri: 'custom_pin'}}
           pinColor='yellow'
-          onPress={e => navigation.navigate('Content')}
-          >
-        </Marker>
+          onPress={(e) => navigation.navigate('Content')}
+        ></Marker>
       </MapView>
 
       <View style={styles.avatarButtonContainer}>
