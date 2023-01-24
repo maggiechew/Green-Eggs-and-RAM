@@ -12,7 +12,7 @@ import {
 } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const ContentScreen = () => {
+export const ContentScreen = () => {
   const navigation = useNavigation();
   const [value, setValue] = useState('The Piece');
 
@@ -168,4 +168,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ContentScreen;
+// export default ContentScreen;

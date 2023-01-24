@@ -14,6 +14,12 @@ const listOfMarkers = [
   { name: 'marker-4', latitude: 51.045999, longitude: -114.071666 }
 ];
 
+// TEST FOR EGG // AUDIOPLAYER
+const egg = {
+  uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
+  eggName: 'egg name is cool!'
+};
+
 export const MapPage = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -31,6 +37,7 @@ export const MapPage = ({ navigation }) => {
   }, []);
   return (
     <View style={styles.container}>
+      <StatusBar hidden />
       <MapView
         style={styles.map}
         showsUserLocation
@@ -63,6 +70,7 @@ export const MapPage = ({ navigation }) => {
           >
         </Marker>
       </MapView>
+
       <View style={styles.avatarButtonContainer}>
         <Pressable
           onPress={() => {
@@ -75,11 +83,18 @@ export const MapPage = ({ navigation }) => {
           />
         </Pressable>
       </View>
+
       <AvatarMenu visible={showMenu} handleMenu={handleMenu} />
 
-      <AudioPlayer visible={showModal} handleModal={handleModal} />
+      <AudioPlayer
+        visible
+        egg={egg}
+        showModal={true}
+        handleModal={handleModal}
+        navigation
+      />
 
-      <View style={styles.playButtonContainer}>
+      {/* <View style={styles.playButtonContainer}>
         <IconButton
           icon='play-circle'
           iconColor={MD3Colors.error50}
@@ -88,7 +103,7 @@ export const MapPage = ({ navigation }) => {
           size={35}
           onPress={() => setShowModal(true)}
         />
-      </View>
+      </View> */}
       <StatusBar style='light' />
     </View>
   );
