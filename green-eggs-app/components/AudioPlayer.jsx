@@ -97,7 +97,7 @@ const AudioPlayer = ({ egg }) => {
       <Text> </Text>
 
       <View style={styles.audioPlayer}>
-        {isPlaying ? (
+        {!isPlaying ? (
           <IconButton
             icon="play-circle"
             containerColor={'#ffffff'}

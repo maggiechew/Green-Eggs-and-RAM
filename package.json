@@ -13,6 +13,7 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
-    "@react-native-community/slider": "4.2.4"
+    "@react-native-community/slider": "4.2.4",
+    "geolib": "^3.3.3"
   }
 }

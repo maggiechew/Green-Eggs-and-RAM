@@ -9,8 +9,8 @@ import { auth } from '../config';
 export const handleLogout = () => {
   signOut(auth).catch((error) => console.log('Error logging out: ', error));
 };
-const AvatarMenu = ({ visible, handleMenu }) => {
-  const navigation = useNavigation();
+const AvatarMenu = ({ visible, handleMenu, navigation }) => {
+  // const navigation = useNavigation();
 
   return (
     // <View style={{height:25}}>
