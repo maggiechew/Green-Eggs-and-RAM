@@ -1,16 +1,26 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AudioPlayer from './AudioPlayer';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
+import { EggsUserContext, useEggsUserContext } from './EggsUserProvider';
 
-export const handleLogout = () => {
-  signOut(auth).catch((error) => console.log('Error logging out: ', error));
-};
+// embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
+// export const handleLogout = () => {
+//   signOut(auth).catch((error) => console.log('Error logging out: ', error));
+// };
 const AvatarMenu = ({ visible, handleMenu }) => {
   const navigation = useNavigation();
+
+  //to stop sound on logout
+  const { sound, setSound } = useEggsUserContext();
+  const handleLogout1 = () => {
+    sound.pauseAsync();
+    sound.unloadAsync();
+    signOut(auth).catch((error) => console.log('Error logging out: ', error));
+  };
 
   return (
     // <View style={{height:25}}>
@@ -40,7 +50,7 @@ const AvatarMenu = ({ visible, handleMenu }) => {
         >
           <Text style={styles.buttonText}>My Account</Text>
         </Button> */}
-        <Button style={styles.signOutButton} onPress={handleLogout}>
+        <Button style={styles.signOutButton} onPress={handleLogout1}>
           <Text style={styles.buttonText}>Sign Out</Text>
         </Button>
       </View>

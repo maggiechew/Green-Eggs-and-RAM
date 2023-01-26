@@ -3,6 +3,8 @@ import React from 'react';
 import { Button, Card, List, SegmentedButtons } from 'react-native-paper';
 
 export const EggContent = ({ egg }) => {
+  if (!egg) return <Text>NO EGG LOADED</Text>;
+
   return (
     <View>
       <View style={styles.card}>

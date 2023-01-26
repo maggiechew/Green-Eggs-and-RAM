@@ -1,34 +1,77 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+  useContext
+} from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import { IconButton } from 'react-native-paper';
 import { EggContent } from './EggContent';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { EggsUserContext, useEggsUserContext } from './EggsUserProvider';
+import { useNavigation } from '@react-navigation/native';
 
-const AudioPlayer = ({ egg, visible }) => {
+const AudioPlayer = ({ visible }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(undefined);
   const [position, setPosition] = useState(0);
-  const [sound, setSound] = useState(undefined);
-  useEffect(() => {
-    loadAudio(egg);
+  const [playerChanged, setPlayerChanged] = useState(false);
+  const { sound, setSound } = useContext(EggsUserContext);
+
+  // const [isNewEgg, setIsNewEgg] = useState(newEgg);
+
+  const navigation = useNavigation();
+  const { currentEgg, setCurrentEgg } = useEggsUserContext();
+
+  // BOTTOM SHEET setup
+  // ref
+  const bottomSheetRef = useRef(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['20%', '64%'], []);
+
+  // callbacks
+  const handleSheetChanges = useCallback((index) => {
+    console.log('handleSheetChanges', index);
   }, []);
+  const handleClose = useCallback(() => {
+    console.log('i closed the sheet');
+    setPlayerChanged(true);
+  }, []);
+  // BOTTOM SHEET
+
+  useEffect(() => {
+    console.log('USEFFECT1: loadaudio');
+    loadAudio(currentEgg);
+  }, [currentEgg]);
+
+  // TODO
+  useEffect(() => {
+    if (playerChanged) unloadAudio();
+    setPlayerChanged(false);
+  }, [playerChanged]);
 
   async function loadAudio(egg) {
-    const { sound } = await Audio.Sound.createAsync(
-      { uri: egg.uri },
-      { shouldPlay: false }
-    );
-    setSound(sound);
-    sound.setOnPlaybackStatusUpdate((status) => {
-      if (status.isLoaded) {
-        setIsPlayerReady(true);
-        console.log('STATUS: ', isPlayerReady);
-        setDuration(status.durationMillis);
-        setPosition(1);
-      }
-    });
+    if (egg !== null) {
+      const { sound } = await Audio.Sound.createAsync(
+        { uri: egg.uri },
+        { shouldPlay: false }
+      );
+      setSound(sound);
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.isLoaded) {
+          setIsPlayerReady(true);
+          console.log('STATUS: ', isPlayerReady);
+          setDuration(status.durationMillis);
+          setPosition(1);
+        }
+      });
+    }
   }
 
   async function pausePlayAudio() {
@@ -62,6 +105,13 @@ const AudioPlayer = ({ egg, visible }) => {
     return position / duration;
   }
 
+  async function unloadAudio() {
+    await sound.stopAsync();
+    await sound.unloadAsync();
+    setPlayerChanged(false);
+    console.log('unload audio');
+  }
+
   const convertTime = (minutes) => {
     if (minutes) {
       const hrs = minutes / 60;
@@ -93,11 +143,29 @@ const AudioPlayer = ({ egg, visible }) => {
   };
 
   return (
-    <View style={styles.modal}>
-      <Text style={styles.eggName}>{egg.eggName} </Text>
+    // <View style={styles.modal}>
+    <BottomSheet
+      ref={bottomSheetRef}
+      index={visible ? 0 : 1}
+      snapPoints={snapPoints}
+      enablePanDownToClose={true}
+      onChange={handleSheetChanges}
+      onClose={handleClose}
+    >
+      {!currentEgg ? (
+        <Text style={styles.eggName}>'No egg loaded'</Text>
+      ) : (
+        <Text style={styles.eggName}>{currentEgg.eggName}</Text>
+      )}
       <Text> </Text>
 
       <View style={styles.audioPlayer}>
+        <IconButton
+          icon='egg-outline'
+          containerColor={'#ffffff'}
+          onPress={() => navigation.navigate('Content')}
+          size={35}
+        />
         {isPlaying ? (
           <IconButton
             icon='play-circle'
@@ -115,7 +183,7 @@ const AudioPlayer = ({ egg, visible }) => {
         )}
 
         <Slider
-          style={{ width: 220, height: 30 }}
+          style={{ width: 170, height: 30 }}
           minimumValue={0}
           maximumValue={1}
           value={calculateSeekBar()}
@@ -130,23 +198,16 @@ const AudioPlayer = ({ egg, visible }) => {
         <Text>-{renderCurrentTime()}</Text>
       </View>
       <View>
-        <EggContent egg={egg} />
+        <EggContent egg={currentEgg} />
       </View>
-    </View>
+    </BottomSheet>
+    // </View>
   );
 };
 
 const styles = StyleSheet.create({
   modal: {
-    position: 'absolute',
-    // flex: 1,
-    bottom: 0,
-    right: 0,
-    left: 0,
     backgroundColor: '#fff',
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    zIndex: 1000,
     padding: 10
   },
   audioPlayer: {

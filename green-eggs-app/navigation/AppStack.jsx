@@ -7,12 +7,25 @@ import { FriendsScreen } from '../screens/FriendsScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { useNavigation } from '@react-navigation/native';
 import { IconButton } from 'react-native-paper';
-import { handleLogout } from '../components/AvatarMenu';
+// import { handleLogout } from '../components/AvatarMenu';
+import ContentScreen from '../screens/ContentScreen';
+import { useEggsUserContext } from '../components/EggsUserProvider';
+import { signOut } from 'firebase/auth';
+import { auth } from '../config';
 
 const Stack = createStackNavigator();
 
 export const AppStack = () => {
   const navigation = useNavigation();
+
+  //to stop sound on logout
+  const { sound, setSound } = useEggsUserContext();
+  const handleLogout = async () => {
+    await sound.pauseAsync();
+    await sound.unloadAsync();
+    signOut(auth).catch((error) => console.log('Error logging out: ', error));
+  };
+
   return (
     <Stack.Navigator
       initialRouteName='Login'
@@ -23,6 +36,20 @@ export const AppStack = () => {
       <Stack.Screen
         name='Map'
         component={MapPage}
+        options={{
+          headerRight: ({ tintColor }) => (
+            <IconButton
+              icon='exit-to-app'
+              color={tintColor}
+              size={24}
+              onPress={handleLogout}
+            />
+          )
+        }}
+      />
+      <Stack.Screen
+        name='Content'
+        component={ContentScreen}
         options={{
           headerRight: ({ tintColor }) => (
             <IconButton
