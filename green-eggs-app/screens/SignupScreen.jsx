@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import { Ionicons } from '@expo/vector-icons';
 import { TextInput, Logo, Button, FormErrorMessage } from '../components';
 import { Images, Colors, auth, db } from '../config';
 import { useTogglePasswordVisibility } from '../hooks';
@@ -47,12 +47,19 @@ export const SignupScreen = ({ navigation }) => {
       <KeyboardAwareScrollView enableOnAndroid={true}>
         {/* LogoContainer: consits app logo and screen title */}
         <View style={styles.logoContainer}>
-          <Logo uri={Images.logo} />
           <Text style={styles.screenTitle}>Create a new account!</Text>
         </View>
+        <TouchableOpacity style={styles.avatarPlaceholder}>
+          <Ionicons
+            style={styles.crossIcon}
+            name='add-circle-outline'
+          ></Ionicons>
+        </TouchableOpacity>
         {/* Formik Wrapper */}
         <Formik
           initialValues={{
+            firstname: '',
+            lastname: '',
             email: '',
             password: '',
             confirmPassword: ''
@@ -70,6 +77,28 @@ export const SignupScreen = ({ navigation }) => {
           }) => (
             <>
               {/* Input fields */}
+              <TextInput
+                name='firstname'
+                leftIconName='account'
+                placeholder='Enter firstname'
+                autoCapitalize='none'
+                keyboardType='text'
+                textContentType='firstName'
+                value={values.firstname}
+                onChangeText={handleChange('firstname')}
+                onBlur={handleBlur('firstname')}
+              />
+              <TextInput
+                name='lastname'
+                leftIconName='account'
+                placeholder='Enter lastname'
+                autoCapitalize='none'
+                keyboardType='text'
+                textContentType='lastName'
+                value={values.lastname}
+                onChangeText={handleChange('lastname')}
+                onBlur={handleBlur('lastname')}
+              />
               <TextInput
                 name='email'
                 leftIconName='email'
@@ -153,9 +182,9 @@ const styles = StyleSheet.create({
   },
   screenTitle: {
     fontSize: 32,
-    fontWeight: '700',
-    color: Colors.black,
-    paddingTop: 20
+    fontWeight: '300',
+    color: Colors.orange,
+    paddingTop: 30
   },
   button: {
     width: '100%',
@@ -175,5 +204,22 @@ const styles = StyleSheet.create({
     marginTop: 16,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  avatarPlaceholder: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#E1E2E6',
+    marginTop: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  crossIcon: {
+    fontSize: 40,
+    color: '#FFF',
+    mmarginTop: 6,
+    marginLeft: 2
   }
 });
