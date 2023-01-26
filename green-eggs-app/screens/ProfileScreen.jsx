@@ -1,16 +1,10 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Image, StyleSheet } from 'react-native';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-paper';
+import AddProfile from '../components/AddProfile';
 
 export const ProfileScreen = () => {
   const navigation = useNavigation();
-
-  return (
-    <View>
-      <Text>ProfileScreen</Text>
-      <Button onPress={() => navigation.navigate("Map")}>Go Back</Button>
-
-    </View>
-  )
-}
+  return <AddProfile />;
+};

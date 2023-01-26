@@ -9,6 +9,8 @@ import { isPointInPolygon } from 'geolib';
 import AvatarMenu from '../components/AvatarMenu';
 import { Zones } from '../components/Zones';
 import { Markers } from '../components/Markers';
+import { getUserProfile } from '../components/AddProfile';
+import { auth } from '../config';
 
 const zone1 = {
   id: 1,
@@ -66,7 +68,16 @@ export const MapPage = ({ navigation }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [hideZone, setHideZone] = useState(null);
   const [location, setLocation] = useState(null);
-
+  const [userProfile, setUserProfile] = useState({});
+  useEffect(() => {
+    async function _getUserProfile() {
+      const userData = await getUserProfile();
+      setUserProfile(userData);
+    }
+    if (auth.currentUser) {
+      _getUserProfile();
+    }
+  }, [auth]);
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -176,7 +187,12 @@ export const MapPage = ({ navigation }) => {
         >
           <Avatar.Image
             style={styles.avatar}
-            source={require('../sample-face.jpg')}
+            source={{
+              uri:
+                userProfile?.avataruri == null || userProfile?.avataruri == ''
+                  ? 'https://img.freepik.com/free-icon/user_318-792327.jpg?w=2000'
+                  : userProfile.avataruri
+            }}
           />
         </Pressable>
       </View>
