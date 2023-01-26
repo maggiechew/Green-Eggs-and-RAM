@@ -30,12 +30,12 @@ export const SignupScreen = ({ navigation }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (response) => {
         const user = response.user;
-        console.log(user);
+        console.log('this is signUp user: ', user);
         await setDoc(doc(userRef, user.uid), {
           firstname: '',
           lastname: '',
           email: email,
-          avartaruri: '',
+          avataruri: '',
           friends: []
         });
       })

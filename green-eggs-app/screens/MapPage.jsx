@@ -6,6 +6,8 @@ import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
 import { useNavigation } from '@react-navigation/native';
 import AvatarMenu from '../components/AvatarMenu';
+import { getUserProfile } from '../components/AddProfile';
+import { auth } from '../config';
 
 const listOfMarkers = [
   { name: 'marker-1', latitude: 51.049999, longitude: -114.066666 },
@@ -23,7 +25,16 @@ const egg = {
 export const MapPage = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-
+  const [userProfile, setUserProfile] = useState({});
+  useEffect(() => {
+    async function _getUserProfile() {
+      const userData = await getUserProfile();
+      setUserProfile(userData);
+    }
+    if (auth.currentUser) {
+      _getUserProfile();
+    }
+  }, [auth]);
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -57,8 +68,7 @@ export const MapPage = ({ navigation }) => {
               longitude: marker.longitude
             }}
             pinColor='blue'
-          onPress={e => console.log('You pressed me!')}
-
+            onPress={(e) => console.log('You pressed me!')}
           />
         ))}
 
@@ -66,9 +76,8 @@ export const MapPage = ({ navigation }) => {
           coordinate={{ latitude: 51.049999, longitude: -114.066666 }}
           //   image={{uri: 'custom_pin'}}
           pinColor='yellow'
-          onPress={e => navigation.navigate('Content')}
-          >
-        </Marker>
+          onPress={(e) => navigation.navigate('Content')}
+        ></Marker>
       </MapView>
 
       <View style={styles.avatarButtonContainer}>
@@ -79,7 +88,12 @@ export const MapPage = ({ navigation }) => {
         >
           <Avatar.Image
             style={styles.avatar}
-            source={require('../sample-face.jpg')}
+            source={{
+              uri:
+                userProfile?.avataruri == null || userProfile?.avataruri == ''
+                  ? 'https://img.freepik.com/free-icon/user_318-792327.jpg?w=2000'
+                  : userProfile.avataruri
+            }}
           />
         </Pressable>
       </View>
