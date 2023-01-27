@@ -11,6 +11,7 @@ import {
   SegmentedButtons
 } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
+import AudioPlayer from '../components/AudioPlayer';
 
 const ContentScreen = () => {
   const navigation = useNavigation();
@@ -20,10 +21,10 @@ const ContentScreen = () => {
     <View style={styles.background}>
       <ScrollView style={styles.container}>
         <View style={styles.card}>
-          <Card mode="elevated">
+          <Card mode='elevated'>
             <Card.Title
-              title="COOL EGG NAME"
-              subtitle="@CoolEggPerson"
+              title='COOL EGG NAME'
+              subtitle='@CoolEggPerson'
               subtitleNumberOfLines={2}
               left={(props) => (
                 <Avatar.Image
@@ -34,7 +35,7 @@ const ContentScreen = () => {
             />
             <Card.Content>
               <Divider />
-              <Text variant="bodyMedium" style={styles.shortDescription}>
+              <Text variant='bodyMedium' style={styles.shortDescription}>
                 Here's a short descriptor of this egg. Blah blah blah. Doop doop
                 doop. I'm a good egg. Here's a short descriptor of this egg.
                 Blah blah blah. Doop doop doop. I'm a good egg.
@@ -77,7 +78,7 @@ const ContentScreen = () => {
             </Card.Content>
           </Card>
           <List.Section>
-            <List.Accordion title="Learn More">
+            <List.Accordion title='Learn More'>
               <SegmentedButtons
                 value={value}
                 onValueChange={setValue}
@@ -129,10 +130,10 @@ const ContentScreen = () => {
         </View>
       </ScrollView>
       <Card style={styles.subcontent}>
-        <Card mode="contained" style={styles.sampleAudio}>
+        {/* <Card mode="contained" style={styles.sampleAudio}>
           <Text variant="headlineLarge">Audio Player here</Text>
           <Text>Audio Player here</Text>
-        </Card>
+        </Card> */}
         <Button onPress={() => navigation.navigate('Map')}>Go Back</Button>
       </Card>
     </View>
@@ -141,14 +142,14 @@ const ContentScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: '80%',
+    height: '80%'
   },
   card: {
     // height: 2/3
     height: '100%'
   },
   subcontent: {
-    height: '20%',
+    height: '20%'
   },
   sampleAudio: {
     // height: 2/3

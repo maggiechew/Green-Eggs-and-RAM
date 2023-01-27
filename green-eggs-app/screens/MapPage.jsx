@@ -38,8 +38,10 @@ export const MapPage = ({ navigation, children }) => {
 
   const { currentEgg, setCurrentEgg } = useEggsUserContext();
   const { sound, setSound } = useEggsUserContext();
+  const { isPlayerReady, setIsPlayerReady } = useEggsUserContext();
+  const { isPlaying, setIsPlaying } = useEggsUserContext();
 
-  console.log('mappage: ', currentEgg);
+  // console.log('mappage: ', currentEgg);
 
   const handleMenu = () => {
     setShowMenu(!showMenu);
@@ -76,10 +78,13 @@ export const MapPage = ({ navigation, children }) => {
               longitude: marker.longitude
             }}
             pinColor='blue'
-            onPress={(e) => {
-              console.log('You pressed me!');
-              if (sound) sound.unloadAsync();
-              setCurrentEgg(egg21);
+            onPress={async (e) => {
+              if (currentEgg !== egg21) {
+                console.log('You pressed me!');
+                if (sound) await sound.unloadAsync();
+                setIsPlaying(false);
+                setCurrentEgg(egg21);
+              }
             }}
           />
         ))}

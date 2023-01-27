@@ -10,8 +10,19 @@ export const useEggsUserContext = () => {
 export default function EggsUserProvider({ children }) {
   const [currentEgg, setCurrentEgg] = useState(null);
   const [sound, setSound] = useState(undefined);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const eggSoundValue = { currentEgg, setCurrentEgg, sound, setSound };
+  const eggSoundValue = {
+    currentEgg,
+    setCurrentEgg,
+    sound,
+    setSound,
+    isPlayerReady,
+    setIsPlayerReady,
+    isPlaying,
+    setIsPlaying
+  };
 
   return (
     <EggsUserContext.Provider value={eggSoundValue}>
