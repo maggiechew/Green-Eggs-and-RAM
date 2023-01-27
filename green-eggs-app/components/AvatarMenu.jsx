@@ -2,17 +2,17 @@ import { View, Text, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import AudioPlayer from './AudioPlayer';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import { EggsUserContext, useEggsUserContext } from './EggsUserProvider';
+import AddProfile from './AddProfile';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
 // export const handleLogout = () => {
 //   signOut(auth).catch((error) => console.log('Error logging out: ', error));
 // };
-const AvatarMenu = ({ visible, handleMenu }) => {
-  const navigation = useNavigation();
+const AvatarMenu = ({ visible, handleMenu, navigation }) => {
+  // const navigation = useNavigation();
 
   //to stop sound on logout
   const { sound, setSound } = useEggsUserContext();
@@ -29,30 +29,37 @@ const AvatarMenu = ({ visible, handleMenu }) => {
 
     <Modal style={styles.modal} visible={visible} onDismiss={handleMenu}>
       <View>
-        <Text style={styles.modalText}>Ms. Veronica LeStrange</Text>
-        <Text style={styles.modalText}>@me.me</Text>
-        <Button
+        <AddProfile />
+        <View style={styles.buttonClose}>
+          <Button onPress={() => handleMenu()}>
+            <Text style={styles.buttonText}>Close</Text>
+          </Button>
+        </View>
+        <View style={styles.bottom}>
+          {/* MyFriends page hidden for now */}
+          {/* <Button
           style={styles.button}
           onPress={() => navigation.push('Friends')}
         >
           <Text style={styles.buttonText}>My Friends</Text>
-        </Button>
-        <Button
-          style={styles.button}
-          onPress={() => navigation.navigate('Profile')}
-        >
-          <Text style={styles.buttonText}>My Profile</Text>
-        </Button>
-        {/* Account page hidden for now */}
-        {/* <Button
+        </Button> */}
+          <Button
+            style={styles.button}
+            onPress={() => navigation.navigate('Profile')}
+          >
+            <Text style={styles.buttonText}>Update Profile</Text>
+          </Button>
+          {/* Account page hidden for now */}
+          {/* <Button
           style={styles.button}
           onPress={() => navigation.navigate('Account')}
         >
-          <Text style={styles.buttonText}>My Account</Text>
+          <Text style={styles.butt0onText}>My Account</Text>
         </Button> */}
-        <Button style={styles.signOutButton} onPress={handleLogout1}>
-          <Text style={styles.buttonText}>Sign Out</Text>
-        </Button>
+          <Button style={styles.signOutButton} onPress={handleLogout1}>
+            <Text style={styles.buttonText}>Sign Out</Text>
+          </Button>
+        </View>
       </View>
     </Modal>
     //   </Portal>
@@ -63,15 +70,17 @@ const AvatarMenu = ({ visible, handleMenu }) => {
 
 const styles = StyleSheet.create({
   modal: {
-    backgroundColor: '#484848',
+    backgroundColor: 'rgba(72,72,72,0.8)',
+    theme: 'dark',
     margin: 20,
     marginTop: 60,
     marginBottom: 200,
     padding: 20,
-    color: 'white',
-    zIndex: 100000
+    zIndex: 100000,
+    borderRadius: 20
   },
   modalText: {
+    fontSize: 16,
     color: 'white'
   },
   button: {
@@ -89,6 +98,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
     weight: 'bold'
+  },
+  buttonClose: {
+    alignItems: 'flex-end',
+    bottom: 240,
+    marginVertical: 5
   }
 });
 

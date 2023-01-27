@@ -13,7 +13,7 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import AudioPlayer from '../components/AudioPlayer';
 
-const ContentScreen = () => {
+export const ContentScreen = () => {
   const navigation = useNavigation();
   const [value, setValue] = useState('The Piece');
 
@@ -169,4 +169,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ContentScreen;
+// export default ContentScreen;
