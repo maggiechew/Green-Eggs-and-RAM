@@ -57,14 +57,17 @@ const AudioPlayer = ({ visible }) => {
     if (sound) {
       sound.setOnPlaybackStatusUpdate((status) => {
         console.log('sound status: ', status.isLoaded);
-        if (status.isLoaded) setIsPlayerReady(true);
+        if (status.isLoaded && !isPlayerReady) {
+          console.log('i set something else');
+          setIsPlayerReady(true);
+        }
+        console.log('in sound useffect', isPlayerReady);
         if (isPlayerReady) {
-          setPosition(status.positionMillis + 1);
+          setPosition(status.positionMillis);
           console.log('i set position');
         }
         if (status.isLoaded && !status.isPlaying) {
           // setIsPlayerReady(true);
-          console.log('isplayerready STATUS: ', isPlayerReady);
           setDuration(status.durationMillis);
           if (position === 0) setPosition(1);
         }
@@ -76,7 +79,9 @@ const AudioPlayer = ({ visible }) => {
         }
       });
     }
-  }, [sound]);
+  }, [sound, isPlayerReady]);
+
+  console.log('isplayerready STATUS: ', isPlayerReady);
 
   async function loadAudio(egg) {
     if (egg !== null) {
