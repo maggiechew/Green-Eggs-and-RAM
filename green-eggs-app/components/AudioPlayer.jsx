@@ -29,9 +29,6 @@ const AudioPlayer = ({ visible }) => {
     currentEgg,
     setCurrentEgg
   } = useContext(EggsUserContext);
-  // const { isPlaying, setIsPlaying } = useEggsUserContext();
-  // const { sound, setSound } = useEggsUserContext();
-  // const { currentEgg, setCurrentEgg } = useEggsUserContext();
 
   const navigation = useNavigation();
 
@@ -60,7 +57,7 @@ const AudioPlayer = ({ visible }) => {
     if (sound) {
       sound.setOnPlaybackStatusUpdate((status) => {
         console.log('sound status: ', status.isLoaded);
-        // if (status.isLoaded) setIsPlayerReady(true);
+        if (status.isLoaded) setIsPlayerReady(true);
         if (isPlayerReady) {
           setPosition(status.positionMillis + 1);
           console.log('i set position');
@@ -88,18 +85,10 @@ const AudioPlayer = ({ visible }) => {
         { shouldPlay: false }
       );
       setSound(soundData);
-      console.log('soundData was set: ');
-      setIsPlayerReady(true);
-      setIsPlayerReady(true);
-      setIsPlayerReady(true);
-      setIsPlayerReady(true);
-      setIsPlayerReady(true);
-      setIsPlayerReady(true);
-      setIsPlayerReady(true);
-      setIsPlayerReady(true);
+      console.log('soundData was set: ', soundData);
       console.log('soundData was set: DONE');
       // console.log('i got here just ebfore set plaey');
-      // setIsPlayerReady(true);
+      setIsPlayerReady(true);
       // console.log('i got here 64');
       // sounddata.setOnPlaybackStatusUpdate((status) => {
       //   console.log(status);

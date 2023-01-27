@@ -186,7 +186,7 @@ export const MapPage = ({ navigation, children }) => {
           longitudeDelta: 0.1
         }}
       >
-        {listOfMarkers.map((marker, index) => (
+        {/* {listOfMarkers.map((marker, index) => (
           <Marker
             key={index}
             coordinate={{
@@ -194,9 +194,18 @@ export const MapPage = ({ navigation, children }) => {
               longitude: marker.longitude
             }}
             pinColor='blue'
-            onPress={(e) => console.log('You pressed me!')}
+            onPress={async (e) => {
+              console.log('You pressed me!');
+              if (currentEgg !== egg21) {
+                console.log('You pressed me!');
+                if (sound) await sound.unloadAsync();
+                setIsPlaying(false);
+                setCurrentEgg(egg21);
+              }
+            }}
           />
-        ))}
+        ))} */}
+
         <Marker
           coordinate={{
             latitude: 51.044325278363814,
@@ -206,8 +215,6 @@ export const MapPage = ({ navigation, children }) => {
           pinColor='yellow'
           onPress={(e) => navigation.navigate('Content')}
         ></Marker>
-        pinColor='blue' onPress={(e) => navigation.navigate('Content')}
-        />
       </MapView>
 
       <View style={styles.avatarButtonContainer}>
@@ -233,23 +240,8 @@ export const MapPage = ({ navigation, children }) => {
         navigation={navigation}
       />
 
-      <AudioPlayer
-        visible={showAudioPlayer}
-        // egg={egg}
-        // newEgg={newEgg}
-        navigation
-      />
+      <AudioPlayer visible={showAudioPlayer} navigation />
 
-      {/* <View style={styles.playButtonContainer}>
-        <IconButton
-          icon='play-circle'
-          iconColor={MD3Colors.error50}
-          mode={'contained-tonal'}
-          containerColor={'#ffffff'}
-          size={35}
-          onPress={() => setShowModal(true)}
-        />
-      </View> */}
       <StatusBar style='light' />
     </View>
   );
