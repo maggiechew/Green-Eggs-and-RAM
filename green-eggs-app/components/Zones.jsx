@@ -3,9 +3,9 @@ import React from 'react';
 import MapView, { Callout, Marker, Polygon } from 'react-native-maps';
 import { Markers } from './Markers';
 
-export const Zones = ({ arrayOfZones, hideZone }) => {
+export const Zones = ({ arrayOfZones, zoneToHide, currentEggs }) => {
   return arrayOfZones.map((zone) => {
-    if (zone.id !== hideZone?.id) {
+    if (zone.id !== zoneToHide?.id) {
       return (
         <Polygon
           key={zone.id}
@@ -15,6 +15,6 @@ export const Zones = ({ arrayOfZones, hideZone }) => {
         />
       );
     }
-    return <Markers zone={zone} />;
+    return <Markers zone={zone} currentEggs={currentEggs}/>;
   });
 };

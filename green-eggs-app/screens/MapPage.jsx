@@ -1,11 +1,11 @@
 import * as Location from 'expo-location'; // for using Location for Geofencing (?)
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Pressable, StyleSheet, View, StatusBar } from 'react-native';
 import MapView, { Callout, Marker, Polygon } from 'react-native-maps';
 import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
 import { useNavigation } from '@react-navigation/native';
-import { isPointInPolygon } from 'geolib';
+import { isPointInPolygon, isPointWithinRadius } from 'geolib';
 import AvatarMenu from '../components/AvatarMenu';
 import { Zones } from '../components/Zones';
 import { Markers } from '../components/Markers';
@@ -21,7 +21,6 @@ const zone1 = {
     { latitude: 51.051236724285225, longitude: -114.06024068209865 },
     { latitude: 51.04397146747781, longitude: -114.061396652624 },
     { latitude: 51.04436672076427, longitude: -114.07841507201293 },
-    // { latitude: 51.036344130366125, longitude: -114.0804120774693 },
     { latitude: 51.047404302242114, longitude: -114.08261847677073 }
   ],
   eggs: [
@@ -64,8 +63,11 @@ const egg = {
 export const MapPage = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [hideZone, setHideZone] = useState(null);
+  const [zoneToHide, setZoneToHide] = useState(null);
   const [location, setLocation] = useState(null);
+  const [currentEggs, setCurrentEggs] = useState([]);
+
+  // const eggs = useRef([]);
 
   const handleMenu = () => {
     setShowMenu(!showMenu);
@@ -102,6 +104,7 @@ export const MapPage = ({ navigation }) => {
         { accuracy: Location.LocationAccuracy.Highest },
         (newLocation) => {
           setLocation(newLocation);
+          // console.log('location is:', newLocation);
           // ONLY USE NEWLOCATION IN THIS SCOPE
 
           // find one of polygons in array where isPointInPolygon == true & setCurrentZoneId( zoneId )
@@ -111,7 +114,7 @@ export const MapPage = ({ navigation }) => {
 
           //currently eggs are conceptualized as part of zone object; can be updated to fetch dynamically upon request
 
-          const whichOne = arrayOfZones.find((zone) =>
+          const usersZone = arrayOfZones.find((zone) =>
             isPointInPolygon(
               {
                 latitude: newLocation.coords.latitude,
@@ -123,11 +126,88 @@ export const MapPage = ({ navigation }) => {
           // console.log('Which one is: ', whichOne);
 
           const determineZone = () => {
-            if (whichOne === undefined) {
-              setHideZone(null);
-            } else setHideZone(whichOne);
+            if (usersZone === undefined) {
+              setZoneToHide(null);
+              setCurrentEggs(null);
+            } else {
+              setZoneToHide(usersZone);
+              console.log('User zone is:', usersZone);
+            }
+            // setCurrentEggs(usersZone.eggs)
           };
           determineZone();
+
+          if (usersZone) {
+            console.log('we got eggs!');
+            console.log("I'm looking for", usersZone.eggs.length, 'eggs');
+            const isItInRadius = (point) => {
+              // console.log(point.latitude, point.longitude);
+              return isPointWithinRadius(
+                { latitude: point.latitude, longitude: point.longitude },
+                {
+                  latitude: newLocation.coords.latitude,
+                  longitude: newLocation.coords.longitude
+                },
+                100
+              );
+            };
+
+            const replacementEggs = [];
+
+            usersZone.eggs.map((egg) => {
+              // console.log('Egg is:', egg);
+              console.log('Is it in radius?', isItInRadius(egg));
+
+              if (isItInRadius(egg)) {
+                replacementEggs.push(egg);
+                console.log('Replacement eggs are now:', replacementEggs);
+              } else {
+                console.log('nooooo');
+              }
+            });
+            console.log(replacementEggs)
+            setCurrentEggs(replacementEggs);
+            //   if (isItInRadius(egg)) {
+            //     // console.log('Current eggs:', currentEggs);
+            //     const verifyIfFound = currentEggs?.find(
+            //       (foundEgg) => foundEgg.id == egg.id
+            //     );
+            //     if (currentEggs === null) {
+            //       // console.log('Eggs are null, adding a fresh one');
+            //       setCurrentEggs([egg]);
+            //     } else {
+            //       const determineToAdd = () => {
+            //         if (verifyIfFound === undefined) {
+            //           // console.log('it wasnt already in the list')
+            //           const updatedEggs = currentEggs.concat([egg]);
+            //           setCurrentEggs(updatedEggs);
+            //         } else {
+            //           // console.log('no worries, it was already in the list');
+            //         }
+            //       };
+            //       determineToAdd();
+            //     }
+
+            //     // if (currentEggs.find(foundEgg) => foundEgg.id == egg.id) {}
+
+            //     // const updatedEggs = (currentEggs ? ([currentEggs].concat([egg])) : egg)
+            //     // console.log('Updating to:', updatedEggs)
+            //     // console.log('Type of is:', typeof updatedEggs)
+            //     // setCurrentEggs(updatedEggs)
+            //   } else {
+            //     console.log('wtfbbqAAAAAA')
+            //     console.log('not in radius:', egg);
+            //     const stillThere = currentEggs.findIndex(
+            //       (currentEggs) => currentEggs.id === egg.id
+            //     );
+
+            //     if (stillThere>=0) {console.log(stillThere); console.log('not in the array')} else setCurrentEggs(currentEggs)
+            //   }
+            // });
+          } else {
+            console.log('we dont got eggs');
+            console.log('current eggs:', currentEggs);
+          }
         }
       );
     };
@@ -140,6 +220,8 @@ export const MapPage = ({ navigation }) => {
     // return remove function for cleanup
     return subscription.remove;
   }, []);
+
+  // useEffect(() => {}, [location]);
 
   return (
     <View style={styles.container}>
@@ -155,7 +237,11 @@ export const MapPage = ({ navigation }) => {
           longitudeDelta: 0.1
         }}
       >
-        <Zones arrayOfZones={arrayOfZones} hideZone={hideZone} />
+        <Zones
+          arrayOfZones={arrayOfZones}
+          zoneToHide={zoneToHide}
+          currentEggs={currentEggs}
+        />
 
         <Marker
           coordinate={{
