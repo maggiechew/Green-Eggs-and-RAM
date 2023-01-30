@@ -15,12 +15,12 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
   // const navigation = useNavigation();
 
   //to stop sound on logout
-  const { sound, setSound } = useEggsUserContext();
-  const handleLogout1 = () => {
+  const handleLogout = () => {
     sound.pauseAsync();
     sound.unloadAsync();
     signOut(auth).catch((error) => console.log('Error logging out: ', error));
   };
+  const { sound, setSound } = useEggsUserContext();
 
   return (
     // <View style={{height:25}}>
@@ -56,7 +56,7 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
         >
           <Text style={styles.butt0onText}>My Account</Text>
         </Button> */}
-          <Button style={styles.signOutButton} onPress={handleLogout1}>
+          <Button style={styles.signOutButton} onPress={handleLogout}>
             <Text style={styles.buttonText}>Sign Out</Text>
           </Button>
         </View>
