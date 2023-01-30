@@ -46,7 +46,6 @@ const AudioPlayer = ({ visible }) => {
   // ^^ BOTTOM SHEET SETUP ^^
 
   useEffect(() => {
-    console.log(isPlaying);
     if (!isPlaying) {
       console.log('USEFFECT1: loadaudio');
       loadAudio(currentEgg);
@@ -56,20 +55,24 @@ const AudioPlayer = ({ visible }) => {
   useEffect(() => {
     if (sound) {
       sound.setOnPlaybackStatusUpdate((status) => {
-        console.log('sound status: ', status.isLoaded);
+        console.log('SOUND STATUS: ', status);
+
+        if (!status.isLoaded && currentEgg) {
+          loadAudio(currentEgg);
+        }
+        if (!status.isLoaded && !currentEgg) {
+          setIsPlayerReady(false);
+        }
         if (status.isLoaded && !isPlayerReady) {
-          console.log('i set something else');
           setIsPlayerReady(true);
         }
-        console.log('in sound useffect', isPlayerReady);
         if (isPlayerReady) {
           setPosition(status.positionMillis);
-          console.log('i set position');
         }
         if (status.isLoaded && !status.isPlaying) {
           // setIsPlayerReady(true);
           setDuration(status.durationMillis);
-          if (position === 0) setPosition(1);
+          // if (position === 0) setPosition(1);
         }
         if (status.didJustFinish) {
           console.log('sound didjustfinish: ', status.isLoaded);
@@ -90,14 +93,8 @@ const AudioPlayer = ({ visible }) => {
         { shouldPlay: false }
       );
       setSound(soundData);
-      console.log('soundData was set: ', soundData);
-      console.log('soundData was set: DONE');
-      // console.log('i got here just ebfore set plaey');
       setIsPlayerReady(true);
-      // console.log('i got here 64');
-      // sounddata.setOnPlaybackStatusUpdate((status) => {
-      //   console.log(status);
-      // });
+      setIsPlaying(false);
     }
   }
 
@@ -108,14 +105,12 @@ const AudioPlayer = ({ visible }) => {
     }
     if (isPlaying && isPlayerReady) {
       await sound.pauseAsync();
-      console.log(position);
       setIsPlaying(false);
     }
   }
 
   function calculateSeekBar() {
     if (isPlayerReady && position) {
-      // seekAudio();
       return position / duration;
     }
     return 0;
@@ -149,6 +144,7 @@ const AudioPlayer = ({ visible }) => {
           }}
           size={35}
         />
+
         {isPlaying ? (
           <IconButton
             icon='pause-circle'
