@@ -151,14 +151,14 @@ const AudioPlayer = ({ visible }) => {
         />
         {isPlaying ? (
           <IconButton
-            icon='play-circle'
+            icon='pause-circle'
             containerColor={'#ffffff'}
             onPress={() => pausePlayAudio()}
             size={35}
           />
         ) : (
           <IconButton
-            icon='pause-circle'
+            icon='play-circle'
             containerColor={'#ffffff'}
             onPress={() => pausePlayAudio()}
             size={35}
