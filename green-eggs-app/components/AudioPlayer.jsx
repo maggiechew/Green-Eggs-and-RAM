@@ -23,7 +23,7 @@ const AudioPlayer = ({ egg }) => {
     sound.setOnPlaybackStatusUpdate((status) => {
       if (status.isLoaded) {
         setIsPlayerReady(true);
-        console.log('STATUS: ', isPlayerReady);
+        // console.log('STATUS: ', isPlayerReady);
         setDuration(status.durationMillis);
         setPosition(1);
       }
