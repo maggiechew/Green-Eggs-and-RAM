@@ -1,17 +1,14 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { signOut } from 'firebase/auth';
-import { auth } from '../config';
 import AddProfile from './AddProfile';
+import { AuthenticatedUserContext } from '../providers';
 
-export const handleLogout = () => {
-  signOut(auth).catch((error) => console.log('Error logging out: ', error));
-};
 const AvatarMenu = ({ visible, handleMenu, navigation }) => {
   // const navigation = useNavigation();
-
+  const authContext = useContext(AuthenticatedUserContext);
+  const { handleLogout } = authContext;
   return (
     // <View style={{height:25}}>
     //   <Provider>
