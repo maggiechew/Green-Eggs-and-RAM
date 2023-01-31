@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
-import React, { useContext } from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { signOut } from 'firebase/auth';
