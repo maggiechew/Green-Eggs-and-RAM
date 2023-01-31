@@ -167,9 +167,9 @@ export const MapPage = ({ navigation, children }) => {
     return subscription.remove;
   }, []);
 
+  // temp egg2 until firestore connected
   useEffect(() => {
     setCurrentEgg(egg2);
-    console.log('mappage2: ', currentEgg);
   }, []);
 
   return (
