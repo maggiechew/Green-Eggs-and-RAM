@@ -10,22 +10,7 @@ import { auth } from '../config';
 import EggsUserProvider from '../components/EggsUserProvider';
 
 export const RootNavigator = () => {
-  const { user, setUser } = useContext(AuthenticatedUserContext);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // onAuthStateChanged returns an unsubscriber
-    const unsubscribeAuthStateChanged = onAuthStateChanged(
-      auth,
-      (authenticatedUser) => {
-        authenticatedUser ? setUser(authenticatedUser) : setUser(null);
-        setIsLoading(false);
-      }
-    );
-
-    // unsubscribe auth listener on unmount
-    return unsubscribeAuthStateChanged;
-  }, [user]);
+  const { user, isLoading } = useContext(AuthenticatedUserContext);
 
   if (isLoading) {
     return <LoadingIndicator />;

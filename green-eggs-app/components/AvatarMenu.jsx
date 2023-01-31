@@ -1,11 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
+import React, { useContext } from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import { EggsUserContext, useEggsUserContext } from './EggsUserProvider';
 import AddProfile from './AddProfile';
+import { AuthenticatedUserContext } from '../providers';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
 // export const handleLogout = () => {

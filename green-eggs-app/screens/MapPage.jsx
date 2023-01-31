@@ -1,11 +1,11 @@
-import * as Location from 'expo-location'; // for using Location for Geofencing (?)
-import React, { useContext, useEffect, useState } from 'react';
+import * as Location from 'expo-location';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Alert, Pressable, StyleSheet, View, StatusBar } from 'react-native';
 import MapView, { Callout, Marker, Polygon } from 'react-native-maps';
 import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
 import { useNavigation } from '@react-navigation/native';
-import { isPointInPolygon } from 'geolib';
+import { isPointInPolygon, isPointWithinRadius } from 'geolib';
 import AvatarMenu from '../components/AvatarMenu';
 import { useEggsUserContext } from '../components/EggsUserProvider';
 import { Zones } from '../components/Zones';
@@ -24,7 +24,6 @@ const zone1 = {
     { latitude: 51.051236724285225, longitude: -114.06024068209865 },
     { latitude: 51.04397146747781, longitude: -114.061396652624 },
     { latitude: 51.04436672076427, longitude: -114.07841507201293 },
-    // { latitude: 51.036344130366125, longitude: -114.0804120774693 },
     { latitude: 51.047404302242114, longitude: -114.08261847677073 }
   ],
   eggs: [
@@ -85,8 +84,9 @@ export const MapPage = ({ navigation, children }) => {
   const { isPlaying, setIsPlaying } = useEggsUserContext();
 
   // console.log('mappage: ', currentEgg);
-  const [hideZone, setHideZone] = useState(null);
+  const [zoneToHide, setZoneToHide] = useState(null);
   const [location, setLocation] = useState(null);
+  const [eggsInRange, setEggsInRange] = useState();
   const [userProfile, setUserProfile] = useState({});
   useEffect(() => {
     async function _getUserProfile() {
@@ -97,6 +97,7 @@ export const MapPage = ({ navigation, children }) => {
       _getUserProfile();
     }
   }, [auth]);
+
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -128,16 +129,8 @@ export const MapPage = ({ navigation, children }) => {
         { accuracy: Location.LocationAccuracy.Highest },
         (newLocation) => {
           setLocation(newLocation);
-          // ONLY USE NEWLOCATION IN THIS SCOPE
 
-          // find one of polygons in array where isPointInPolygon == true & setCurrentZoneId( zoneId )
-          //filter out zones(polygon) where id=currentZoneId when displaying
-          //query Firebase for eggs within zoneId (if applicable); setCurrentEggs()
-          //if isPointInPolygon == false for all zones, setCurrentEggs([])
-
-          //currently eggs are conceptualized as part of zone object; can be updated to fetch dynamically upon request
-
-          const whichOne = arrayOfZones.find((zone) =>
+          const usersZone = arrayOfZones.find((zone) =>
             isPointInPolygon(
               {
                 latitude: newLocation.coords.latitude,
@@ -146,14 +139,38 @@ export const MapPage = ({ navigation, children }) => {
               zone.points
             )
           );
-          // console.log('Which one is: ', whichOne);
 
           const determineZone = () => {
-            if (whichOne === undefined) {
-              setHideZone(null);
-            } else setHideZone(whichOne);
+            if (usersZone === undefined) {
+              setZoneToHide(null);
+              setEggsInRange(null);
+            } else {
+              setZoneToHide(usersZone);
+            }
           };
           determineZone();
+
+          if (usersZone) {
+            const isItInRadius = (point) => {
+              return isPointWithinRadius(
+                { latitude: point.latitude, longitude: point.longitude },
+                {
+                  latitude: newLocation.coords.latitude,
+                  longitude: newLocation.coords.longitude
+                },
+                100
+              );
+            };
+
+            const replacementEggs = [];
+
+            usersZone.eggs.forEach((egg) => {
+              if (isItInRadius(egg)) {
+                replacementEggs.push(egg);
+              }
+            });
+            setEggsInRange(replacementEggs);
+          }
         }
       );
     };
@@ -186,35 +203,20 @@ export const MapPage = ({ navigation, children }) => {
           longitudeDelta: 0.1
         }}
       >
-        {/* {listOfMarkers.map((marker, index) => (
-          <Marker
-            key={index}
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude
-            }}
-            pinColor='blue'
-            onPress={async (e) => {
-              console.log('You pressed me!');
-              if (currentEgg !== egg21) {
-                console.log('You pressed me!');
-                if (sound) await sound.unloadAsync();
-                setIsPlaying(false);
-                setCurrentEgg(egg21);
-              }
-            }}
-          />
-        ))} */}
-
-        <Marker
-          coordinate={{
-            latitude: 51.044325278363814,
-            longitude: -114.09243144347215
-          }}
-          //   image={{uri: 'custom_pin'}}
-          pinColor='yellow'
-          onPress={(e) => navigation.navigate('Content')}
-        ></Marker>
+        {arrayOfZones?.map((zone) => {
+          if (zone?.id === zoneToHide?.id) {
+            return (
+              <Markers
+                key={zone.id}
+                zone={zone}
+                currentEggs={eggsInRange}
+                navigation={navigation}
+              />
+            );
+          } else {
+            return <Zones key={zone.id} zone={zone} />;
+          }
+        })}
       </MapView>
 
       <View style={styles.avatarButtonContainer}>
@@ -258,11 +260,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     zIndex: 46,
     alignSelf: 'flex-start'
-  },
-  avatar: {
-    // borderColor:'gray',
-    // borderWidth: 50,
-    // borderRadius:300,
   },
 
   playButtonContainer: {

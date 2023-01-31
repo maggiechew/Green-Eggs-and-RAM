@@ -1,31 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { Formik } from 'formik';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { TextInput, Logo, Button, FormErrorMessage } from '../components';
-import { Images, Colors, auth } from '../config';
+import { Images, Colors } from '../config';
 import { useTogglePasswordVisibility } from '../hooks';
 import { loginValidationSchema } from '../utils';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AuthenticatedUserContext } from '../providers';
 
 export const LoginScreen = ({ navigation }) => {
-  const [errorState, setErrorState] = useState('');
-  const { userInfo, setUserInfo } = useState({});
+  const authContext = useContext(AuthenticatedUserContext);
+  const { errorState, handleLogin } = authContext;
+
   const { passwordVisibility, handlePasswordVisibility, rightIcon } =
     useTogglePasswordVisibility();
 
-  const handleLogin = (values) => {
-    const { email, password } = values;
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setUserInfo(userCredential);
-      })
-      .catch((error) => setErrorState(error.message));
-    console.log('this is Login user: ', values);
-  };
   return (
     <>
       <SafeAreaView style={styles.container}>
