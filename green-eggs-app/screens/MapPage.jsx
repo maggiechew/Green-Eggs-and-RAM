@@ -149,7 +149,7 @@ export const MapPage = ({ navigation }) => {
 
             const replacementEggs = [];
 
-            usersZone.eggs.map((egg) => {
+            usersZone.eggs.forEach((egg) => {
               if (isItInRadius(egg)) {
                 replacementEggs.push(egg);
               }
