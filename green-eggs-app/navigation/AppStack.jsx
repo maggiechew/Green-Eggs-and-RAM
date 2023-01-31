@@ -7,7 +7,6 @@ import { FriendsScreen } from '../screens/FriendsScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { useNavigation } from '@react-navigation/native';
 import { IconButton } from 'react-native-paper';
-import { handleLogout } from '../components/AvatarMenu';
 import { ContentScreen } from '../screens/ContentScreen';
 import { Entypo } from '@expo/vector-icons';
 
@@ -20,8 +19,6 @@ export const AppStack = () => {
       initialRouteName='Login'
       // screenOptions={{ headerShown: true }}
     >
-      {/* <Stack.Screen name='Map' component={MapPage} /> */}
-      {/* <Stack.Screen name='Account' component={AccountScreen} /> */}
       <Stack.Screen name='Map' component={MapPage} />
       <Stack.Screen name='Account' component={AccountScreen} />
       <Stack.Screen
