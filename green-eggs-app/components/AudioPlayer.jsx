@@ -57,6 +57,8 @@ const AudioPlayer = ({ visible }) => {
       setSheetOpen(0);
     }
     if (currentEgg === null) {
+      setIsPlayerReady(false);
+      unloadAudio();
       setSheetOpen(-1);
     }
   }, [currentEgg]);
@@ -107,6 +109,16 @@ const AudioPlayer = ({ visible }) => {
     }
   }
 
+  async function unloadAudio() {
+    if (sound) {
+      await sound.pauseAsync();
+      await sound.unloadAsync();
+    }
+    setSound(undefined);
+    setIsPlayerReady(false);
+    setIsPlaying(false);
+  }
+
   async function pausePlayAudio() {
     if (!isPlaying && isPlayerReady) {
       await sound.playAsync();
@@ -119,10 +131,12 @@ const AudioPlayer = ({ visible }) => {
   }
 
   function calculateSeekBar() {
+    if (currentEgg === null) {
+      return 0;
+    }
     if (isPlayerReady && position) {
       return position / duration;
     }
-    return 0;
   }
 
   const renderCurrentTime = () => {
