@@ -11,7 +11,7 @@ import {
   SegmentedButtons
 } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
-import AudioPlayer from '../components/AudioPlayer';
+// import AudioPlayer from '../components/AudioPlayer';
 import {
   EggsUserContext,
   useEggsUserContext
@@ -46,7 +46,7 @@ export const ContentScreen = () => {
               </Text>
               {/* <Text style={styles.link}> </Text> */}
               <Divider />
-              <Card.Cover source={require('../Content-Photo.jpg')} />
+              <Card.Cover source={{ uri: currentEgg.eggURIs.imageURI }} />
               <View style={styles.buttons}>
                 {/* <Card.Actions style={styles.buttons}>
                   <Button
@@ -133,13 +133,13 @@ export const ContentScreen = () => {
           </List.Section>
         </View>
       </ScrollView>
-      <Card style={styles.subcontent}>
-        {/* <Card mode="contained" style={styles.sampleAudio}>
+      {/* <Card style={styles.subcontent}>
+        <Card mode="contained" style={styles.sampleAudio}>
           <Text variant="headlineLarge">Audio Player here</Text>
           <Text>Audio Player here</Text>
-        </Card> */}
+        </Card>
         <Button onPress={() => navigation.navigate('Map')}>Go Back</Button>
-      </Card>
+      </Card> */}
     </View>
   );
 };

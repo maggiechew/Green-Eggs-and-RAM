@@ -1,25 +1,35 @@
 import { Text, StyleSheet, View } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Card, List, SegmentedButtons } from 'react-native-paper';
+import {
+  EggsUserContext,
+  useEggsUserContext
+} from '../providers/EggsSoundProvider';
 
-export const EggContent = ({ egg }) => {
-  if (!egg) return <Text>NO EGG LOADED</Text>;
-
+export const EggContent = () => {
+  const { currentEgg } = useContext(EggsUserContext);
+  // const egg = currentEgg;
+  if (!currentEgg) return <Text>NO EGG LOADED</Text>;
+  console.log('EGG CONTENT: ', currentEgg);
   return (
     <View>
       <View style={styles.card}>
         <Card mode='elevated'>
           <Card.Title
-            title={egg.eggName}
+            title={currentEgg.eggName}
             // subtitle='@CoolEggPerson'
             subtitleNumberOfLines={2}
           />
           <Card.Content>
             <Text variant='bodyMedium' style={styles.shortDescription}>
-              {egg.eggDescription}
+              {currentEgg.eggDescription}
             </Text>
             {/* <Text style={styles.link}> </Text> */}
-            <Card.Cover source={require('../Content-Photo.jpg')} />
+            {currentEgg.eggURIs.imageURI ? (
+              <Card.Cover source={{ uri: currentEgg.eggURIs.imageURI }} />
+            ) : (
+              <Card />
+            )}
           </Card.Content>
         </Card>
       </View>

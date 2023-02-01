@@ -181,7 +181,7 @@ const AudioPlayer = ({ visible }) => {
         </View>
       </View>
       <BottomSheetScrollView>
-        <EggContent egg={currentEgg} />
+        {currentEgg !== null ? <EggContent /> : <Text>Loading...</Text>}
       </BottomSheetScrollView>
     </BottomSheet>
   );
