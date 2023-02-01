@@ -11,7 +11,7 @@ import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import { IconButton } from 'react-native-paper';
 import { EggContent } from './EggContent';
-import BottomSheet from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import {
   EggsUserContext,
   useEggsUserContext
@@ -92,7 +92,7 @@ const AudioPlayer = ({ visible }) => {
   async function loadAudio(egg) {
     if (egg !== null) {
       const { sound: soundData } = await Audio.Sound.createAsync(
-        { uri: egg.uri },
+        { uri: egg.eggURIs.audioURI },
         { shouldPlay: false }
       );
       setSound(soundData);
@@ -130,59 +130,59 @@ const AudioPlayer = ({ visible }) => {
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
     >
-      {!currentEgg ? (
-        <Text style={styles.eggName}>'No egg loaded'</Text>
-      ) : (
-        <Text style={styles.eggName}>{currentEgg.eggName}</Text>
-      )}
-      <Text> </Text>
-
-      <View style={styles.audioPlayer}>
-        <IconButton
-          icon='egg-outline'
-          containerColor={'#ffffff'}
-          onPress={() => {
-            // sound.unloadAsync();
-            navigation.navigate('Content');
-          }}
-          size={35}
-        />
-
-        {isPlaying ? (
-          <IconButton
-            icon='pause-circle'
-            containerColor={'#ffffff'}
-            onPress={() => pausePlayAudio()}
-            size={35}
-          />
+      <View style={styles.modal}>
+        {!currentEgg ? (
+          <Text style={styles.eggName}>'No egg loaded'</Text>
         ) : (
+          <Text style={styles.eggName}>{currentEgg.eggName}</Text>
+        )}
+        <View style={styles.audioPlayer}>
           <IconButton
-            icon='play-circle'
+            icon='egg-outline'
             containerColor={'#ffffff'}
-            onPress={() => pausePlayAudio()}
+            onPress={() => {
+              // sound.unloadAsync();
+              navigation.navigate('Content');
+            }}
             size={35}
           />
-        )}
 
-        <Slider
-          style={{ width: 170, height: 30 }}
-          minimumValue={0}
-          maximumValue={1}
-          value={calculateSeekBar()}
-          onValueChange={(value) => {
-            setPosition(value * duration);
-          }}
-          onSlidingComplete={async (value) => {
-            await sound.setPositionAsync(value * duration);
-            setPosition(value * duration);
-          }}
-          step={0.01}
-        />
-        <Text>-{renderCurrentTime()}</Text>
+          {isPlaying ? (
+            <IconButton
+              icon='pause-circle'
+              containerColor={'#ffffff'}
+              onPress={() => pausePlayAudio()}
+              size={35}
+            />
+          ) : (
+            <IconButton
+              icon='play-circle'
+              containerColor={'#ffffff'}
+              onPress={() => pausePlayAudio()}
+              size={35}
+            />
+          )}
+
+          <Slider
+            style={{ width: 170, height: 30 }}
+            minimumValue={0}
+            maximumValue={1}
+            value={calculateSeekBar()}
+            onValueChange={(value) => {
+              setPosition(value * duration);
+            }}
+            onSlidingComplete={async (value) => {
+              await sound.setPositionAsync(value * duration);
+              setPosition(value * duration);
+            }}
+            step={0.01}
+          />
+          <Text>-{renderCurrentTime()}</Text>
+        </View>
       </View>
-      <View>
+      <BottomSheetScrollView>
         <EggContent egg={currentEgg} />
-      </View>
+      </BottomSheetScrollView>
     </BottomSheet>
   );
 };
@@ -190,6 +190,7 @@ const AudioPlayer = ({ visible }) => {
 const styles = StyleSheet.create({
   modal: {
     backgroundColor: '#fff',
+    height: 140,
     padding: 10
   },
   audioPlayer: {
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginRight: 25,
-    marginBottom: 20,
+    // marginBottom: 20,
     marginTop: 0
   },
   eggName: {

@@ -1,5 +1,5 @@
 import { View, StyleSheet, StatusBar } from 'react-native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
   Button,
@@ -12,8 +12,14 @@ import {
 } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import AudioPlayer from '../components/AudioPlayer';
+import {
+  EggsUserContext,
+  useEggsUserContext
+} from '../providers/EggsSoundProvider';
 
 export const ContentScreen = () => {
+  const { currentEgg } = useContext(EggsUserContext);
+
   const navigation = useNavigation();
   const [value, setValue] = useState('The Piece');
 
@@ -23,8 +29,8 @@ export const ContentScreen = () => {
         <View style={styles.card}>
           <Card mode='elevated'>
             <Card.Title
-              title='COOL EGG NAME'
-              subtitle='@CoolEggPerson'
+              title={currentEgg.eggName}
+              subtitle='@DOES NOT EXIST'
               subtitleNumberOfLines={2}
               left={(props) => (
                 <Avatar.Image
@@ -36,15 +42,13 @@ export const ContentScreen = () => {
             <Card.Content>
               <Divider />
               <Text variant='bodyMedium' style={styles.shortDescription}>
-                Here's a short descriptor of this egg. Blah blah blah. Doop doop
-                doop. I'm a good egg. Here's a short descriptor of this egg.
-                Blah blah blah. Doop doop doop. I'm a good egg.
+                {currentEgg.eggDescription}
               </Text>
               {/* <Text style={styles.link}> </Text> */}
               <Divider />
               <Card.Cover source={require('../Content-Photo.jpg')} />
               <View style={styles.buttons}>
-                <Card.Actions style={styles.buttons}>
+                {/* <Card.Actions style={styles.buttons}>
                   <Button
                     onPress={() => {
                       console.log('Loved it');
@@ -73,7 +77,7 @@ export const ContentScreen = () => {
                   >
                     Report
                   </Button>
-                </Card.Actions>
+                </Card.Actions> */}
               </View>
             </Card.Content>
           </Card>

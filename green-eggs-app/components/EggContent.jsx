@@ -29,6 +29,7 @@ export const EggContent = ({ egg }) => {
 
 const styles = StyleSheet.create({
   card: {
-    margin: 20
+    margin: 20,
+    height: '63%'
   }
 });
