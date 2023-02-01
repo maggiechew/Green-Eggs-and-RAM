@@ -7,7 +7,7 @@ import AudioPlayer from '../components/AudioPlayer';
 import { useNavigation } from '@react-navigation/native';
 import { isPointInPolygon, isPointWithinRadius } from 'geolib';
 import AvatarMenu from '../components/AvatarMenu';
-import { useEggsUserContext } from '../providers/EggsSoundProvider';
+import { getEgg, useEggsUserContext } from '../providers/EggsSoundProvider';
 import { Zones } from '../components/Zones';
 import { Markers } from '../components/Markers';
 import { getUserProfile } from '../components/AddProfile';
@@ -77,6 +77,7 @@ const egg2 = {
 export const MapPage = ({ navigation, children }) => {
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [currentEggID, setCurrentEggID] = useState('35WPCG0Ax3Gc7JlJRnNJ');
 
   const { currentEgg, setCurrentEgg } = useEggsUserContext();
   const { sound, setSound } = useEggsUserContext();
@@ -97,6 +98,15 @@ export const MapPage = ({ navigation, children }) => {
       _getUserProfile();
     }
   }, [auth]);
+
+  useEffect(() => {
+    async function _getEgg() {
+      const testEgg = await getEgg(currentEggID);
+      console.log('MP TEST EGG: ', testEgg);
+      setCurrentEgg(testEgg);
+    }
+    _getEgg();
+  }, [currentEggID]);
 
   const handleMenu = () => {
     setShowMenu(!showMenu);
@@ -182,11 +192,6 @@ export const MapPage = ({ navigation, children }) => {
 
     // return remove function for cleanup
     return subscription.remove;
-  }, []);
-
-  // temp egg2 until firestore connected
-  useEffect(() => {
-    setCurrentEgg(egg2);
   }, []);
 
   return (
