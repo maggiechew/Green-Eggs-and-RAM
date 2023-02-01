@@ -57,23 +57,6 @@ const zone2 = {
 
 const arrayOfZones = [zone1, zone2];
 
-// TEST FOR EGG // AUDIOPLAYER
-const egg21 = {
-  uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
-  eggName: 'Egg 21 cool!',
-  eggDescription: 'this is a cool egg Description!'
-};
-const egg = {
-  uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
-  eggName: 'Egg name is cool!',
-  eggDescription: 'this is a cool egg Description!'
-};
-const egg2 = {
-  uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
-  eggName: 'Egg name is 222222 cool!',
-  eggDescription: 'this is a cool egg Description!'
-};
-
 export const MapPage = ({ navigation, children }) => {
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
