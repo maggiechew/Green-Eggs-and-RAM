@@ -7,7 +7,7 @@ export const useEggsUserContext = () => {
   return useContext(EggsUserContext);
 };
 
-export default function EggsUserProvider({ children }) {
+export default function EggsSoundProvider({ children }) {
   const [currentEgg, setCurrentEgg] = useState(null);
   const [sound, setSound] = useState(undefined);
   const [isPlayerReady, setIsPlayerReady] = useState(false);

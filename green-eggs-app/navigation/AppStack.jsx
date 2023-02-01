@@ -8,7 +8,7 @@ import { ProfileScreen } from '../screens/ProfileScreen';
 import { useNavigation } from '@react-navigation/native';
 import { IconButton } from 'react-native-paper';
 import { ContentScreen } from '../screens/ContentScreen';
-import { useEggsUserContext } from '../components/EggsUserProvider';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import { Entypo } from '@expo/vector-icons';

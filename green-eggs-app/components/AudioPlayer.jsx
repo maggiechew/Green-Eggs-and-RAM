@@ -12,7 +12,10 @@ import Slider from '@react-native-community/slider';
 import { IconButton } from 'react-native-paper';
 import { EggContent } from './EggContent';
 import BottomSheet from '@gorhom/bottom-sheet';
-import { EggsUserContext, useEggsUserContext } from './EggsUserProvider';
+import {
+  EggsUserContext,
+  useEggsUserContext
+} from '../providers/EggsSoundProvider';
 import { useNavigation } from '@react-navigation/native';
 import { convertTime } from '../utils/audioHelpers';
 

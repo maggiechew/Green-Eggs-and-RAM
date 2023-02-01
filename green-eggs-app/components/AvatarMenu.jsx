@@ -4,7 +4,10 @@ import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
-import { EggsUserContext, useEggsUserContext } from './EggsUserProvider';
+import {
+  EggsUserContext,
+  useEggsUserContext
+} from '../providers/EggsSoundProvider';
 import AddProfile from './AddProfile';
 import { AuthenticatedUserContext } from '../providers';
 

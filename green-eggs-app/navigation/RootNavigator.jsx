@@ -7,7 +7,7 @@ import { AppStack } from './AppStack';
 import { AuthenticatedUserContext } from '../providers';
 import { LoadingIndicator } from '../components';
 import { auth } from '../config';
-import EggsUserProvider from '../components/EggsUserProvider';
+import EggsSoundProvider from '../providers/EggsSoundProvider';
 
 export const RootNavigator = () => {
   const { user, isLoading } = useContext(AuthenticatedUserContext);
@@ -17,10 +17,10 @@ export const RootNavigator = () => {
   }
 
   return (
-    <EggsUserProvider>
+    <EggsSoundProvider>
       <NavigationContainer>
         {user ? <AppStack /> : <AuthStack />}
       </NavigationContainer>
-    </EggsUserProvider>
+    </EggsSoundProvider>
   );
 };

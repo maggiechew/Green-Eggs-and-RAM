@@ -7,7 +7,7 @@ import AudioPlayer from '../components/AudioPlayer';
 import { useNavigation } from '@react-navigation/native';
 import { isPointInPolygon, isPointWithinRadius } from 'geolib';
 import AvatarMenu from '../components/AvatarMenu';
-import { useEggsUserContext } from '../components/EggsUserProvider';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { Zones } from '../components/Zones';
 import { Markers } from '../components/Markers';
 import { getUserProfile } from '../components/AddProfile';
