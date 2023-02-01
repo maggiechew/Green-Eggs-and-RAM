@@ -10,7 +10,7 @@ export const EggContent = () => {
   const { currentEgg } = useContext(EggsUserContext);
   // const egg = currentEgg;
   if (!currentEgg) return <Text>NO EGG LOADED</Text>;
-  console.log('EGG CONTENT: ', currentEgg);
+  // console.log('EGG CONTENT: ', currentEgg);
   return (
     <View>
       <View style={styles.card}>

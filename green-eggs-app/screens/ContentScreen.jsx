@@ -23,6 +23,10 @@ export const ContentScreen = () => {
   const navigation = useNavigation();
   const [value, setValue] = useState('The Piece');
 
+  if (!currentEgg) {
+    return <Text>NO EGG FOUND YET! Go find some eggs. </Text>;
+  }
+
   return (
     <View style={styles.background}>
       <ScrollView style={styles.container}>

@@ -77,6 +77,7 @@ const egg2 = {
 export const MapPage = ({ navigation, children }) => {
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  // const [currentEggID, setCurrentEggID] = useState(null);
   const [currentEggID, setCurrentEggID] = useState('35WPCG0Ax3Gc7JlJRnNJ');
 
   const { currentEgg, setCurrentEgg } = useEggsUserContext();
@@ -105,7 +106,11 @@ export const MapPage = ({ navigation, children }) => {
       console.log('MP TEST EGG: ', testEgg);
       setCurrentEgg(testEgg);
     }
-    _getEgg();
+    if (currentEggID) {
+      _getEgg();
+    } else {
+      setCurrentEgg(null);
+    }
   }, [currentEggID]);
 
   const handleMenu = () => {

@@ -30,7 +30,9 @@ const AudioPlayer = ({ visible }) => {
     sound,
     setSound,
     currentEgg,
-    setCurrentEgg
+    setCurrentEgg,
+    sheetOpen,
+    setSheetOpen
   } = useContext(EggsUserContext);
 
   const navigation = useNavigation();
@@ -49,16 +51,20 @@ const AudioPlayer = ({ visible }) => {
   // ^^ BOTTOM SHEET SETUP ^^
 
   useEffect(() => {
-    if (!isPlaying) {
+    if (!isPlaying && currentEgg) {
       console.log('USEFFECT1: loadaudio');
       loadAudio(currentEgg);
+      setSheetOpen(0);
+    }
+    if (currentEgg === null) {
+      setSheetOpen(-1);
     }
   }, [currentEgg]);
 
   useEffect(() => {
     if (sound) {
       sound.setOnPlaybackStatusUpdate((status) => {
-        console.log('SOUND STATUS: ', status);
+        // console.log('SOUND STATUS: ', status);
 
         if (!status.isLoaded && currentEgg) {
           loadAudio(currentEgg);
@@ -126,7 +132,7 @@ const AudioPlayer = ({ visible }) => {
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={0}
+      index={sheetOpen}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
     >
