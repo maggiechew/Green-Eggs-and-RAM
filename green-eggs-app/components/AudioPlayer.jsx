@@ -12,12 +12,15 @@ import Slider from '@react-native-community/slider';
 import { IconButton } from 'react-native-paper';
 import { EggContent } from './EggContent';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import {
-  EggsUserContext,
-  useEggsUserContext
-} from '../providers/EggsSoundProvider';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
 import { useNavigation } from '@react-navigation/native';
 import { convertTime } from '../utils/audioHelpers';
+import Animated, {
+  useAnimatedStyle,
+  withRepeat,
+  withSequence,
+  withTiming
+} from 'react-native-reanimated';
 
 const AudioPlayer = ({ visible }) => {
   const [duration, setDuration] = useState(undefined);
@@ -46,13 +49,30 @@ const AudioPlayer = ({ visible }) => {
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
-    console.log('handleSheetChanges', index);
+    // console.log('handleSheetChanges', index);
   }, []);
   // ^^ BOTTOM SHEET SETUP ^^
 
+  // ANIMATION TEST
+  const testAnimation = useAnimatedStyle(() => ({
+    transform: [
+      {
+        // prettier-ignore
+        scale: withRepeat(
+          withSequence(
+            withTiming(1, { duration: 400 }),
+            withTiming(0.8, { duration: 400 })
+          ),
+          -1,
+          true
+        )
+      }
+    ]
+  }));
+
   useEffect(() => {
     if (!isPlaying && currentEgg) {
-      console.log('USEFFECT1: loadaudio');
+      // console.log('USEFFECT1: loadaudio');
       loadAudio(currentEgg);
       setSheetOpen(0);
     }
@@ -86,7 +106,7 @@ const AudioPlayer = ({ visible }) => {
           // if (position === 0) setPosition(1);
         }
         if (status.didJustFinish) {
-          console.log('sound didjustfinish: ', status.isLoaded);
+          // console.log('sound didjustfinish: ', status.isLoaded);
           sound.pauseAsync();
           sound.setPositionAsync(1);
           setIsPlaying(false);
@@ -95,7 +115,7 @@ const AudioPlayer = ({ visible }) => {
     }
   }, [sound, isPlayerReady]);
 
-  console.log('isplayerready STATUS: ', isPlayerReady);
+  // console.log('isplayerready STATUS: ', isPlayerReady);
 
   async function loadAudio(egg) {
     if (egg !== null) {
@@ -157,15 +177,17 @@ const AudioPlayer = ({ visible }) => {
           <Text style={styles.eggName}>{currentEgg.eggName}</Text>
         )}
         <View style={styles.audioPlayer}>
-          <IconButton
-            icon='egg-outline'
-            containerColor={'#ffffff'}
-            onPress={() => {
-              // sound.unloadAsync();
-              navigation.navigate('Content');
-            }}
-            size={35}
-          />
+          <Animated.View style={testAnimation}>
+            <IconButton
+              icon='egg-outline'
+              containerColor={'#ffffff'}
+              onPress={() => {
+                // sound.unloadAsync();
+                navigation.navigate('Content');
+              }}
+              size={40}
+            />
+          </Animated.View>
 
           {isPlaying ? (
             <IconButton
@@ -227,6 +249,15 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginTop: 15,
     marginBottom: -20
+  },
+  animationContainer: {
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // position: 'absolute',
+    // top: 8,
+    // bottom: 0,
+    // left: 0,
+    // right: 4
   }
 });
 
