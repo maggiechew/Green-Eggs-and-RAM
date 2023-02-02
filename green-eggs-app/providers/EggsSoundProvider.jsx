@@ -23,7 +23,25 @@ export const getEgg = async (eggID) => {
       eggCoordinates: eggData.eggCoordinates,
       eggDescription: eggData.eggDescription,
       eggName: eggData.eggName,
-      eggURIs: eggData.eggURIs
+      eggURIs: eggData.eggURIs,
+      creatorID: eggData.creatorID,
+      eggBlurb: eggData.eggBlurb
+    };
+  }
+};
+
+export const getCreator = async (creatorID) => {
+  const creatorRef = doc(db, 'creators', creatorID);
+  const docSnap = await getDoc(creatorRef);
+  console.log('Creator docSnap', docSnap);
+  if (!docSnap.exists) {
+    console.log('No such document!');
+  } else {
+    const creatorData = docSnap.data();
+    return {
+      creatorName: creatorData.creatorName,
+      creatorAvatarURI: creatorData.creatorAvatarURI,
+      creatorBlurb: creatorData.creatorBlurb
     };
   }
 };

@@ -21,7 +21,7 @@ export const ContentScreen = () => {
   const { currentEgg } = useContext(EggsUserContext);
 
   const navigation = useNavigation();
-  const [value, setValue] = useState('The Piece');
+  const [value, setValue] = useState(currentEgg.eggName);
 
   if (!currentEgg) {
     return <Text>NO EGG FOUND YET! Go find some eggs. </Text>;
@@ -34,19 +34,19 @@ export const ContentScreen = () => {
           <Card mode='elevated'>
             <Card.Title
               title={currentEgg.eggName}
-              subtitle='@DOES NOT EXIST'
+              subtitle={currentEgg.creatorName}
               subtitleNumberOfLines={2}
               left={(props) => (
                 <Avatar.Image
                   {...props}
-                  source={require('../crazy-chick.jpg')}
+                  source={{ uri: currentEgg.creatorAvatarURI }}
                 />
               )}
             />
             <Card.Content>
               <Divider />
               <Text variant='bodyMedium' style={styles.shortDescription}>
-                {currentEgg.eggDescription}
+                {currentEgg.eggBlurb}
               </Text>
               {/* <Text style={styles.link}> </Text> */}
               <Divider />
@@ -85,52 +85,31 @@ export const ContentScreen = () => {
               </View>
             </Card.Content>
           </Card>
-          <List.Section>
+          <List.Section style={styles.list}>
             <List.Accordion title='Learn More'>
               <SegmentedButtons
                 value={value}
                 onValueChange={setValue}
                 buttons={[
                   {
-                    value: 'The Piece',
-                    label: 'More about the piece'
+                    value: currentEgg.eggName,
+                    label: 'More about the Egg'
                   },
                   {
-                    value: 'The Artist',
-                    label: 'More about the Artist'
+                    value: currentEgg.creatorName,
+                    label: 'More about the Creator'
                   }
                 ]}
               />
               <List.Item title={value} />
-              {value === 'The Piece' && (
+              {value === currentEgg.eggName && (
                 <>
-                  <Text>Five little eggies</Text>
-                  <Text>
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum."
-                  </Text>
+                  <Text>{currentEgg.eggDescription}</Text>
                 </>
               )}
-              {value === 'The Artist' && (
+              {value === currentEgg.creatorName && (
                 <>
-                  <Text>Links here</Text>
-                  <Text>The woman, the legend The woman, the legend</Text>
-                  <Text>
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum."
-                  </Text>
+                  <Text>{currentEgg.creatorBlurb}</Text>
                 </>
               )}
             </List.Accordion>
@@ -174,6 +153,9 @@ const styles = StyleSheet.create({
   shortDescription: {
     paddingVertical: 10,
     paddingTop: 15
+  },
+  list: {
+    margin: 20
   }
 });
 

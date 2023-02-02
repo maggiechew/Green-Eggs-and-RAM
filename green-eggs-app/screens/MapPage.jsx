@@ -7,7 +7,11 @@ import AudioPlayer from '../components/AudioPlayer';
 import { useNavigation } from '@react-navigation/native';
 import { isPointInPolygon, isPointWithinRadius } from 'geolib';
 import AvatarMenu from '../components/AvatarMenu';
-import { getEgg, useEggsUserContext } from '../providers/EggsSoundProvider';
+import {
+  getCreator,
+  getEgg,
+  useEggsUserContext
+} from '../providers/EggsSoundProvider';
 import { Zones } from '../components/Zones';
 import { Markers } from '../components/Markers';
 import { getUserProfile } from '../components/AddProfile';
@@ -86,8 +90,10 @@ export const MapPage = ({ navigation, children }) => {
   useEffect(() => {
     async function _getEgg() {
       const testEgg = await getEgg(currentEggID);
-      console.log('MP TEST EGG: ', testEgg);
-      setCurrentEgg(testEgg);
+      const testCreator = await getCreator(testEgg.creatorID);
+      const combinedEgg = { ...testEgg, ...testCreator };
+      console.log('MP TEST EGG: ', combinedEgg);
+      setCurrentEgg(combinedEgg);
     }
     if (currentEggID) {
       _getEgg();
