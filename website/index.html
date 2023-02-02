@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Egg Hunter</title>
+    <title>Egg Hunter: Discover Calgary Culture</title>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/clamp.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <!-- Start Header and Navigation -->
-
 <body>
     <header id="header">
         <div id="menu">
@@ -28,12 +27,13 @@
         </div>
     </header>
     <!-- End Header and Navigation -->
+
     <div id="wrapper"> <!-- Start Wrapper for Parallax Scroll Effect -->
         <!-- Start Home Section with Video -->
         <section id="home" class="section">
             <div class="header-video-wrapper">
                 <video loop muted autoplay playsinline>
-                    <source src="img/egg_hunter_header_video.mp4" />
+                    <source src="media/egg_hunter_header_video.mp4" />
                 </video>
             </div>
             <div class="header__text-box">
@@ -47,19 +47,23 @@
         <!-- Start About Section -->
         <section id="about" class="section">
             <article>
-                <div class="flexbox-container">
-                    <div class="flexbox-item flexbox-item1 left-main-container">
-                        <video controls playsinline>
-                            <source src="img/a-vid-woman-walking-cellphone.mp4" type="video/mp4" />
-                        </video>
+                <div class="rows">
+                    <div class="col-1-of-2">
+                        <div class="samples">
+                            <video controls playsinline>
+                                <source src="media/a-vid-man-walking-cellphone.mp4" type="video/mp4" />
+                            </video>
+                        </div>
                     </div>
-                    <div class="flexbox-item flexbox-item2 about">
-                        <img src="img/a-pic-yellowbkgrd-woman-headphones3.jpg" alt="Photo 1"
-                            class="about__photo about__photo--p1">
-                        <img src="img/a-pic-cellphone-yellowbkgr.jpg" alt="Photo 2"
-                            class="about__photo about__photo--p2">
-                        <img src="img/a-pic-man-cellphone-aquabkgr.jpg" alt="Photo 3"
-                            class="about__photo about__photo--p3">
+                    <div class="col-1-of-2">
+                        <div class="about">
+                            <img src="media/a-pic-yellowbkgrd-woman-headphones3.jpg" alt="Photo 1"
+                                class="about__photo about__photo--p1">
+                            <img src="media/a-pic-cellphone-yellowbkgr.jpg" alt="Photo 2"
+                                class="about__photo about__photo--p2">
+                            <img src="media/a-pic-man-cellphone-aquabkgr.jpg" alt="Photo 3"
+                                class="about__photo about__photo--p3">
+                        </div>
                     </div>
                 </div>
             </article>
@@ -68,27 +72,29 @@
         <!-- Start Features Section -->
         <section id="features" class="section">
             <article>
-                <div class="flexbox-container">
-                    <div class="flexbox-item flexbox-item1 left-main-container">
-                        <h3 class="heading-tertiary">You're going to fall in love with culture!</h3>
-                        <p class="paragraph">
+                <div class="rows">
+                    <div class="col-1-of-2">
+                        <h3>You're going to fall in love with culture!</h3>
+                        <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, ipsum sapiente aspernatur
                             libero repellat quis consequatur ducimus quam nisi exercitationem omnis earum qui.
                         </p>
                         <br>
-                        <h3 class="heading-tertiary">Get immersed in culture in a whole new way!</h3>
-                        <p class="paragraph">
+                        <h3>Get immersed in culture in a whole new way!</h3>
+                        <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores nulla deserunt
                             voluptatum nam.
                         </p>
                     </div>
-                    <div class="flexbox-item flexbox-item2 features">
-                        <img src="img/a-pic-blank-cellphone.png" alt="Photo 1"
-                            class="features__photo features__photo--p1">
-                        <img src="img/a-pic-blank-cellphone.png" alt="Photo 2"
-                            class="features__photo features__photo--p2">
-                        <img src="img/a-pic-blank-cellphone.png" alt="Photo 3"
-                            class="features__photo features__photo--p3">
+                    <div class="col-1-of-2">
+                        <div class="features">
+                            <img src="media/a-pic-blank-cellphone.png" alt="Photo 1"
+                                class="features__photo features__photo--p1">
+                            <img src="media/a-pic-blank-cellphone.png" alt="Photo 2"
+                                class="features__photo features__photo--p2">
+                            <img src="media/a-pic-blank-cellphone.png" alt="Photo 3"
+                                class="features__photo features__photo--p3">
+                        </div>
                     </div>
                 </div>
             </article>
@@ -97,22 +103,24 @@
         <!-- Start Samples Section -->
         <section id="samples" class="section">
             <article>
-                <div class="flexbox-container">
-                    <div class="flexbox-item flexbox-item1 left-main-container">
-                        <video controls>
-                            <source src="img/egg-hunter-about-us-video.mp4" type="video/mp4" />
-                        </video>
+                <div class="rows">
+                    <div class="col-1-of-2">
+                        <div class="samples">
+                            <video controls>
+                                <source src="media/a-vid-woman-walking-cellphone.mp4" type="video/mp4" />
+                            </video>
+                        </div>
                     </div>
-                    <div class="flexbox-item flexbox-item2 samples">
-                        <h3 class="heading-tertiary">Audio Clip One</h3><br>
+                    <div class="col-1-of-2">
+                        <h3>Audio Clip One</h3><br>
                         <audio controls>
                             <source src="#" type="audio/mpeg" id="clip 1">
                         </audio><br><br>
-                        <h3 class="heading-tertiary">Audio Clip Two</h3><br>
+                        <h3>Audio Clip Two</h3><br>
                         <audio controls>
                             <source src="#" type="audio/mpeg" id="clip 1">
                         </audio><br><br>
-                        <h3 class="heading-tertiary">Audio Clip Three</h3><br>
+                        <h3>Audio Clip Three</h3><br>
                         <audio controls>
                             <source src="#" type="audio/mpeg" id="clip 1">
                         </audio>
@@ -124,20 +132,20 @@
         <!-- Start Contribute Section -->
         <section id="contribute" class="section">
             <article>
-                <div class="flexbox-container">
-                    <div class="flexbox-item flexbox-item1 left-main-container">
+                <div class="rows">
+                    <div class="col-1-of-2">
                         <p>
                         <form>
                             <div class="row">
-                                <label class="heading-tertiary" for="Name">Name:</label>
+                                <label for="Name">Name:</label>
                                 <input id="Name" name="Name" type="text" placeholder="Name">
                             </div>
                             <div class="row">
-                                <label class="heading-tertiary" for="Email">Email:</label>
+                                <label for="Email">Email:</label>
                                 <input id="Email" name="Email" type="email" placeholder="Email">
                             </div>
                             <div class="row">
-                                <label class="heading-tertiary" for="Message">Message:</label>
+                                <label for="Message">Message:</label>
                                 <textarea id="Message" name="Message" rows="5" cols="50"></textarea>
                             </div>
                             <div class="row">
@@ -146,13 +154,13 @@
                         </form>
                         </p>
                     </div>
-                    <div class="flexbox-item flexbox-item2">
+                    <div class="col-1-of-2">
                         <div class="contribute">
-                            <img src="img/a-pic-laptop-keyboard.jpg" alt="Photo 1"
+                            <img src="media/a-pic-laptop-keyboard.jpg" alt="Photo 1"
                                 class="contribute__photo contribute__photo--p1">
-                            <img src="img/a-pic-microphone-stage-lights.jpg" alt="Photo 2"
+                            <img src="media/a-pic-microphone-stage-lights.jpg" alt="Photo 2"
                                 class="contribute__photo contribute__photo--p2">
-                            <img src="img/a-pic-iMac-desk.jpg" alt="Photo 3"
+                            <img src="media/a-pic-iMac-desk.jpg" alt="Photo 3"
                                 class="contribute__photo contribute__photo--p3">
                         </div>
                     </div>
