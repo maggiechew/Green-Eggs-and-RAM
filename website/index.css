@@ -46,9 +46,9 @@ video {
     height: auto;
     top: 50%;
     left: 50%;
-        min-height: 100%;
-        min-width: 100%;
-        transform: translate(-50%, -50%);
+    min-height: 100%;
+    min-width: 100%;
+    transform: translate(-50%, -50%);
     z-index: -1;
 }
 
@@ -56,7 +56,7 @@ form {
     margin: 0 auto;
     max-width: 600px;
     padding: 1em;
-    border: 1px solid rgb(143, 143, 138);
+    border: 1px solid rgb(244, 221, 8);
     border-radius: 1em;
 }
 
@@ -206,7 +206,8 @@ textarea:focus {
 }
 
 .section article {
-    background-color: rgba(0, 0, 0, 0.7);
+    min-height: 20rem;
+    background-image: linear-gradient(to right bottom, #010500c4, #b7c51d88);
     outline-offset: .5rem;
     outline: .1rem solid rgb(244, 221, 8, 0.7);
     color: rgb(255, 255, 255);
@@ -227,17 +228,17 @@ textarea:focus {
 }
 
 #about {
-    background-image: url(../img/a-pic-central-library-front.jpg);
+    background-image: url(media/a-pic-central-library-front.jpg);
 
 }
 
 #features {
-    background-image: url(../img/a-pic-bow-building-front.jpg);
+    background-image: url(media/a-pic-bow-building-front.jpg);
     background-color: darkblue;
 }
 
 #samples {
-    background-image: url(../img/a-pic-calgary-skyline-night.jpg);
+    background-image: url(media/a-pic-calgary-skyline-night.jpg);
     background-color: darkgray;
 }
 
@@ -254,7 +255,7 @@ textarea:focus {
 }
 
 #contribute {
-    background-image: url(../img/a-pic-platform-calgary.jpg);
+    background-image: url(media/a-pic-platform-calgary.jpg);
     background-color: white;
 }
 
@@ -425,12 +426,14 @@ footer {
     margin-top: 0rem;
     position: relative;
     }
-
+    
 .about__photo {
     float: left;
     position: relative;
     width: 33.33333333%;
     }
+
+
 }
 
 .about__photo--p1 {
@@ -441,7 +444,7 @@ footer {
 @media only screen and (max-width: 56.25em) {
 .about__photo--p1 {
     top: 0;
-    transform: scale(1.2);
+    transform: scale(1.1);
     }
 }
 
@@ -491,7 +494,7 @@ footer {
 .features__photo {
     width: 44%;
     box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
-    border-radius: .01px;
+    border-radius: 1.3rem;
     position: absolute;
     z-index: 10;
     transition: all .2s;
@@ -559,7 +562,7 @@ footer {
 
 /* composition group three: samples */
 .samples {
-    outline: .1rem solid rgb(143, 143, 138);
+    outline: .1rem solid rgb(244, 221, 8);
     outline-offset: 1rem;
     border-radius: .01px;
     /*margin-top: -7rem;*/
@@ -722,3 +725,65 @@ footer {
 .contribute:hover .contribute__photo:not(:hover) {
     transform: scale(0.95);
   }
+
+  /* Start Move In Left/Move In Right/Move In Bottom animation CSS */
+
+  @keyframes moveInLeft {
+      0% {
+          opacity: 0;
+          transform: translateX(-10rem);
+      }
+
+      80% {
+          transform: translateX(1rem);
+      }
+
+      100% {
+          opacity: 1;
+          transform: translate(0);
+      }
+  }
+
+  @keyframes moveInRight {
+      0% {
+          opacity: 0;
+          transform: translateX(10rem);
+      }
+
+      80% {
+          transform: translateX(-1rem);
+      }
+
+      100% {
+          opacity: 1;
+          transform: translate(0);
+      }
+  }
+
+  @keyframes moveInBottom {
+      0% {
+          opacity: 0;
+          transform: translateY(3rem);
+      }
+
+      100% {
+          opacity: 1;
+          transform: translate(0);
+      }
+  }
+
+  .move-in-left {
+        animation-name: moveInLeft;
+        animation-duration: 3s;
+        animation-timing-function: ease-out;
+  }
+
+  .move-in-right {
+    animation: moveInRight 3s ease-out;
+  }
+  .move-in-bottom {
+    animation: moveInBottom 3s ease-out .75s;
+    animation-fill-mode: backwards;
+  }
+
+        /* End Move In Left/Move In Right/Move In Bottom animation CSS */
