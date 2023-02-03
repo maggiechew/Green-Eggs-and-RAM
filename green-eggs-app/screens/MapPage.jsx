@@ -12,51 +12,48 @@ import { Zones } from '../components/Zones';
 import { Markers } from '../components/Markers';
 import { getUserProfile } from '../components/AddProfile';
 import { auth } from '../config';
+import { db } from '../config';
+import { getPolygon } from '../utils/geopoints';
+import { connectStorageEmulator } from 'firebase/storage';
+import { getEggGeo } from '../utils/geoeggpoints';
 
-const zone1 = {
-  id: 1,
-  fillColor: 'rgb(173,216,230)',
-  points: [
-    { latitude: 51.0506186802187, longitude: -114.08367378327999 },
-    { latitude: 51.053312338017435, longitude: -114.07846131626596 },
-    { latitude: 51.05417256819195, longitude: -114.06697534262804 },
-    { latitude: 51.05217362530177, longitude: -114.0622938623375 },
-    { latitude: 51.051236724285225, longitude: -114.06024068209865 },
-    { latitude: 51.04397146747781, longitude: -114.061396652624 },
-    { latitude: 51.04436672076427, longitude: -114.07841507201293 },
-    { latitude: 51.047404302242114, longitude: -114.08261847677073 }
-  ],
-  eggs: [
-    { id: 'marker-1', latitude: 51.049999, longitude: -114.066666 },
-    { id: 'marker-2', latitude: 51.050995, longitude: -114.071666 },
-    { id: 'marker-3', latitude: 51.049999, longitude: -114.076666 }
-  ]
+// const userHasFoundEggs = zone.eggs.filter(egg => user.eggs.includes(egg))
+const getZone = async () => {
+  const zone1 = {
+    id: 1,
+    fillColor: 'rgb(173,216,230)',
+
+    points: await getPolygon(db, '0siUtfXKMH0t7WUEmp8c'),
+    eggs: await getEggGeo(db, '4Erv42U5LYyH2T9YtiOm')
+
+    // eggs: [
+    //   await getEggGeo(db, '4Erv42U5LYyH2T9YtiOm'),
+    //   await getEggGeo(db, '8Iq7h03tsrJgPTCV5LF8'),
+    //   await getEggGeo(db, 'LgECFIh2QEvyiouEknwp')
+    // ]
+  };
+  const zone2 = {
+    id: 2,
+    fillColor: 'rgb(255,0,0)',
+    points: await getPolygon(db, 'gSLkCCFwpnTU2PLqJfI3'),
+
+    eggs: [
+      {
+        id: 'marker-26',
+        latitude: 51.0426260995715,
+        longitude: -114.0578971961368
+      },
+      {
+        id: 'marker-22',
+        latitude: 51.04332912164011,
+        longitude: -114.05306167652023
+      }
+    ]
+  };
+
+  const arrayOfZones = [zone1, zone2];
+  return arrayOfZones;
 };
-const zone2 = {
-  id: 2,
-  fillColor: 'rgb(255,0,0)',
-  points: [
-    { latitude: 51.04379680428058, longitude: -114.05301340155006 },
-    { latitude: 51.04275306351686, longitude: -114.05012606287124 },
-    { latitude: 51.039417227860916, longitude: -114.05535868020573 },
-    { latitude: 51.042525331074025, longitude: -114.0626855495627 }
-  ],
-  eggs: [
-    {
-      id: 'marker-26',
-      latitude: 51.0426260995715,
-      longitude: -114.0578971961368
-    },
-    {
-      id: 'marker-22',
-      latitude: 51.04332912164011,
-      longitude: -114.05306167652023
-    }
-  ]
-};
-
-const arrayOfZones = [zone1, zone2];
-
 // TEST FOR EGG // AUDIOPLAYER
 const egg21 = {
   uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
@@ -75,6 +72,7 @@ const egg2 = {
 };
 
 export const MapPage = ({ navigation, children }) => {
+  const [arrayOfZones, setArrayOfZones] = useState();
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -88,6 +86,14 @@ export const MapPage = ({ navigation, children }) => {
   const [location, setLocation] = useState(null);
   const [eggsInRange, setEggsInRange] = useState();
   const [userProfile, setUserProfile] = useState({});
+  useEffect(() => {
+    const getZones = async () => {
+      const zones = await getZone();
+      setArrayOfZones(zones);
+    };
+    getZones();
+  }, []);
+
   useEffect(() => {
     async function _getUserProfile() {
       const userData = await getUserProfile();
@@ -120,6 +126,7 @@ export const MapPage = ({ navigation, children }) => {
   }, []);
 
   useEffect(() => {
+    if (arrayOfZones == null) return;
     // no-op subscription. in case not successful
     let subscription = { remove: () => {} };
 
@@ -145,12 +152,19 @@ export const MapPage = ({ navigation, children }) => {
               setZoneToHide(null);
               setEggsInRange(null);
             } else {
+              //if zoneToHide is not null, then we can use it to filter the eggs
+              // const zoneEggs = await fetchEggs(usersZone.id);
+              // const zoneEggs = usersZone.eggs;
+              // if zoneToHide === usersZone, then we can use the eggs in the zone
+              // if zoneToHide !== usersZone, do not show eggs
               setZoneToHide(usersZone);
             }
           };
           determineZone();
 
           if (usersZone) {
+            //if user is in zone (line 153) const zoneEggs = await fetch (...)
+            //add to new line in 154
             const isItInRadius = (point) => {
               return isPointWithinRadius(
                 { latitude: point.latitude, longitude: point.longitude },
@@ -163,7 +177,7 @@ export const MapPage = ({ navigation, children }) => {
             };
 
             const replacementEggs = [];
-
+            // zoneEggs.forEach((egg) => {
             usersZone.eggs.forEach((egg) => {
               if (isItInRadius(egg)) {
                 replacementEggs.push(egg);
@@ -182,13 +196,17 @@ export const MapPage = ({ navigation, children }) => {
 
     // return remove function for cleanup
     return subscription.remove;
-  }, []);
+  }, [arrayOfZones]);
 
   // temp egg2 until firestore connected
   useEffect(() => {
     setCurrentEgg(egg2);
   }, []);
 
+  if (arrayOfZones == null) {
+    return null;
+  }
+  // console.log('arrayOfZones: ', JSON.stringify(arrayOfZones));
   return (
     <View style={styles.container}>
       <StatusBar hidden />
@@ -204,7 +222,9 @@ export const MapPage = ({ navigation, children }) => {
         }}
       >
         {arrayOfZones?.map((zone) => {
+          // console.log('\n\n\nfoo zone', JSON.stringify(zone));
           if (zone?.id === zoneToHide?.id) {
+            // console.log('\n\n\nreturn markers');
             return (
               <Markers
                 key={zone.id}
@@ -214,6 +234,15 @@ export const MapPage = ({ navigation, children }) => {
               />
             );
           } else {
+            // console.log('\n\n\nreturn zone');
+            if (zone.id == 1) {
+              zone.points = zone.points.map((x) => ({
+                latitude: x.latitude,
+                longitude: x.longitude
+              }));
+              // console.log('=====');
+            }
+            // console.log('+++++', zone);
             return <Zones key={zone.id} zone={zone} />;
           }
         })}
