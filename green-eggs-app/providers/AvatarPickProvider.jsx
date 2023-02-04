@@ -100,9 +100,9 @@ export const AvatarPickProvider = (props) => {
       uploadImage();
     }
   }, [image]);
-  console.log('image!!!!!', image);
+  // console.log('image!!!!!', image);
 
-  console.log('picture!!!!!', picture);
+  // console.log('picture!!!!!', picture);
   return (
     <AvatarPickContext.Provider
       value={{

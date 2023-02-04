@@ -13,47 +13,58 @@ import { Markers } from '../components/Markers';
 import { getUserProfile } from '../components/AddProfile';
 import { auth } from '../config';
 import { db } from '../config';
-import { getPolygon } from '../utils/geopoints';
+import { getPolygon, zonesFromDB } from '../utils/geopoints';
 import { connectStorageEmulator } from 'firebase/storage';
 import { getEggGeo } from '../utils/geoeggpoints';
 
 // const userHasFoundEggs = zone.eggs.filter(egg => user.eggs.includes(egg))
-const getZone = async () => {
-  const zone1 = {
-    id: 1,
-    fillColor: 'rgb(173,216,230)',
+// const getZone = () => {
+//   // const zone = await getPolygon();
 
-    points: await getPolygon(db, '0siUtfXKMH0t7WUEmp8c'),
-    eggs: await getEggGeo(db, '4Erv42U5LYyH2T9YtiOm')
+//   const zone1 = {
+//     id: 1,
+//     fillColor: 'rgb(173,216,230)',
 
-    // eggs: [
-    //   await getEggGeo(db, '4Erv42U5LYyH2T9YtiOm'),
-    //   await getEggGeo(db, '8Iq7h03tsrJgPTCV5LF8'),
-    //   await getEggGeo(db, 'LgECFIh2QEvyiouEknwp')
-    // ]
-  };
-  const zone2 = {
-    id: 2,
-    fillColor: 'rgb(255,0,0)',
-    points: await getPolygon(db, 'gSLkCCFwpnTU2PLqJfI3'),
+//     points: [
+//       { latitude: 51.0506186802187, longitude: -114.08367378327999 },
+//       { latitude: 51.053312338017435, longitude: -114.07846131626596 },
+//       { latitude: 51.05417256819195, longitude: -114.06697534262804 },
+//       { latitude: 51.05217362530177, longitude: -114.0622938623375 },
+//       { latitude: 51.051236724285225, longitude: -114.06024068209865 },
+//       { latitude: 51.04397146747781, longitude: -114.061396652624 },
+//       { latitude: 51.04436672076427, longitude: -114.07841507201293 },
+//       { latitude: 51.047404302242114, longitude: -114.08261847677073 }
+//     ],
 
-    eggs: [
-      {
-        id: 'marker-26',
-        latitude: 51.0426260995715,
-        longitude: -114.0578971961368
-      },
-      {
-        id: 'marker-22',
-        latitude: 51.04332912164011,
-        longitude: -114.05306167652023
-      }
-    ]
-  };
-
-  const arrayOfZones = [zone1, zone2];
-  return arrayOfZones;
-};
+//     eggs: [
+//       { id: 'marker-1', latitude: 51.049999, longitude: -114.066666 },
+//       { id: 'marker-2', latitude: 51.050995, longitude: -114.071666 },
+//       { id: 'marker-3', latitude: 51.049999, longitude: -114.076666 }
+//     ]
+//   };
+//   const zone2 = {
+//     id: 2,
+//     fillColor: 'rgb(255,0,0)',
+//     points: [
+//       { latitude: 51.04379680428058, longitude: -114.05301340155006 },
+//       { latitude: 51.04275306351686, longitude: -114.05012606287124 },
+//       { latitude: 51.039417227860916, longitude: -114.05535868020573 },
+//       { latitude: 51.042525331074025, longitude: -114.0626855495627 }
+//     ],
+//     eggs: [
+//       {
+//         id: 'marker-26',
+//         latitude: 51.0426260995715,
+//         longitude: -114.0578971961368
+//       },
+//       {
+//         id: 'marker-22',
+//         latitude: 51.04332912164011,
+//         longitude: -114.05306167652023
+//       }
+//     ]
+//   };
+// };
 // TEST FOR EGG // AUDIOPLAYER
 const egg21 = {
   uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
@@ -87,11 +98,14 @@ export const MapPage = ({ navigation, children }) => {
   const [eggsInRange, setEggsInRange] = useState();
   const [userProfile, setUserProfile] = useState({});
   useEffect(() => {
-    const getZones = async () => {
-      const zones = await getZone();
+    // const getZones = async () => {
+    async function _getZones() {
+      const zones = await zonesFromDB();
+      console.log('MUH ZONES@@@@!!!!!!!', zones);
       setArrayOfZones(zones);
-    };
-    getZones();
+    }
+    // };
+    _getZones();
   }, []);
 
   useEffect(() => {
