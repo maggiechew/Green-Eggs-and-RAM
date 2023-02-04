@@ -15,7 +15,8 @@ import { auth } from '../config';
 import { db } from '../config';
 import { getPolygon, zonesFromDB } from '../utils/geopoints';
 import { connectStorageEmulator } from 'firebase/storage';
-import { getEggGeo } from '../utils/geoeggpoints';
+import { getEggGeo, getMaggieEgg } from '../utils/geoeggpoints';
+import { collection, getDocs, query } from 'firebase/firestore';
 
 // const userHasFoundEggs = zone.eggs.filter(egg => user.eggs.includes(egg))
 // const getZone = () => {
@@ -102,7 +103,7 @@ export const MapPage = ({ navigation, children }) => {
     // const getZones = async () => {
     async function _getZones() {
       const zones = await zonesFromDB();
-      console.log('MUH ZONES@@@@!!!!!!!', zones);
+      // console.log('MUH ZONES@@@@!!!!!!!', zones);
       setArrayOfZones(zones);
     }
     // };
@@ -142,7 +143,7 @@ export const MapPage = ({ navigation, children }) => {
 
   useEffect(() => {
     if (arrayOfZones == null) return;
-    console.log('ARRAY OF ZONES IS!!!', arrayOfZones);
+    // console.log('ARRAY OF ZONES IS!!!', arrayOfZones);
     // no-op subscription. in case not successful
     let subscription = { remove: () => {} };
 
@@ -174,26 +175,7 @@ export const MapPage = ({ navigation, children }) => {
           };
           determineZone();
 
-          if (zoneEggs) {
-            const isItInRadius = (point) => {
-              return isPointWithinRadius(
-                { latitude: geopoint.latitude, longitude: geopoint.longitude },
-                {
-                  latitude: newLocation.coords.latitude,
-                  longitude: newLocation.coords.longitude
-                },
-                100
-              );
-            };
-
-            const replacementEggs = [];
-            zoneEggs?.eggs.forEach((egg) => {
-              if (isItInRadius(egg)) {
-                replacementEggs.push(egg);
-              }
-            });
-            setEggsInRange(replacementEggs);
-          }
+          
         }
       );
     };
@@ -207,12 +189,51 @@ export const MapPage = ({ navigation, children }) => {
     return subscription.remove;
   }, [arrayOfZones]);
 
+useEffect(() => {
+  if (zoneEggs) {
+    console.log('MEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE', zoneEggs)
+    const isItInRadius = (egg) => {
+      return isPointWithinRadius(
+        { latitude: egg.geopoint.latitude, longitude: egg.geopoint.longitude },
+        {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
+        },
+        100
+      );
+    };
+
+    const replacementEggs = [];
+    zoneEggs?.eggs.forEach((egg) => {
+      if (isItInRadius(egg.geopoint)) {
+        replacementEggs.push(egg);
+      }
+    });
+    console.log('REPLACEMENT EGGS', replacementEggs)
+    setEggsInRange(replacementEggs);
+  }
+},[location])
+
+  // useEffect(() => {
+  //   async function _getUserProfile() {
+  //     const userData = await getUserProfile();
+  //     setUserProfile(userData);
+  //   }
+  //   if (auth.currentUser) {
+  //     _getUserProfile();
+  //   }
+  // }, [auth]);
+
   useEffect(() => {
+    async function _getTheEggs() {
+      const eggos = await getMaggieEgg(zoneToHide);
+      // console.log('MUH EGGOSSSS!', eggos)
+      setZoneEggs(eggos);
+    }
+
     if (zoneToHide) {
-      // fetch eggs where zone=zoneToHide.id
-      //if user is in zone (line 153) const zoneEggs = await fetch (...)
-      //add to new line in 154
-      setZoneEggs = 'fetch response';
+      _getTheEggs();
+      // console.log('HI MOM')
     } else {
       setZoneEggs(null);
       setEggsInRange(null);
@@ -246,6 +267,8 @@ export const MapPage = ({ navigation, children }) => {
           // console.log('\n\n\nfoo zone', JSON.stringify(zone));
           if (zone?.id === zoneToHide?.id) {
             // console.log('\n\n\nreturn markers');
+            {/* console.log('ZONE EGGS!!!!!!!!!', zoneEggs);
+            console.log('egggggs in RAAAAAAAAANGE', eggsInRange) */}
             return (
               <Markers
                 key={zone.id}

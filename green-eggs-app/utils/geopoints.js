@@ -3,16 +3,16 @@ import { db } from '../config';
 
 export const zonesFromDB = async () => {
   const querySnapshot = await getDocs(collection(db, 'zone'));
-  querySnapshot.forEach((doc) => {
-    console.log(doc.id, ' => ', doc.data()?.geopoints);
-  });
+  // querySnapshot.forEach((doc) => {
+  //   console.log(doc.id, ' => ', doc.data()?.geopoints);
+  // });
   const zones = querySnapshot.docs.map((doc) => {
     return {
       id: doc.id,
       ...doc.data()
     };
   });
-  console.log('zones!!!!', zones);
+  // console.log('zones!!!!', zones);
   const data = zones.map((item) => {
     return {
       id: item.id,
@@ -24,7 +24,7 @@ export const zonesFromDB = async () => {
       })
     };
   });
-  console.log('data!!!!', data);
+  // console.log('data!!!!', data);
   return data;
 };
 

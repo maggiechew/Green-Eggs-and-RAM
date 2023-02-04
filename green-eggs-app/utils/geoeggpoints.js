@@ -1,4 +1,5 @@
-import { getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc, getDocs, query, where, collection } from 'firebase/firestore';
+import { db } from '../config';
 
 export const getEggGeo = async (db, id) => {
   const querySnapshot = await getDoc(doc(db, 'zone', id));
@@ -14,4 +15,22 @@ export const getEggGeo = async (db, id) => {
     .map((key) => dataeggnew[key]);
   console.log('egggp!!!!!', egggp);
   return dataeggnew;
+};
+
+export const getMaggieEgg = async (zone) => {
+  // console.log('I GOT HERE!!!!! GET MAGGIEEGG')
+  const q = query(collection(db, 'eggs'), where('zone', '==', zone.id));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // console.log("BLAAAAAA", doc.id, ' =>', doc.data());
+  });
+
+  const data = querySnapshot.docs.map((doc) => {
+    return {
+      id: doc.id,
+      ...doc.data()
+    }
+  })
+
+  return data
 };

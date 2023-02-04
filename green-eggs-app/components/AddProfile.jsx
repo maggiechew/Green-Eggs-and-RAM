@@ -8,9 +8,9 @@ import { async } from '@firebase/util';
 export const getUserProfile = async () => {
   const userRef = doc(db, 'users', auth.currentUser.uid);
   const docSnap = await getDoc(userRef);
-  console.log('docSnap', docSnap);
+  // console.log('docSnap', docSnap);
   if (!docSnap.exists) {
-    console.log('No such document!');
+    // console.log('No such document!');
   } else {
     const userData = docSnap.data();
     return {
@@ -48,8 +48,8 @@ const AddProfile = () => {
       _getUserProfile();
     }
   }, [auth]);
-  console.log('user auth!!!', auth);
-  console.log('user', user);
+  // console.log('user auth!!!', auth);
+  // console.log('user', user);
   return (
     <View>
       <Text style={styles.modalText}>
