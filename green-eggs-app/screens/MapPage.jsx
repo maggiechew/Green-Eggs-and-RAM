@@ -97,6 +97,7 @@ export const MapPage = ({ navigation, children }) => {
   const [location, setLocation] = useState(null);
   const [eggsInRange, setEggsInRange] = useState();
   const [userProfile, setUserProfile] = useState({});
+  const [zoneEggs, setZoneEggs] = useState();
   useEffect(() => {
     // const getZones = async () => {
     async function _getZones() {
@@ -141,6 +142,7 @@ export const MapPage = ({ navigation, children }) => {
 
   useEffect(() => {
     if (arrayOfZones == null) return;
+    console.log('ARRAY OF ZONES IS!!!', arrayOfZones);
     // no-op subscription. in case not successful
     let subscription = { remove: () => {} };
 
@@ -157,31 +159,25 @@ export const MapPage = ({ navigation, children }) => {
                 latitude: newLocation.coords.latitude,
                 longitude: newLocation.coords.longitude
               },
-              zone.points
+              zone.geopoints
             )
           );
 
           const determineZone = () => {
-            if (usersZone === undefined) {
-              setZoneToHide(null);
-              setEggsInRange(null);
-            } else {
-              //if zoneToHide is not null, then we can use it to filter the eggs
-              // const zoneEggs = await fetchEggs(usersZone.id);
-              // const zoneEggs = usersZone.eggs;
-              // if zoneToHide === usersZone, then we can use the eggs in the zone
-              // if zoneToHide !== usersZone, do not show eggs
-              setZoneToHide(usersZone);
+            if (zoneToHide !== usersZone) {
+              if (usersZone === undefined) {
+                setZoneToHide(null);
+              } else {
+                setZoneToHide(usersZone);
+              }
             }
           };
           determineZone();
 
-          if (usersZone) {
-            //if user is in zone (line 153) const zoneEggs = await fetch (...)
-            //add to new line in 154
+          if (zoneEggs) {
             const isItInRadius = (point) => {
               return isPointWithinRadius(
-                { latitude: point.latitude, longitude: point.longitude },
+                { latitude: geopoint.latitude, longitude: geopoint.longitude },
                 {
                   latitude: newLocation.coords.latitude,
                   longitude: newLocation.coords.longitude
@@ -191,8 +187,7 @@ export const MapPage = ({ navigation, children }) => {
             };
 
             const replacementEggs = [];
-            // zoneEggs.forEach((egg) => {
-            usersZone.eggs.forEach((egg) => {
+            zoneEggs?.eggs.forEach((egg) => {
               if (isItInRadius(egg)) {
                 replacementEggs.push(egg);
               }
@@ -211,6 +206,18 @@ export const MapPage = ({ navigation, children }) => {
     // return remove function for cleanup
     return subscription.remove;
   }, [arrayOfZones]);
+
+  useEffect(() => {
+    if (zoneToHide) {
+      // fetch eggs where zone=zoneToHide.id
+      //if user is in zone (line 153) const zoneEggs = await fetch (...)
+      //add to new line in 154
+      setZoneEggs = 'fetch response';
+    } else {
+      setZoneEggs(null);
+      setEggsInRange(null);
+    }
+  }, [zoneToHide]);
 
   // temp egg2 until firestore connected
   useEffect(() => {
@@ -242,8 +249,8 @@ export const MapPage = ({ navigation, children }) => {
             return (
               <Markers
                 key={zone.id}
-                zone={zone}
-                currentEggs={eggsInRange}
+                zoneEggs={zoneEggs}
+                eggsInRange={eggsInRange}
                 navigation={navigation}
               />
             );
