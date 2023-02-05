@@ -1,53 +1,17 @@
 import { db } from '../config';
-import { collection, doc, getDocs } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 
-export const testFolder = async () => {
-  const querySnapshot = await getDocs(collection(db, 'zone'));
-  console.log('querySnapshot!!!!!!: ', querySnapshot);
-
-  const zones = querySnapshot.docs.map((doc) => {
-    return {
-      id: doc.id,
-      ...doc.data()
-    };
-  });
-  const data = zones.map((item) => {
-    return {
-      id: item.id,
-      geopoints: item.geopoints.map((item) => {
-        return {
-          latitude: item.latitude,
-          longitude: item.longitude
-        };
-      })
-    };
-  });
-  return data;
-};
-
-export const getUserRecord = async () => {
-  const querySnapshot = await getDocs(collection(db, 'users'));
-  console.log('querySnapshot#####: ', querySnapshot);
-  const userRecord = querySnapshot.docs.map((doc) => {
-    return {
-      id: doc.id,
-      ...doc.data()
-    };
-  });
-  console.log('userRecord#####: ', userRecord);
-  const data = userRecord.map((item) => {
-    return {
-      id: item.id,
-      eggs: item.eggs.map((doc) => {
-        return {
-          id: doc.id,
-          ...doc.id
-        };
-      })
-    };
-  });
-  console.log('data#####: ', data);
-  return data;
+export const getIndividualUserRecord = async (id) => {
+  const querySnapshot = await getDoc(doc(db, 'users', id));
+  const datanew = querySnapshot.data()?.eggs;
+  console.log('querySnapshot', querySnapshot.data());
+  console.log('datanew', datanew);
+  if (querySnapshot.exists()) {
+    console.log('Document data:', querySnapshot.data());
+  } else {
+    // doc.data() will be undefined in this case
+    console.log('No such document!');
+  }
 };
 
 //firebase.firestore().collection('sample').where('uid', '=', firebase.auth().currentUser.uid).get().then((querySnapshot) => { querySnapshot.forEach((doc) => { console.log(doc.id, ' => ', doc.data()); }); });
