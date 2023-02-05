@@ -3,9 +3,7 @@ import { db } from '../config';
 
 export const zonesFromDB = async () => {
   const querySnapshot = await getDocs(collection(db, 'zone'));
-  // querySnapshot.forEach((doc) => {
-  //   console.log(doc.id, ' => ', doc.data()?.geopoints);
-  // });
+
   const zones = querySnapshot.docs.map((doc) => {
     return {
       id: doc.id,

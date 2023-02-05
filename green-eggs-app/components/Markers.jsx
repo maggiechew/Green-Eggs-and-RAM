@@ -8,6 +8,7 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
     console.log('here is eggsInRange', eggsInRange);
     let locked = true;
     if (eggsInRange?.find((foundEgg) => foundEgg.id === egg.id)) locked = false;
+
     return (
       <Marker
         key={`${egg.id}-${locked}`} //required to make marker colors change properly (workaround)

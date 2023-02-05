@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 10
-    // backgroundColor: 'pink'
   },
   Button: {
     marginBottom: 10,

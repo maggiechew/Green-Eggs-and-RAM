@@ -40,14 +40,11 @@ const AudioPlayer = ({ visible }) => {
   const snapPoints = useMemo(() => ['20%', '64%'], []);
 
   // callbacks
-  const handleSheetChanges = useCallback((index) => {
-    // console.log('handleSheetChanges', index);
-  }, []);
+  const handleSheetChanges = useCallback((index) => {}, []);
   // ^^ BOTTOM SHEET SETUP ^^
 
   useEffect(() => {
     if (!isPlaying) {
-      // console.log('USEFFECT1: loadaudio');
       loadAudio(currentEgg);
     }
   }, [currentEgg]);
@@ -55,8 +52,6 @@ const AudioPlayer = ({ visible }) => {
   useEffect(() => {
     if (sound) {
       sound.setOnPlaybackStatusUpdate((status) => {
-        // console.log('SOUND STATUS: ', status);
-
         if (!status.isLoaded && currentEgg) {
           loadAudio(currentEgg);
         }
@@ -75,7 +70,6 @@ const AudioPlayer = ({ visible }) => {
           // if (position === 0) setPosition(1);
         }
         if (status.didJustFinish) {
-          // console.log('sound didjustfinish: ', status.isLoaded);
           sound.pauseAsync();
           sound.setPositionAsync(1);
           setIsPlaying(false);
@@ -83,8 +77,6 @@ const AudioPlayer = ({ visible }) => {
       });
     }
   }, [sound, isPlayerReady]);
-
-  // console.log('isplayerready STATUS: ', isPlayerReady);
 
   async function loadAudio(egg) {
     if (egg !== null) {

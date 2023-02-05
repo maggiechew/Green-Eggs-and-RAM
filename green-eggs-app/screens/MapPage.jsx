@@ -15,7 +15,9 @@ import { auth } from '../config';
 import { db } from '../config';
 import { zonesFromDB } from '../utils/geopoints';
 import { connectStorageEmulator } from 'firebase/storage';
+
 import { getGeoEggPoints } from '../utils/geoeggpoints';
+
 import { collection, getDocs, query } from 'firebase/firestore';
 
 const egg21 = {
@@ -159,6 +161,7 @@ export const MapPage = ({ navigation, children }) => {
   useEffect(() => {
     async function _getTheEggs() {
       const eggos = await getGeoEggPoints(zoneToHide);
+
       setZoneEggs(eggos);
     }
 
