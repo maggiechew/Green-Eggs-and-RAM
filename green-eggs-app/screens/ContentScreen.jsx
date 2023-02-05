@@ -145,14 +145,12 @@ const styles = StyleSheet.create({
     height: '80%'
   },
   card: {
-    // height: 2/3
     height: '100%'
   },
   subcontent: {
     height: '20%'
   },
   sampleAudio: {
-    // height: 2/3
     height: '75%'
   },
   background: {
@@ -168,5 +166,3 @@ const styles = StyleSheet.create({
     paddingTop: 15
   }
 });
-
-// export default ContentScreen;

@@ -9,11 +9,7 @@ import AddProfile from './AddProfile';
 import { AuthenticatedUserContext } from '../providers';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
-// export const handleLogout = () => {
-//   signOut(auth).catch((error) => console.log('Error logging out: ', error));
-// };
 const AvatarMenu = ({ visible, handleMenu, navigation }) => {
-  // const navigation = useNavigation();
 
   //to stop sound on logout
   const handleLogout = () => {
@@ -24,10 +20,6 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
   const { sound, setSound } = useEggsUserContext();
 
   return (
-    // <View style={{height:25}}>
-    //   <Provider>
-    //   <Portal>
-
     <Modal style={styles.modal} visible={visible} onDismiss={handleMenu}>
       <View>
         <AddProfile />
@@ -63,9 +55,6 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
         </View>
       </View>
     </Modal>
-    //   </Portal>
-    //   </Provider>
-    // </View>
   );
 };
 

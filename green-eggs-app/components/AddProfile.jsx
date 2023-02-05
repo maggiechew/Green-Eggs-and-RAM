@@ -8,9 +8,7 @@ import { async } from '@firebase/util';
 export const getUserProfile = async () => {
   const userRef = doc(db, 'users', auth.currentUser.uid);
   const docSnap = await getDoc(userRef);
-  // console.log('docSnap', docSnap);
   if (!docSnap.exists) {
-    // console.log('No such document!');
   } else {
     const userData = docSnap.data();
     return {
@@ -26,21 +24,6 @@ const AddProfile = () => {
   const [user, setUser] = useState();
   useEffect(() => {
     async function _getUserProfile() {
-      // const userRef = doc(db, 'users', auth.currentUser.uid);
-
-      // const docSnap = await getDoc(userRef);
-      // console.log('docSnap', docSnap);
-      // if (!docSnap.exists) {
-      //   console.log('No such document!');
-      // } else {
-      //   const userData = docSnap.data();
-      //   setUser({
-      //     firstname: userData.firstname,
-      //     lastname: userData.lastname,
-      //     email: userData.email,
-      //     avataruri: userData.avataruri
-      //   });
-      // }
       const userData = await getUserProfile();
       setUser(userData);
     }
@@ -48,8 +31,6 @@ const AddProfile = () => {
       _getUserProfile();
     }
   }, [auth]);
-  // console.log('user auth!!!', auth);
-  // console.log('user', user);
   return (
     <View>
       <Text style={styles.modalText}>
