@@ -3,7 +3,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, doc, setDoc } from 'firebase/firestore';
-import { signOut } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 
 export const AuthenticatedUserContext = createContext({});
 
@@ -21,6 +21,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
       })
       .catch((error) => setErrorState(error.message));
     console.log('this is Login user: ', values);
+    getUserRecord();
   };
 
   const handleSignup = async (values) => {

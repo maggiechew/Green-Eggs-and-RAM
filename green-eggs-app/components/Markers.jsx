@@ -4,8 +4,8 @@ import { Marker } from 'react-native-maps';
 
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   return zoneEggs?.map((egg) => {
-    console.log('here is egg', egg);
-    console.log('here is eggsInRange', eggsInRange);
+    // console.log('here is egg', egg);
+    // console.log('here is eggsInRange', eggsInRange);
     let locked = true;
     if (eggsInRange?.find((foundEgg) => foundEgg.id === egg.id)) locked = false;
 
