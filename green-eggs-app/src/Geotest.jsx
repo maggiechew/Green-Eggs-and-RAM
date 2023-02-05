@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 import { db } from '../config';
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthenticatedUserContext } from '../providers/AuthenticatedUserProvider';
-import { getPolygon, zonesFromDB } from '../utils/geopoints';
+import { zonesFromDB } from '../utils/geopoints';
 
 const Geotest = () => {
   const authContext = useContext(AuthenticatedUserContext);

@@ -11,7 +11,6 @@ const App = () => {
     <AuthenticatedUserProvider>
       <AvatarPickProvider>
         <SafeAreaProvider>
-          <Geotest />
           <RootNavigator />
         </SafeAreaProvider>
       </AvatarPickProvider>
