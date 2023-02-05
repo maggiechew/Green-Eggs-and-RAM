@@ -156,7 +156,7 @@ export const MapPage = ({ navigation, children }) => {
       });
       setEggsInRange(replacementEggs);
     }
-  }, [location]);
+  }, [location, zoneEggs]);
 
   useEffect(() => {
     async function _getTheEggs() {
