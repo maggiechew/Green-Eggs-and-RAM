@@ -24,22 +24,6 @@ import { getGeoEggPoints } from '../utils/geoeggpoints';
 
 import { collection, getDocs, query } from 'firebase/firestore';
 
-const egg21 = {
-  uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
-  eggName: 'Egg 21 cool!',
-  eggDescription: 'this is a cool egg Description!'
-};
-const egg = {
-  uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
-  eggName: 'Egg name is cool!',
-  eggDescription: 'this is a cool egg Description!'
-};
-const egg2 = {
-  uri: 'https://firebasestorage.googleapis.com/v0/b/hello-calgary-86156.appspot.com/o/testAudio.mp3?alt=media&token=205f5509-c396-4fae-a174-c40f7c587efd',
-  eggName: 'Egg name is 222222 cool!',
-  eggDescription: 'this is a cool egg Description!'
-};
-
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
@@ -193,11 +177,6 @@ export const MapPage = ({ navigation, children }) => {
       setEggsInRange(null);
     }
   }, [zoneToHide]);
-
-  // temp egg2 until firestore connected
-  useEffect(() => {
-    setCurrentEgg(egg2);
-  }, []);
 
   if (arrayOfZones == null) {
     return null;
