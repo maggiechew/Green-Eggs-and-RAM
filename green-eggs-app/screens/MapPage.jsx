@@ -17,7 +17,7 @@ import { zonesFromDB } from '../utils/geopoints';
 import { connectStorageEmulator } from 'firebase/storage';
 
 import { getGeoEggPoints } from '../utils/geoeggpoints';
-
+import { AuthenticatedUserContext } from '../providers';
 import { collection, getDocs, query } from 'firebase/firestore';
 
 const egg21 = {
@@ -51,6 +51,9 @@ export const MapPage = ({ navigation, children }) => {
   const [eggsInRange, setEggsInRange] = useState();
   const [userProfile, setUserProfile] = useState({});
   const [zoneEggs, setZoneEggs] = useState();
+  const authContext = useContext(AuthenticatedUserContext);
+  const { userInfo } = authContext;
+
   useEffect(() => {
     async function _getZones() {
       const zones = await zonesFromDB();
@@ -219,9 +222,9 @@ export const MapPage = ({ navigation, children }) => {
             style={styles.avatar}
             source={{
               uri:
-                userProfile?.avataruri == null || userProfile?.avataruri == ''
+                userInfo?.avataruri == null || userInfo?.avataruri == ''
                   ? 'https://img.freepik.com/free-icon/user_318-792327.jpg?w=2000'
-                  : userProfile.avataruri
+                  : userInfo.avataruri
             }}
           />
         </Pressable>

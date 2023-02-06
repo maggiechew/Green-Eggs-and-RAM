@@ -13,8 +13,8 @@ import { AuthenticatedUserContext } from '../providers';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
 const AvatarMenu = ({ visible, handleMenu, navigation }) => {
-
-  //to stop sound on logout
+  const authContext = useContext(AuthenticatedUserContext);
+  const { userInfo } = authContext;
   const handleLogout = () => {
     sound.pauseAsync();
     sound.unloadAsync();
@@ -25,7 +25,18 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
   return (
     <Modal style={styles.modal} visible={visible} onDismiss={handleMenu}>
       <View>
-        <AddProfile />
+        <Text style={styles.modalText}>
+          Welcome,{' '}
+          {userInfo?.firstname == null || userInfo?.firstname == ''
+            ? userInfo?.email
+            : userInfo?.firstname}{' '}
+          !
+        </Text>
+        <Text style={styles.modalText}>
+          Display Name: {userInfo?.firstname + ' ' + userInfo?.lastname}{' '}
+        </Text>
+        <Text style={styles.modalText}>Login email: {userInfo?.email}</Text>
+
         <View style={styles.buttonClose}>
           <Button onPress={() => handleMenu()}>
             <Text style={styles.buttonText}>Close</Text>
@@ -73,8 +84,9 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   modalText: {
-    fontSize: 16,
-    color: 'white'
+    fontSize: 20,
+    color: 'lightblue',
+    marginVertical: 5
   },
   button: {
     marginVertical: 5,
