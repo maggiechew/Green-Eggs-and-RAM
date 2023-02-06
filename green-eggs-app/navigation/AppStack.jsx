@@ -1,25 +1,19 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { MapPage } from '../screens';
 import { AccountScreen } from '../screens/AccountScreen';
 import { FriendsScreen } from '../screens/FriendsScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { useNavigation } from '@react-navigation/native';
-import { IconButton } from 'react-native-paper';
 import { ContentScreen } from '../screens/ContentScreen';
-import { useEggsUserContext } from '../providers/EggsSoundProvider';
-import { signOut } from 'firebase/auth';
-import { auth } from '../config';
+
 import { Entypo } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 
 export const AppStack = () => {
   const navigation = useNavigation();
-
-  //to stop sound on logout
-  const { sound, setSound } = useEggsUserContext();
 
   return (
     <Stack.Navigator

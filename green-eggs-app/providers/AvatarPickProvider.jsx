@@ -44,7 +44,6 @@ export const AvatarPickProvider = (props) => {
     const metadata = {
       contentType: 'image/jpeg'
     };
-    // console.log(blobImage);
 
     // upload image to firebase storage
     const storageRef = ref(storage, `avatar/${Date.now()}`);
@@ -100,9 +99,6 @@ export const AvatarPickProvider = (props) => {
       uploadImage();
     }
   }, [image]);
-  console.log('image!!!!!', image);
-
-  console.log('picture!!!!!', picture);
   return (
     <AvatarPickContext.Provider
       value={{

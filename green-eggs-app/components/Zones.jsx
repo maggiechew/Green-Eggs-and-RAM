@@ -7,8 +7,8 @@ export const Zones = ({ zone }) => {
   return (
     <Polygon
       key={zone.id}
-      coordinates={zone.points}
-      fillColor={zone.fillColor}
+      coordinates={zone.geopoints}
+      fillColor={'rgba(2, 27, 250, 0.5)'}
       strokeWidth={0}
     />
   );
