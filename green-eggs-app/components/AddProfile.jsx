@@ -3,7 +3,6 @@ import { db } from '../config';
 import { auth } from '../config';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { View, Text, StyleSheet } from 'react-native';
-import { async } from '@firebase/util';
 
 export const getUserProfile = async () => {
   const userRef = doc(db, 'users', auth.currentUser.uid);

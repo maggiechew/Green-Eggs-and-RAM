@@ -205,15 +205,7 @@ export const MapPage = ({ navigation, children }) => {
                 navigation={navigation}
               />
             );
-          } else {
-            if (zone.id == 1) {
-              zone.points = zone.points.map((x) => ({
-                latitude: x.latitude,
-                longitude: x.longitude
-              }));
-            }
-            return <Zones key={zone.id} zone={zone} />;
-          }
+          } else return <Zones key={zone.id} zone={zone} />;
         })}
       </MapView>
 
