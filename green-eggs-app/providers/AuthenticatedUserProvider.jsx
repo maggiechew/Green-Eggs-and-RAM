@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, doc, setDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, getDoc } from 'firebase/firestore';
 import { getAuth, signOut } from 'firebase/auth';
 
 export const AuthenticatedUserContext = createContext({});
@@ -11,8 +11,27 @@ export const AuthenticatedUserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [errorState, setErrorState] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [userInfo, setUserInfo] = useState();
 
-  const handleLogin = (values) => {
+  const getUserInfo = async (id) => {
+    const querySnapshot = await getDoc(doc(db, 'users', id));
+    if (querySnapshot.exists()) {
+      // console.log('Document data:', querySnapshot.data());
+      setUserInfo(querySnapshot.data())
+    } else {
+      // doc.data() will be undefined in this case
+      console.log('No such document!');
+    }
+    // return querySnapshot.data();
+  };
+
+  useEffect(() => {
+    if (user) {
+      getUserInfo(user.uid)
+    }
+  }, [user]);
+
+  const handleLogin = async (values) => {
     const { email, password } = values;
 
     signInWithEmailAndPassword(auth, email, password)
@@ -20,8 +39,8 @@ export const AuthenticatedUserProvider = ({ children }) => {
         setUser(userCredential);
       })
       .catch((error) => setErrorState(error.message));
-    console.log('this is Login user: ', values);
-    getUserRecord();
+    // console.log('this is Login user: ', values);
+
   };
 
   const handleSignup = async (values) => {
@@ -41,6 +60,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
       firstname: firstname,
       lastname: lastname,
       email: email,
+      eggs:[],
       friends: []
     });
     return user;
@@ -68,6 +88,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
     <AuthenticatedUserContext.Provider
       value={{
         user,
+        userInfo,
         errorState,
         isLoading,
         handleLogin,
