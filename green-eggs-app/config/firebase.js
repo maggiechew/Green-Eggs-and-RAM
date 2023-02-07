@@ -14,7 +14,7 @@ const firebaseConfig = {
   appId: Constants.manifest.extra.appId,
   measurementId: Constants.manifest.extra.measurementId
 };
-console.log('This is firebasConfig', firebaseConfig);
+// console.log('This is firebasConfig', firebaseConfig);
 
 // initialize firebase
 const app = initializeApp(firebaseConfig);
@@ -25,6 +25,6 @@ export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage)
 });
 export const storage = getStorage(app);
-console.log('This is auth', auth);
+// console.log('This is auth', auth);
 
 export const db = getFirestore(app);

@@ -67,7 +67,7 @@ export const MapPage = ({ navigation, children }) => {
       const testEgg = await getEgg(currentEggID);
       const testCreator = await getCreator(testEgg.creatorID);
       const combinedEgg = { ...testEgg, ...testCreator };
-      console.log('MP TEST EGG: ', combinedEgg);
+      // console.log('MP TEST EGG: ', combinedEgg);
       setCurrentEgg(combinedEgg);
     }
     if (currentEggID) {
