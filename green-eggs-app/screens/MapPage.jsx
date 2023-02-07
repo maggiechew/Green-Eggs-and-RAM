@@ -44,6 +44,8 @@ export const MapPage = ({ navigation, children }) => {
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
 
+  const defaultPicture = require('../assets/defaultavatar.jpg');
+
   useEffect(() => {
     async function _getZones() {
       const zones = await zonesFromDB();
@@ -219,13 +221,14 @@ export const MapPage = ({ navigation, children }) => {
           }}
         >
           <Avatar.Image
-            style={styles.avatar}
-            source={{
-              uri:
-                userInfo?.avataruri == null || userInfo?.avataruri == ''
-                  ? 'https://img.freepik.com/free-icon/user_318-792327.jpg?w=2000'
-                  : userInfo.avataruri
-            }}
+            style={[styles.avatar, { backgroundColor: 'transparent' }]}
+            source={
+              userInfo?.avataruri == null
+                ? defaultPicture
+                : {
+                    uri: userInfo.avataruri
+                  }
+            }
           />
         </Pressable>
       </View>

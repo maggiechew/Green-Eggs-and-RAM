@@ -6,13 +6,13 @@ import { AvatarPickProvider } from './providers/AvatarPickProvider';
 
 const App = () => {
   return (
-    <AuthenticatedUserProvider>
-      <AvatarPickProvider>
+    <AvatarPickProvider>
+      <AuthenticatedUserProvider>
         <SafeAreaProvider>
           <RootNavigator />
         </SafeAreaProvider>
-      </AvatarPickProvider>
-    </AuthenticatedUserProvider>
+      </AuthenticatedUserProvider>
+    </AvatarPickProvider>
   );
 };
 

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { signOut } from 'firebase/auth';
+// import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import {
   EggsUserContext,
@@ -14,11 +14,12 @@ import { AuthenticatedUserContext } from '../providers';
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
 const AvatarMenu = ({ visible, handleMenu, navigation }) => {
   const authContext = useContext(AuthenticatedUserContext);
-  const { userInfo } = authContext;
+  const { userInfo, handleLogout: authLogout } = authContext;
   const handleLogout = () => {
     sound.pauseAsync();
     sound.unloadAsync();
-    signOut(auth).catch((error) => console.log('Error logging out: ', error));
+    authLogout();
+    // signOut(auth).catch((error) => console.log('Error logging out: ', error));
   };
   const { sound, setSound } = useEggsUserContext();
 
