@@ -8,7 +8,6 @@ import {
   EggsUserContext,
   useEggsUserContext
 } from '../providers/EggsSoundProvider';
-import AddProfile from './AddProfile';
 import { AuthenticatedUserContext } from '../providers';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
@@ -53,9 +52,9 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
         </Button> */}
           <Button
             style={styles.button}
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => navigation.navigate('MyEggs')}
           >
-            <Text style={styles.buttonText}>Update Profile</Text>
+            <Text style={styles.buttonText}>My Eggs Collection</Text>
           </Button>
           {/* Account page hidden for now */}
           {/* <Button
