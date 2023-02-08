@@ -46,8 +46,8 @@ export const MapPage = ({ navigation, children }) => {
 
   const [userStats, setUserStats] = useState({});
 
-  const [showStats, setShowStats] = useState(true);
-  const [showTutorial, setShowTutorial] = useState(false);
+  // MODAL STATES: enterZone, tutorial, newEgg
+  const [modalType, setModalType] = useState('newEgg');
 
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
@@ -260,8 +260,7 @@ export const MapPage = ({ navigation, children }) => {
       <MessagingModal
         visible={showModal}
         stats={userStats}
-        showStats={showStats}
-        showTutorial={showTutorial}
+        modalType={modalType}
       />
 
       <AudioPlayer visible={showAudioPlayer} navigation />

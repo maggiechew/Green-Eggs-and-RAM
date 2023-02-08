@@ -9,9 +9,12 @@ import Animated, {
 import { IconButton } from 'react-native-paper';
 import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { userStats } from '../helpers/userStats';
+import { useNavigation } from '@react-navigation/native';
 
-export default function MessagingModal({ stats, showStats, showTutorial }) {
+export default function MessagingModal({ stats, modalType }) {
   const { showModal, setShowModal } = useEggsUserContext();
+
+  const navigation = useNavigation();
 
   // ANIMATION TEST
   const testAnimation = useAnimatedStyle(() => ({
@@ -45,14 +48,15 @@ export default function MessagingModal({ stats, showStats, showTutorial }) {
               icon='egg-outline'
               containerColor={'#ffffff'}
               onPress={() => {
-                // sound.unloadAsync();
+                // setShowModal(false);
                 // navigation.navigate('Content');
               }}
               size={90}
             />
           </Animated.View>
-          {showStats && stats ? userStats(stats) : <Text>NO STATS</Text>}
-          {showTutorial ? <Text>THIS IS A TUTORIAL</Text> : <></>}
+          {modalType === 'enterZone' && stats ? userStats(stats) : <></>}
+          {modalType === 'tutorial' ? <Text>THIS IS A TUTORIAL</Text> : <></>}
+          {modalType === 'newEgg' ? <Text>THIS IS A NEW EGG</Text> : <></>}
 
           <Text style={styles.modalText}>Messaging Modal</Text>
           <Pressable
