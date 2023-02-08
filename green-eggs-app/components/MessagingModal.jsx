@@ -1,34 +1,74 @@
-import { Modal, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+// import { Modal } from 'react-native-paper';
 
 export default function MessagingModal({ visible }) {
+  const [modalVisible, setModalVisible] = useState(visible);
+
+  const hideModal = () => setModalVisible(false);
+
   return (
-    <Modal style={styles.modal} visible={visible} transparent>
-      <View style={styles.container}></View>
-      <Text style={styles.modalText}>MessagingModal</Text>
+    <Modal
+      style={styles.modal}
+      visible={modalVisible}
+      onDismiss={hideModal}
+      animationType='slide'
+      transparent
+    >
+      <View style={styles.container}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Messaging Modal</Text>
+          <Text style={styles.modalText}>
+            Messdsfkjfhsdkj fsd fsd fds ag adg ads g dsa gdsakjgkdsajg as dg dsa
+            gModal
+          </Text>
+          <Text style={styles.modalText}>Mesal</Text>
+          <Pressable
+            style={[styles.button, styles.buttonClose]}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            <Text style={styles.textStyle}>Hide Modal</Text>
+          </Pressable>
+        </View>
+      </View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   modal: {
-    backgroundColor: 'black',
-    margin: 20,
+    margin: 120,
     marginTop: 60,
     marginBottom: 200,
     padding: 20,
     zIndex: 100000,
-    borderRadius: 20
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 10000,
-    margin: 35
+    alignItems: 'center',
+    marginTop: 22
   },
   modalText: {
     fontSize: 16,
-    color: 'white'
+    color: 'black'
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
   }
 });

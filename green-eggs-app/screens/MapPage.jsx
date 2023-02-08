@@ -23,6 +23,7 @@ import { connectStorageEmulator } from 'firebase/storage';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
 
 import { collection, getDocs, query } from 'firebase/firestore';
+import MessagingModal from '../components/MessagingModal';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
@@ -231,6 +232,7 @@ export const MapPage = ({ navigation, children }) => {
         handleMenu={handleMenu}
         navigation={navigation}
       />
+      <MessagingModal visible={true} />
 
       <AudioPlayer visible={showAudioPlayer} navigation />
 
