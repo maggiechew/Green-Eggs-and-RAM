@@ -8,9 +8,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import { IconButton } from 'react-native-paper';
 import { useEggsUserContext } from '../providers/EggsSoundProvider';
-// import { Modal } from 'react-native-paper';
+import { userStats } from '../helpers/userStats';
 
-export default function MessagingModal({ visible }) {
+export default function MessagingModal({ stats, showStats, showTutorial }) {
   const { showModal, setShowModal } = useEggsUserContext();
 
   // ANIMATION TEST
@@ -29,7 +29,7 @@ export default function MessagingModal({ visible }) {
       }
     ]
   }));
-
+  console.log('MODAL STATS: ', stats);
   return (
     <Modal
       style={styles.modal}
@@ -51,12 +51,10 @@ export default function MessagingModal({ visible }) {
               size={90}
             />
           </Animated.View>
+          {showStats && stats ? userStats(stats) : <Text>NO STATS</Text>}
+          {showTutorial ? <Text>THIS IS A TUTORIAL</Text> : <></>}
+
           <Text style={styles.modalText}>Messaging Modal</Text>
-          <Text style={styles.modalText}>
-            Messdsfkjfhsdkj fsd fsd fds ag adg ads g dsa gdsakjgkdsajg as dg dsa
-            gModal
-          </Text>
-          <Text style={styles.modalText}>Mesal</Text>
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={() => setShowModal(!showModal)}

@@ -46,6 +46,9 @@ export const MapPage = ({ navigation, children }) => {
 
   const [userStats, setUserStats] = useState({});
 
+  const [showStats, setShowStats] = useState(true);
+  const [showTutorial, setShowTutorial] = useState(false);
+
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
 
@@ -179,31 +182,27 @@ export const MapPage = ({ navigation, children }) => {
       setZoneEggs(eggos);
     }
 
-    
-
     if (zoneToHide) {
-      _getTheEggs()
+      _getTheEggs();
     } else {
       setZoneEggs(null);
       setEggsInRange(null);
-      setUserStats({})
+      setUserStats({});
     }
   }, [zoneToHide, userInfo]);
 
   useEffect(() => {
-      const collectedEggs = userInfo?.eggs;
-      let returnValue = 0;
-      const zoneEggLength = zoneEggs?.length;
-      zoneEggs?.forEach((zoneEgg) => {
-        if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
-          returnValue++;
-      });
-      const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
+    const collectedEggs = userInfo?.eggs;
+    let returnValue = 0;
+    const zoneEggLength = zoneEggs?.length;
+    zoneEggs?.forEach((zoneEgg) => {
+      if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
+        returnValue++;
+    });
+    const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
 
-      setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
-    
-  },[zoneEggs, userInfo])
-
+    setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
+  }, [zoneEggs, userInfo]);
 
   if (arrayOfZones == null) {
     return null;
@@ -258,7 +257,12 @@ export const MapPage = ({ navigation, children }) => {
         handleMenu={handleMenu}
         navigation={navigation}
       />
-      <MessagingModal visible={showModal} />
+      <MessagingModal
+        visible={showModal}
+        stats={userStats}
+        showStats={showStats}
+        showTutorial={showTutorial}
+      />
 
       <AudioPlayer visible={showAudioPlayer} navigation />
 
