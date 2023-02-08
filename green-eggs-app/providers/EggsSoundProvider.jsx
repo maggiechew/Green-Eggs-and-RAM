@@ -14,7 +14,7 @@ export const useEggsUserContext = () => {
 export const getEgg = async (eggID) => {
   const eggRef = doc(db, 'eggs', eggID);
   const docSnap = await getDoc(eggRef);
-  console.log('Egg docSnap', docSnap);
+  // console.log('Egg docSnap', docSnap);
   if (!docSnap.exists) {
     console.log('No such document!');
   } else {
@@ -33,7 +33,7 @@ export const getEgg = async (eggID) => {
 export const getCreator = async (creatorID) => {
   const creatorRef = doc(db, 'creators', creatorID);
   const docSnap = await getDoc(creatorRef);
-  console.log('Creator docSnap', docSnap);
+  // console.log('Creator docSnap', docSnap);
   if (!docSnap.exists) {
     console.log('No such document!');
   } else {

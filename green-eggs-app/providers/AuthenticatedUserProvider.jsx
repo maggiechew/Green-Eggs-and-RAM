@@ -46,7 +46,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
   const handleSignup = async (values) => {
     const { email, password, firstname, lastname, avataruri } = values;
     const userRef = collection(db, 'users');
-    console.log('auth', auth);
+    // console.log('auth', auth);
 
     const response = await createUserWithEmailAndPassword(
       auth,
@@ -54,7 +54,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
       password
     );
     const user = response.user;
-    console.log('this is signUp user: ', user);
+    // console.log('this is signUp user: ', user);
     await setDoc(doc(userRef, user.uid), {
       avataruri,
       firstname: firstname,
