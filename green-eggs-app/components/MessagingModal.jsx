@@ -1,11 +1,35 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
+import Animated, {
+  useAnimatedStyle,
+  withRepeat,
+  withSequence,
+  withTiming
+} from 'react-native-reanimated';
+import { IconButton } from 'react-native-paper';
 // import { Modal } from 'react-native-paper';
 
 export default function MessagingModal({ visible }) {
   const [modalVisible, setModalVisible] = useState(visible);
 
   const hideModal = () => setModalVisible(false);
+
+  // ANIMATION TEST
+  const testAnimation = useAnimatedStyle(() => ({
+    transform: [
+      {
+        // prettier-ignore
+        scale: withRepeat(
+            withSequence(
+              withTiming(1, { duration: 400 }),
+              withTiming(0.8, { duration: 400 })
+            ),
+            -1,
+            true
+          )
+      }
+    ]
+  }));
 
   return (
     <Modal
@@ -17,6 +41,17 @@ export default function MessagingModal({ visible }) {
     >
       <View style={styles.container}>
         <View style={styles.modalView}>
+          <Animated.View style={testAnimation}>
+            <IconButton
+              icon='egg-outline'
+              containerColor={'#ffffff'}
+              onPress={() => {
+                // sound.unloadAsync();
+                // navigation.navigate('Content');
+              }}
+              size={90}
+            />
+          </Animated.View>
           <Text style={styles.modalText}>Messaging Modal</Text>
           <Text style={styles.modalText}>
             Messdsfkjfhsdkj fsd fsd fds ag adg ads g dsa gdsakjgkdsajg as dg dsa
