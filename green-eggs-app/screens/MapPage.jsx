@@ -36,6 +36,7 @@ export const MapPage = ({ navigation, children }) => {
   const { sound, setSound } = useEggsUserContext();
   const { isPlayerReady, setIsPlayerReady } = useEggsUserContext();
   const { isPlaying, setIsPlaying } = useEggsUserContext();
+  const { showModal, setShowModal } = useEggsUserContext();
 
   const [zoneToHide, setZoneToHide] = useState(null);
   const [location, setLocation] = useState(null);
@@ -44,6 +45,8 @@ export const MapPage = ({ navigation, children }) => {
   const [zoneEggs, setZoneEggs] = useState();
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
+
+  useEffect(() => {}, [showModal]);
 
   useEffect(() => {
     async function _getZones() {
@@ -235,7 +238,7 @@ export const MapPage = ({ navigation, children }) => {
         handleMenu={handleMenu}
         navigation={navigation}
       />
-      <MessagingModal visible={true} />
+      <MessagingModal visible={showModal} />
 
       <AudioPlayer visible={showAudioPlayer} navigation />
 

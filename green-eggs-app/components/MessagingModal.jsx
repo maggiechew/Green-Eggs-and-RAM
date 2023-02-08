@@ -7,12 +7,11 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 import { IconButton } from 'react-native-paper';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 // import { Modal } from 'react-native-paper';
 
 export default function MessagingModal({ visible }) {
-  const [modalVisible, setModalVisible] = useState(visible);
-
-  const hideModal = () => setModalVisible(false);
+  const { showModal, setShowModal } = useEggsUserContext();
 
   // ANIMATION TEST
   const testAnimation = useAnimatedStyle(() => ({
@@ -34,8 +33,8 @@ export default function MessagingModal({ visible }) {
   return (
     <Modal
       style={styles.modal}
-      visible={modalVisible}
-      onDismiss={hideModal}
+      visible={showModal}
+      onDismiss={() => setShowModal(false)}
       animationType='slide'
       transparent
     >
@@ -60,7 +59,7 @@ export default function MessagingModal({ visible }) {
           <Text style={styles.modalText}>Mesal</Text>
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => setShowModal(!showModal)}
           >
             <Text style={styles.textStyle}>Hide Modal</Text>
           </Pressable>

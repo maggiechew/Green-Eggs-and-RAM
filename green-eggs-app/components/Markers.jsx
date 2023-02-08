@@ -2,10 +2,12 @@ import { View, Text } from 'react-native';
 import React from 'react';
 import { Marker } from 'react-native-maps';
 import { AuthenticatedUserContext } from '../providers';
-
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const { userInfo } = React.useContext(AuthenticatedUserContext);
+  const { showModal, setShowModal } = useEggsUserContext();
+
   const userEggs = userInfo.eggs;
   return zoneEggs?.map((egg) => {
     let locked = true;
@@ -19,9 +21,14 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
           latitude: egg.geopoint.latitude,
           longitude: egg.geopoint.longitude
         }}
-        pinColor={locked ? 'red' : discovered? 'green' : 'yellow' }
+        pinColor={locked ? 'red' : discovered ? 'green' : 'yellow'}
         onPress={(e) =>
-          locked ? console.log('too bad') : discovered? console.log('You already found me'): navigation.navigate('Content')
+          // locked ? console.log('too bad') : discovered? console.log('You already found me'): navigation.navigate('Content')
+          locked
+            ? setShowModal(true)
+            : discovered
+            ? console.log('You already found me')
+            : navigation.navigate('Content')
         }
       />
     );
