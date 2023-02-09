@@ -17,7 +17,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
     const querySnapshot = await getDoc(doc(db, 'users', id));
     if (querySnapshot.exists()) {
       // console.log('Document data:', querySnapshot.data());
-      setUserInfo(querySnapshot.data())
+      setUserInfo(querySnapshot.data());
     } else {
       // doc.data() will be undefined in this case
       console.log('No such document!');
@@ -27,7 +27,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      getUserInfo(user.uid)
+      getUserInfo(user.uid);
     }
   }, [user]);
 
@@ -40,7 +40,6 @@ export const AuthenticatedUserProvider = ({ children }) => {
       })
       .catch((error) => setErrorState(error.message));
     // console.log('this is Login user: ', values);
-
   };
 
   const handleSignup = async (values) => {
@@ -60,7 +59,8 @@ export const AuthenticatedUserProvider = ({ children }) => {
       firstname: firstname,
       lastname: lastname,
       email: email,
-      eggs:[],
+      discoveredEggs: [],
+      likedEggs: [],
       friends: []
     });
     return user;
