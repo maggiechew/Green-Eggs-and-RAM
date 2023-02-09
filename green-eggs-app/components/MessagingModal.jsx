@@ -45,7 +45,7 @@ export default function MessagingModal({ stats, modalType }) {
         <View style={styles.modalView}>
           <Animated.View style={testAnimation}>
             <IconButton
-              icon='egg-outline'
+              icon='heart-plus-outline'
               containerColor={'#ffffff'}
               onPress={() => {
                 // setShowModal(false);
