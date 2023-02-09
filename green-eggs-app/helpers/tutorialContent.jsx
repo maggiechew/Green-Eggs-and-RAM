@@ -3,6 +3,7 @@ import React from 'react'
 // import 
 
 const tutorialContent = () => {
+  //function to update userInfo.tutorial(viewed) and updateDoc (here or in Modal??)
   return (
     <View>
     <Image 
