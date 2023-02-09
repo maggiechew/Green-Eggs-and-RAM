@@ -175,31 +175,27 @@ export const MapPage = ({ navigation, children }) => {
       setZoneEggs(eggos);
     }
 
-    
-
     if (zoneToHide) {
-      _getTheEggs()
+      _getTheEggs();
     } else {
       setZoneEggs(null);
       setEggsInRange(null);
-      setUserStats({})
+      setUserStats({});
     }
   }, [zoneToHide, userInfo]);
 
   useEffect(() => {
-      const collectedEggs = userInfo?.eggs;
-      let returnValue = 0;
-      const zoneEggLength = zoneEggs?.length;
-      zoneEggs?.forEach((zoneEgg) => {
-        if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
-          returnValue++;
-      });
-      const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
+    const collectedEggs = userInfo?.likedEggs;
+    let returnValue = 0;
+    const zoneEggLength = zoneEggs?.length;
+    zoneEggs?.forEach((zoneEgg) => {
+      if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
+        returnValue++;
+    });
+    const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
 
-      setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
-    
-  },[zoneEggs, userInfo])
-
+    setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
+  }, [zoneEggs, userInfo]);
 
   if (arrayOfZones == null) {
     return null;

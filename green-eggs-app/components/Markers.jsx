@@ -3,10 +3,9 @@ import React from 'react';
 import { Marker } from 'react-native-maps';
 import { AuthenticatedUserContext } from '../providers';
 
-
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const { userInfo } = React.useContext(AuthenticatedUserContext);
-  const userEggs = userInfo.eggs;
+  const userEggs = userInfo.likedEggs;
   return zoneEggs?.map((egg) => {
     let locked = true;
     let discovered = false;
@@ -19,9 +18,13 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
           latitude: egg.geopoint.latitude,
           longitude: egg.geopoint.longitude
         }}
-        pinColor={locked ? 'red' : discovered? 'green' : 'yellow' }
+        pinColor={locked ? 'red' : discovered ? 'green' : 'yellow'}
         onPress={(e) =>
-          locked ? console.log('too bad') : discovered? console.log('You already found me'): navigation.navigate('Content')
+          locked
+            ? console.log('too bad')
+            : discovered
+            ? console.log('You already found me')
+            : navigation.navigate('Content')
         }
       />
     );
