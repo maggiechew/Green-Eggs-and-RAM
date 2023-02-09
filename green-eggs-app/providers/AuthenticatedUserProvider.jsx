@@ -87,6 +87,11 @@ export const AuthenticatedUserProvider = ({ children }) => {
     return unsubscribeAuthStateChanged;
   }, [user]);
 
+  async function updateUser(user) {
+    // await save user to firestore (update)
+    await getUserInfo(user.id); // update the user info in the app
+  }
+
   return (
     <AuthenticatedUserContext.Provider
       value={{
@@ -96,7 +101,8 @@ export const AuthenticatedUserProvider = ({ children }) => {
         isLoading,
         handleLogin,
         handleSignup,
-        handleLogout
+        handleLogout,
+        updateUser
       }}
     >
       {children}

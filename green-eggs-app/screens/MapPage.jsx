@@ -172,36 +172,44 @@ export const MapPage = ({ navigation, children }) => {
   }, [location, zoneEggs]);
 
   useEffect(() => {
+    if (!eggsInRange || eggsInRange.length == 0) return;
+    const updatedUser = { ...userInfo };
+    updatedUser.discoverdEggs = updatedUser.discoverdEggs || [];
+    eggsInRange.forEach((eggsInRange) => {
+      if (!updatedUser.discoverdEggs.includes(eggsInRange.id)) {
+        updatedUser.discoverdEggs.push(eggsInRange.id);
+      }
+    });
+    console.log('!!! update user in', updatedUser);
+  }, [eggsInRange]);
+
+  useEffect(() => {
     async function _getTheEggs() {
       const eggos = await getGeoEggPoints(zoneToHide);
       setZoneEggs(eggos);
     }
 
-    
-
     if (zoneToHide) {
-      _getTheEggs()
+      _getTheEggs();
     } else {
       setZoneEggs(null);
       setEggsInRange(null);
-      setUserStats({})
+      setUserStats({});
     }
   }, [zoneToHide, userInfo]);
 
   useEffect(() => {
-      const collectedEggs = userInfo?.eggs;
-      let returnValue = 0;
-      const zoneEggLength = zoneEggs?.length;
-      zoneEggs?.forEach((zoneEgg) => {
-        if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
-          returnValue++;
-      });
-      const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
+    const collectedEggs = userInfo?.eggs;
+    let returnValue = 0;
+    const zoneEggLength = zoneEggs?.length;
+    zoneEggs?.forEach((zoneEgg) => {
+      if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
+        returnValue++;
+    });
+    const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
 
-      setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
-    
-  },[zoneEggs, userInfo])
-
+    setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
+  }, [zoneEggs, userInfo]);
 
   if (arrayOfZones == null) {
     return null;

@@ -14,10 +14,6 @@ import { AuthenticatedUserContext } from '../providers';
 
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 // Fonts
-import { useFonts } from 'expo-font';
-import SSLight from '../assets/fonts/SourceSansProLight.ttf';
-import SSRegular from '../assets/fonts/SourceSansProRegular.ttf';
-import SSBold from '../assets/fonts/SourceSansProBold.ttf';
 
 function ImagesSaved({ images }) {
   const imgWidth = Dimensions.get('screen').width * 0.33333;
