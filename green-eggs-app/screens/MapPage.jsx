@@ -41,6 +41,9 @@ export const MapPage = ({ navigation, children }) => {
   const [eggsInRange, setEggsInRange] = useState();
   const [userProfile, setUserProfile] = useState({});
   const [zoneEggs, setZoneEggs] = useState();
+
+  const [userStats, setUserStats] = useState({});
+
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
 
@@ -171,17 +174,34 @@ export const MapPage = ({ navigation, children }) => {
   useEffect(() => {
     async function _getTheEggs() {
       const eggos = await getGeoEggPoints(zoneToHide);
-
       setZoneEggs(eggos);
     }
 
+    
+
     if (zoneToHide) {
-      _getTheEggs();
+      _getTheEggs()
     } else {
       setZoneEggs(null);
       setEggsInRange(null);
+      setUserStats({})
     }
-  }, [zoneToHide]);
+  }, [zoneToHide, userInfo]);
+
+  useEffect(() => {
+      const collectedEggs = userInfo?.eggs;
+      let returnValue = 0;
+      const zoneEggLength = zoneEggs?.length;
+      zoneEggs?.forEach((zoneEgg) => {
+        if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
+          returnValue++;
+      });
+      const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
+
+      setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
+    
+  },[zoneEggs, userInfo])
+
 
   if (arrayOfZones == null) {
     return null;
