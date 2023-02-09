@@ -24,6 +24,7 @@ import { getGeoEggPoints } from '../utils/geoeggpoints';
 import { AuthenticatedUserContext } from '../providers';
 import { collection, getDocs, query } from 'firebase/firestore';
 import MessagingModal from '../components/MessagingModal';
+import AudioSheet from '../components/AudioSheet';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
@@ -263,7 +264,7 @@ export const MapPage = ({ navigation, children }) => {
         modalType={modalType}
       />
 
-      <AudioPlayer visible={showAudioPlayer} navigation />
+      <AudioSheet visible={showAudioPlayer} navigation />
 
       <StatusBar style='light' />
     </View>

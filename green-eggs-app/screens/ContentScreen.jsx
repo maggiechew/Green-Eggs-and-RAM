@@ -16,6 +16,7 @@ import {
   EggsUserContext,
   useEggsUserContext
 } from '../providers/EggsSoundProvider';
+import AudioPlayer from '../components/AudioPlayer';
 
 export const ContentScreen = () => {
   const { currentEgg } = useContext(EggsUserContext);
@@ -116,13 +117,7 @@ export const ContentScreen = () => {
           </List.Section>
         </View>
       </ScrollView>
-      {/* <Card style={styles.subcontent}>
-        <Card mode="contained" style={styles.sampleAudio}>
-          <Text variant="headlineLarge">Audio Player here</Text>
-          <Text>Audio Player here</Text>
-        </Card>
-        <Button onPress={() => navigation.navigate('Map')}>Go Back</Button>
-      </Card> */}
+      <AudioPlayer contentButton={false} />
     </View>
   );
 };

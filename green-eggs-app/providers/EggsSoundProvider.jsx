@@ -53,6 +53,8 @@ export default function EggsSoundProvider({ children }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [duration, setDuration] = useState(undefined);
+  const [position, setPosition] = useState(0);
 
   const eggSoundValue = {
     currentEgg,
@@ -66,7 +68,11 @@ export default function EggsSoundProvider({ children }) {
     sheetOpen,
     setSheetOpen,
     showModal,
-    setShowModal
+    setShowModal,
+    duration,
+    setDuration,
+    position,
+    setPosition
   };
 
   return (
