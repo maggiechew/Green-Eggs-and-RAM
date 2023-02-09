@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet } from 'react-native';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import * as WebBrowser from 'expo-web-browser';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import {
@@ -14,6 +15,8 @@ import { AuthenticatedUserContext } from '../providers';
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
 const AvatarMenu = ({ visible, handleMenu, navigation }) => {
   const authContext = useContext(AuthenticatedUserContext);
+  const [result, setResult] = useState(null);
+
   const { userInfo } = authContext;
   const handleLogout = () => {
     sound.pauseAsync();
@@ -21,6 +24,12 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
     signOut(auth).catch((error) => console.log('Error logging out: ', error));
   };
   const { sound, setSound } = useEggsUserContext();
+
+const _handlePressButtonAsync = async () => {
+  let result = await WebBrowser.openBrowserAsync('https://maggiechew.8thwall.app/morph-targets/');
+  //https://www.8thwall.com/maggiechew/morph-targets
+  setResult(result)
+};
 
   return (
     <Modal style={styles.modal} visible={visible} onDismiss={handleMenu}>
@@ -55,6 +64,13 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
             onPress={() => navigation.navigate('Profile')}
           >
             <Text style={styles.buttonText}>Update Profile</Text>
+          </Button>
+          <Button
+            style={styles.button}
+            // onPress={() => console.log('meep')}
+            onPress={() => _handlePressButtonAsync()}
+          >
+            <Text style={styles.buttonText}>Open Webbrowser</Text>
           </Button>
           {/* Account page hidden for now */}
           {/* <Button
