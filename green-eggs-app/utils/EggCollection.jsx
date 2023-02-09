@@ -9,30 +9,26 @@ const EggCollection = () => {
   const [usersCollection, setUserCollection] = useState([]);
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   useEffect(() => {
-    let collectionRef = collection(db, 'users');
-    // let queryRef = query(collectionRef, where('egg', '==', true));
-    const unsubscribe = onSnapshot(collectionRef, (querySnap) => {
-      if (querySnap.empty) {
-        console.log('No matching documents.');
-        return;
-      } else {
-        let usersData = querySnap.docs.map((doc) => ({
-          ...doc.data(),
-          DOC_ID: doc.id
-        }));
-        setUserCollection(usersData);
-        console.log('Users Data ####: ', usersData);
-      }
-    });
-    const oneUserCollection = usersCollection.filter(
-      (users) => users.DOC_ID === user?.uid
-    );
-    console.log("user's id: ", user?.uid);
-    console.log('One User Collection!!!!: ', oneUserCollection);
-    const OneUserEgg = oneUserCollection.map((user) => user.eggs);
-    console.log('One User Egg!!!!: ', OneUserEgg);
-    return () => unsubscribe();
-  }, [db]);
+    if (user) {
+      const docRef = doc(db, 'users', user?.uid);
+      console.log('docRef: ', docRef);
+      // let queryRef = query(collectionRef, where('egg', '==', true));
+      const unsubscribe = onSnapshot(docRef, (querySnap) => {
+        console.log('querySnap: ', querySnap);
+        if (querySnap.empty) {
+          console.log('No matching documents.');
+          return;
+        } else {
+          let usersData = querySnap.data();
+          setUserCollection(usersData);
+          //   console.log('usersData!!!: ', usersData);
+          const userEgg = usersData.eggs;
+          //   console.log('One User Egg!!!!: ', userEgg);
+        }
+      });
+      return () => unsubscribe();
+    }
+  }, [db, user]);
 
   return (
     <View>
