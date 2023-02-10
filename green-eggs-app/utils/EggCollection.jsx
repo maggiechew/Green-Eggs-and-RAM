@@ -10,6 +10,7 @@ const EggCollection = () => {
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   useEffect(() => {
     if (user) {
+      // console.log('user!!!: ', Object.keys(user?.user));
       const docRef = doc(db, 'users', user?.uid);
       console.log('docRef: ', docRef);
       // let queryRef = query(collectionRef, where('egg', '==', true));
@@ -22,8 +23,8 @@ const EggCollection = () => {
           let usersData = querySnap.data();
           setUserCollection(usersData);
           //   console.log('usersData!!!: ', usersData);
-          const userEgg = usersData.eggs;
-          //   console.log('One User Egg!!!!: ', userEgg);
+          const userEgg = usersData.likedEggs;
+          console.log('One User Egg!!!!: ', userEgg);
         }
       });
       return () => unsubscribe();

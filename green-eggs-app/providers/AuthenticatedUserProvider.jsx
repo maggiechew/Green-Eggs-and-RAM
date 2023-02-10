@@ -36,11 +36,11 @@ export const AuthenticatedUserProvider = ({ children }) => {
   const handleLogin = async (values) => {
     const { email, password } = values;
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setUser(userCredential);
-      })
-      .catch((error) => setErrorState(error.message));
+    signInWithEmailAndPassword(auth, email, password);
+    // .then((userCredential) => {
+    //   setUser(userCredential);
+    // })
+    // .catch((error) => setErrorState(error.message));
     // console.log('this is Login user: ', values);
   };
 
@@ -75,7 +75,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
     setUser(null);
   };
   useEffect(() => {
-    // onAuthStateChanged returns an unsubscriber
+    // onAuthStateChanged returns an unsubscriber, authstatechanged is a listener
     const unsubscribeAuthStateChanged = onAuthStateChanged(
       auth,
       (authenticatedUser) => {
@@ -86,7 +86,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
 
     // unsubscribe auth listener on unmount
     return unsubscribeAuthStateChanged;
-  }, [user]);
+  }, []);
 
   async function updateUser(user) {
     // await save user to firestore (update)

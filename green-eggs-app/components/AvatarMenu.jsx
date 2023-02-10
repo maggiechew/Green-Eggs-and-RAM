@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   modalText: {
+    fontFamily: 'SSBold',
     fontSize: 20,
     color: 'lightblue',
     marginVertical: 5
@@ -100,11 +101,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'red'
   },
   buttonText: {
+    fontFamily: 'SSBold',
     fontSize: 16,
     color: 'white',
     weight: 'bold'
   },
   buttonClose: {
+    fontFamily: 'SSBold',
     alignItems: 'flex-end',
     bottom: 240,
     marginVertical: 5
