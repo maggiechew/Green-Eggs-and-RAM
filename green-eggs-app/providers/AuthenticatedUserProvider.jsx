@@ -2,9 +2,16 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, doc, setDoc, getDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  onSnapshot
+} from 'firebase/firestore';
 import { getAuth, signOut } from 'firebase/auth';
 import { AvatarPickContext } from './AvatarPickProvider';
+import { Alert } from 'react-native';
 
 export const AuthenticatedUserContext = createContext({});
 
@@ -15,21 +22,19 @@ export const AuthenticatedUserProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState();
   const { setPicture } = useContext(AvatarPickContext);
 
-  const getUserInfo = async (id) => {
-    const querySnapshot = await getDoc(doc(db, 'users', id));
-    if (querySnapshot.exists()) {
-      // console.log('Document data:', querySnapshot.data());
-      setUserInfo(querySnapshot.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log('No such document!');
-    }
-    // return querySnapshot.data();
-  };
-
   useEffect(() => {
     if (user) {
-      getUserInfo(user.uid);
+      const docRef = doc(db, 'users', user?.uid);
+      const unsubscribe = onSnapshot(docRef, (querySnap) => {
+        if (querySnap.empty) {
+          Alert.alert('No matching documents.');
+          return;
+        } else {
+          let usersData = querySnap.data();
+          setUserInfo(usersData);
+        }
+      });
+      return () => unsubscribe();
     }
   }, [user]);
 
@@ -37,17 +42,11 @@ export const AuthenticatedUserProvider = ({ children }) => {
     const { email, password } = values;
 
     signInWithEmailAndPassword(auth, email, password);
-    // .then((userCredential) => {
-    //   setUser(userCredential);
-    // })
-    // .catch((error) => setErrorState(error.message));
-    // console.log('this is Login user: ', values);
   };
 
   const handleSignup = async (values) => {
     const { email, password, firstname, lastname, avataruri } = values;
     const userRef = collection(db, 'users');
-    // console.log('auth', auth);
 
     const response = await createUserWithEmailAndPassword(
       auth,
@@ -55,7 +54,6 @@ export const AuthenticatedUserProvider = ({ children }) => {
       password
     );
     const user = response.user;
-    // console.log('this is signUp user: ', user);
     await setDoc(doc(userRef, user.uid), {
       avataruri,
       firstname: firstname,
@@ -69,7 +67,6 @@ export const AuthenticatedUserProvider = ({ children }) => {
   };
 
   const handleLogout = () => {
-    console.log(`**** handle logout ****`);
     setPicture(null);
     signOut(auth).catch((error) => console.log('Error logging out: ', error));
     setUser(null);
@@ -88,11 +85,6 @@ export const AuthenticatedUserProvider = ({ children }) => {
     return unsubscribeAuthStateChanged;
   }, []);
 
-  async function updateUser(user) {
-    // await save user to firestore (update)
-    await getUserInfo(user.id); // update the user info in the app
-  }
-
   return (
     <AuthenticatedUserContext.Provider
       value={{
@@ -102,8 +94,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
         isLoading,
         handleLogin,
         handleSignup,
-        handleLogout,
-        updateUser
+        handleLogout
       }}
     >
       {children}

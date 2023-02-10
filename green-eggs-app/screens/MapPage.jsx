@@ -1,34 +1,27 @@
 import * as Location from 'expo-location';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Alert, Pressable, StyleSheet, View, StatusBar } from 'react-native';
-import MapView, { Callout, Marker, Polygon } from 'react-native-maps';
-import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
-import AudioPlayer from '../components/AudioPlayer';
-import { useNavigation } from '@react-navigation/native';
 import { isPointInPolygon, isPointWithinRadius } from 'geolib';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Pressable, StatusBar, StyleSheet, View } from 'react-native';
+import MapView from 'react-native-maps';
+import { Avatar } from 'react-native-paper';
+import AudioPlayer from '../components/AudioPlayer';
 import AvatarMenu from '../components/AvatarMenu';
+import { Markers } from '../components/Markers';
+import { Zones } from '../components/Zones';
 import {
   getCreator,
   getEgg,
   useEggsUserContext
 } from '../providers/EggsSoundProvider';
-import { Zones } from '../components/Zones';
-import { Markers } from '../components/Markers';
-import { getUserProfile } from '../components/AddProfile';
-import { auth } from '../config';
-import { db } from '../config';
 import { zonesFromDB } from '../utils/geopoints';
-import { connectStorageEmulator } from 'firebase/storage';
 
-import { getGeoEggPoints } from '../utils/geoeggpoints';
 import { AuthenticatedUserContext } from '../providers';
-import { collection, getDocs, query } from 'firebase/firestore';
+import { getGeoEggPoints } from '../utils/geoeggpoints';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  // const [currentEggID, setCurrentEggID] = useState(null);
   const [currentEggID, setCurrentEggID] = useState('35WPCG0Ax3Gc7JlJRnNJ');
 
   const { currentEgg, setCurrentEgg } = useEggsUserContext();
@@ -58,21 +51,10 @@ export const MapPage = ({ navigation, children }) => {
   }, []);
 
   useEffect(() => {
-    async function _getUserProfile() {
-      const userData = await getUserProfile();
-      setUserProfile(userData);
-    }
-    if (auth.currentUser) {
-      _getUserProfile();
-    }
-  }, [auth]);
-
-  useEffect(() => {
     async function _getEgg() {
       const testEgg = await getEgg(currentEggID);
       const testCreator = await getCreator(testEgg.creatorID);
       const combinedEgg = { ...testEgg, ...testCreator };
-      // console.log('MP TEST EGG: ', combinedEgg);
       setCurrentEgg(combinedEgg);
     }
     if (currentEggID) {
@@ -171,6 +153,7 @@ export const MapPage = ({ navigation, children }) => {
     }
   }, [location, zoneEggs]);
 
+  //leave this for dicorverd eggs_Yan
   useEffect(() => {
     if (!eggsInRange || eggsInRange.length == 0) return;
     const updatedUser = { ...userInfo };
@@ -180,7 +163,7 @@ export const MapPage = ({ navigation, children }) => {
         updatedUser.discoverdEggs.push(eggsInRange.id);
       }
     });
-    console.log('!!! update user in', updatedUser);
+    // console.log('!!! update user in', updatedUser);
   }, [eggsInRange]);
 
   useEffect(() => {
