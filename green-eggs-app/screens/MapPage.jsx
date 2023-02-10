@@ -199,7 +199,7 @@ export const MapPage = ({ navigation, children }) => {
   }, [zoneToHide, userInfo]);
 
   useEffect(() => {
-    const collectedEggs = userInfo?.eggs;
+    const collectedEggs = userInfo?.likedEggs;
     let returnValue = 0;
     const zoneEggLength = zoneEggs?.length;
     zoneEggs?.forEach((zoneEgg) => {

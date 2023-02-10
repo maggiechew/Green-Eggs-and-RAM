@@ -61,7 +61,8 @@ export const AuthenticatedUserProvider = ({ children }) => {
       firstname: firstname,
       lastname: lastname,
       email: email,
-      eggs: [],
+      discoveredEggs: [],
+      likedEggs: [],
       friends: []
     });
     return user;
