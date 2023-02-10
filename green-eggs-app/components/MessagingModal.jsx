@@ -12,6 +12,7 @@ import { userStats } from '../helpers/userStats';
 import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 import tutorialContent from '../helpers/tutorialContent';
+import NewEggDiscover from '../helpers/NewEggDiscover';
 
 export default function MessagingModal({ stats, modalType }) {
   const { showModal, setShowModal } = useEggsUserContext();
@@ -44,47 +45,38 @@ export default function MessagingModal({ stats, modalType }) {
   }));
   console.log('MODAL STATS: ', stats);
   return (
-    <Animated.View style={testAnimation}>
-      <Modal
-        style={styles.modal}
-        visible={showModal}
-        onDismiss={() => setShowModal(false)}
-        animationType='slide'
-        transparent
-        onShow={() => playSFX()}
-      >
-        <View style={styles.container}>
-          <View style={styles.modalView}>
-            {/* <Animated.View style={testAnimation}>
+    // <Animated.View style={testAnimation}>
+    <Modal
+      style={styles.modal}
+      visible={showModal}
+      onDismiss={() => setShowModal(false)}
+      animationType='slide'
+      transparent
+      onShow={() => playSFX()}
+    >
+      <View style={styles.container}>
+        <View style={styles.modalView}>
+          <View style={styles.closeX}>
+            <Pressable>
               <IconButton
-                icon='egg-outline'
+                icon='window-close'
                 containerColor={'#ffffff'}
                 onPress={() => {
-                  // setShowModal(false);
-                  navigation.navigate('Content');
+                  setShowModal(false);
                 }}
-                size={90}
+                size={23}
               />
-            </Animated.View> */}
-            <Image
-              style={{ width: 200, height: 200 }}
-              source={require('../assets/egg_crack.gif')}
-            />
-            {modalType === 'enterZone' && stats ? userStats(stats) : <></>}
-            {modalType === 'tutorial' ? tutorialContent() : <></>}
-            {modalType === 'newEgg' ? <Text>THIS IS A NEW EGG</Text> : <></>}
-
-            <Text style={styles.modalText}> </Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setShowModal(!showModal)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable>
           </View>
+          {modalType === 'enterZone' && stats ? userStats(stats) : <></>}
+          {modalType === 'tutorial' ? tutorialContent() : <></>}
+          {modalType === 'newEgg' ? <NewEggDiscover /> : <></>}
+
+          <Text style={styles.modalText}> </Text>
         </View>
-      </Modal>
-    </Animated.View>
+      </View>
+    </Modal>
+    // </Animated.View>
   );
 }
 
@@ -99,11 +91,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  closeX: {
+    marginRight: -30,
+    marginTop: -30,
+    padding: 0,
+    alignSelf: 'flex-end'
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22
+    alignItems: 'center'
   },
   modalText: {
     fontSize: 16,

@@ -151,8 +151,10 @@ const AudioPlayer = ({ contentButton }) => {
     <View style={styles.modal}>
       {!currentEgg ? (
         <Text style={styles.eggName}>'No egg loaded'</Text>
-      ) : (
+      ) : contentButton ? (
         <Text style={styles.eggName}>{currentEgg.eggName}</Text>
+      ) : (
+        <></>
       )}
       <View style={styles.audioPlayer}>
         {contentButton ? (

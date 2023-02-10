@@ -32,7 +32,7 @@ export const ContentScreen = () => {
     <View style={styles.background}>
       <ScrollView style={styles.container}>
         <View style={styles.card}>
-          <Card mode='elevated'>
+          <Card mode='elevated' style={{ backgroundColor: 'white' }}>
             <Card.Title
               title={currentEgg.eggName}
               subtitle={currentEgg.creatorName}
@@ -44,46 +44,16 @@ export const ContentScreen = () => {
                 />
               )}
             />
+            <AudioPlayer contentButton={false} />
             <Card.Content>
               <Divider />
               <Text variant='bodyMedium' style={styles.shortDescription}>
                 {currentEgg.eggBlurb}
               </Text>
-              {/* <Text style={styles.link}> </Text> */}
+
               <Divider />
               <Card.Cover source={{ uri: currentEgg.eggURIs.imageURI }} />
-              <View style={styles.buttons}>
-                {/* <Card.Actions style={styles.buttons}>
-                  <Button
-                    onPress={() => {
-                      console.log('Loved it');
-                    }}
-                  >
-                    Love
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      console.log('Saved it');
-                    }}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      console.log('Shared it');
-                    }}
-                  >
-                    Share
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      console.log('Reported it');
-                    }}
-                  >
-                    Report
-                  </Button>
-                </Card.Actions> */}
-              </View>
+              <View style={styles.buttons}></View>
             </Card.Content>
           </Card>
           <List.Section style={styles.list}>
@@ -117,7 +87,6 @@ export const ContentScreen = () => {
           </List.Section>
         </View>
       </ScrollView>
-      <AudioPlayer contentButton={false} />
     </View>
   );
 };
@@ -137,7 +106,9 @@ const styles = StyleSheet.create({
   },
   background: {
     height: '100%',
-    alignContent: 'space-between'
+    alignContent: 'space-between',
+    backgroundColor: 'white',
+    background: 'white'
   },
   buttons: {
     flex: 1,
