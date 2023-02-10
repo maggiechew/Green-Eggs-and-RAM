@@ -1,18 +1,18 @@
-import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import Animated, {
+import { useNavigation } from '@react-navigation/native';
+import { Audio } from 'expo-av';
+import React from 'react';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
+import {
   useAnimatedStyle,
   withRepeat,
   withSequence,
   withTiming
 } from 'react-native-reanimated';
-import { IconButton } from 'react-native-paper';
-import { useEggsUserContext } from '../providers/EggsSoundProvider';
-import { userStats } from '../helpers/userStats';
-import { useNavigation } from '@react-navigation/native';
-import { Audio } from 'expo-av';
-import tutorialContent from '../helpers/tutorialContent';
 import NewEggDiscover from '../helpers/NewEggDiscover';
+import tutorialContent from '../helpers/tutorialContent';
+import { userStats } from '../helpers/userStats';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 
 export default function MessagingModal({ stats, modalType }) {
   const { showModal, setShowModal } = useEggsUserContext();

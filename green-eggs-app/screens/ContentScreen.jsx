@@ -1,22 +1,18 @@
-import { View, StyleSheet, StatusBar } from 'react-native';
-import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import React, { useContext, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
-  Button,
+  Avatar,
   Card,
-  Text,
   Divider,
   List,
-  Avatar,
-  SegmentedButtons
+  SegmentedButtons,
+  Text
 } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
 // import AudioPlayer from '../components/AudioPlayer';
-import {
-  EggsUserContext,
-  useEggsUserContext
-} from '../providers/EggsSoundProvider';
 import AudioPlayer from '../components/AudioPlayer';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
 
 export const ContentScreen = () => {
   const { currentEgg } = useContext(EggsUserContext);
