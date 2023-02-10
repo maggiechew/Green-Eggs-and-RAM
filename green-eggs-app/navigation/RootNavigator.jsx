@@ -1,13 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { onAuthStateChanged } from 'firebase/auth';
-
-import { AuthStack } from './AuthStack';
-import { AppStack } from './AppStack';
-import { AuthenticatedUserContext } from '../providers';
+import React, { useContext } from 'react';
 import { LoadingIndicator } from '../components';
-import { auth } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 import EggsSoundProvider from '../providers/EggsSoundProvider';
+import { AppStack } from './AppStack';
+import { AuthStack } from './AuthStack';
 
 export const RootNavigator = () => {
   const { user, isLoading } = useContext(AuthenticatedUserContext);

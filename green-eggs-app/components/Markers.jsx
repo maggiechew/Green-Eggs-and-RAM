@@ -1,21 +1,49 @@
-import { View, Text } from 'react-native';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import React from 'react';
 import { Marker } from 'react-native-maps';
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
-import { auth, db } from '../config';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
 
-const { userInfo, user } = React.useContext(AuthenticatedUserContext);
+const {
+  isPlayerReady,
+  setIsPlayerReady,
+  isPlaying,
+  setIsPlaying,
+  sound,
+  setSound,
+  currentEgg,
+  setCurrentEgg,
+  sheetOpen,
+  setSheetOpen
+} = useContext(EggsUserContext);
+
+const { userInfo, setUserInfo, user } = React.useContext(
+  AuthenticatedUserContext
+);
 const userEggs = userInfo.discoveredEggs;
 const userID = user.uid;
 
 const newContent = async (eggID) => {
-const newEggArray = userEggs.push(eggID)
-  await updateDoc(doc(db, 'users', userID), {eggs: arrayUnion(eggID)})
-  userInfo.eggs = newEggArray;
+  console.log('You discovered me!');
+  await updateDoc(doc(db, 'users', userID), { discoveredEggs: arrayUnion(eggID) });
+  setCurrentEgg(eggID)
   //TODO: modal with newContent helper in it
-}
+  navigation.navigate('Content')
+};
 
+const oldContent = (eggID) => { // passes EGGID so content loaded via modal
+  console.log('You had already found me!')
+  setCurrentEgg(eggID)
+  //TODO: modal saying content already discovered
+  navigation.navigate('Content')
+
+};
+
+const lockedContent = () => {
+  console.log('Im locked, yo!')
+  // TODO: modal with stillUnlocked
+}
 
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const { userInfo } = React.useContext(AuthenticatedUserContext);
@@ -31,12 +59,15 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
           latitude: egg.geopoint.latitude,
           longitude: egg.geopoint.longitude
         }}
-        pinColor={locked ? 'red' : discovered? 'green' : 'yellow' }
+        pinColor={locked ? 'red' : discovered ? 'green' : 'yellow'}
         onPress={() =>
-          locked ? console.log('too bad') : discovered? navigation.navigate('Content'): newContent(egg.id)
+          locked
+            ? lockedContent()
+            : discovered
+            ? oldContent(egg.id)
+            : newContent(egg.id)
         }
 
-        // TODO: modal with stillUnlocked loaded when egg pressed but not in range (or that can be moved to this component if need be)
       />
     );
   });

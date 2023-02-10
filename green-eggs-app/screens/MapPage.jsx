@@ -22,7 +22,8 @@ export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [currentEggID, setCurrentEggID] = useState('35WPCG0Ax3Gc7JlJRnNJ');
+  const [currentEggID, setCurrentEggID] = useState(null);
+  // const [currentEggID, setCurrentEggID] = useState('35WPCG0Ax3Gc7JlJRnNJ');
 
   const { currentEgg, setCurrentEgg } = useEggsUserContext();
   const { sound, setSound } = useEggsUserContext();
@@ -108,6 +109,7 @@ export const MapPage = ({ navigation, children }) => {
             if (zoneToHide !== usersZone) {
               if (usersZone === undefined) {
                 setZoneToHide(null);
+                setCurrentEgg(null)
               } else {
                 setZoneToHide(usersZone);
               }
