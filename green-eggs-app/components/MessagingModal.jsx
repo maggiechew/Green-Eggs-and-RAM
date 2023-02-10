@@ -1,5 +1,5 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Animated, {
   useAnimatedStyle,
   withRepeat,
@@ -10,11 +10,20 @@ import { IconButton } from 'react-native-paper';
 import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { userStats } from '../helpers/userStats';
 import { useNavigation } from '@react-navigation/native';
+import { Audio } from 'expo-av';
 
 export default function MessagingModal({ stats, modalType }) {
   const { showModal, setShowModal } = useEggsUserContext();
 
   const navigation = useNavigation();
+
+  const playSFX = async () => {
+    console.log('Loading Sound');
+    const { sound: soundFX } = await Audio.Sound.createAsync(
+      require('../assets/hit-fiver.mp3'),
+      { shouldPlay: true }
+    );
+  };
 
   // ANIMATION TEST
   const testAnimation = useAnimatedStyle(() => ({
@@ -40,6 +49,7 @@ export default function MessagingModal({ stats, modalType }) {
       onDismiss={() => setShowModal(false)}
       animationType='slide'
       transparent
+      onShow={() => playSFX()}
     >
       <View style={styles.container}>
         <View style={styles.modalView}>
@@ -49,7 +59,7 @@ export default function MessagingModal({ stats, modalType }) {
               containerColor={'#ffffff'}
               onPress={() => {
                 // setShowModal(false);
-                // navigation.navigate('Content');
+                navigation.navigate('Content');
               }}
               size={90}
             />
