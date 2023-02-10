@@ -6,7 +6,7 @@ import { AuthenticatedUserContext } from '../providers';
 import { auth, db } from '../config';
 
 const { userInfo, user } = React.useContext(AuthenticatedUserContext);
-const userEggs = userInfo.eggs;
+const userEggs = userInfo.discoveredEggs;
 const userID = user.uid;
 
 const newContent = async (eggID) => {
@@ -18,6 +18,7 @@ const newEggArray = userEggs.push(eggID)
 
 
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
+  const { userInfo } = React.useContext(AuthenticatedUserContext);
   return zoneEggs?.map((egg) => {
     let locked = true;
     let discovered = false;

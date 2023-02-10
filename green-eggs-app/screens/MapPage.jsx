@@ -1,34 +1,27 @@
 import * as Location from 'expo-location';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Alert, Pressable, StyleSheet, View, StatusBar } from 'react-native';
-import MapView, { Callout, Marker, Polygon } from 'react-native-maps';
-import { Avatar, IconButton, MD3Colors, Provider } from 'react-native-paper';
-import AudioPlayer from '../components/AudioPlayer';
-import { useNavigation } from '@react-navigation/native';
 import { isPointInPolygon, isPointWithinRadius } from 'geolib';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Pressable, StatusBar, StyleSheet, View } from 'react-native';
+import MapView from 'react-native-maps';
+import { Avatar } from 'react-native-paper';
+import AudioPlayer from '../components/AudioPlayer';
 import AvatarMenu from '../components/AvatarMenu';
+import { Markers } from '../components/Markers';
+import { Zones } from '../components/Zones';
 import {
   getCreator,
   getEgg,
   useEggsUserContext
 } from '../providers/EggsSoundProvider';
-import { Zones } from '../components/Zones';
-import { Markers } from '../components/Markers';
-import { getUserProfile } from '../components/AddProfile';
-import { auth } from '../config';
-import { db } from '../config';
 import { zonesFromDB } from '../utils/geopoints';
-import { connectStorageEmulator } from 'firebase/storage';
 
-import { getGeoEggPoints } from '../utils/geoeggpoints';
 import { AuthenticatedUserContext } from '../providers';
-import { collection, getDocs, query } from 'firebase/firestore';
+import { getGeoEggPoints } from '../utils/geoeggpoints';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  // const [currentEggID, setCurrentEggID] = useState(null);
   const [currentEggID, setCurrentEggID] = useState('35WPCG0Ax3Gc7JlJRnNJ');
 
   const { currentEgg, setCurrentEgg } = useEggsUserContext();
@@ -47,6 +40,8 @@ export const MapPage = ({ navigation, children }) => {
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
 
+  const defaultPicture = require('../assets/defaultavatar.jpg');
+
   useEffect(() => {
     async function _getZones() {
       const zones = await zonesFromDB();
@@ -56,21 +51,10 @@ export const MapPage = ({ navigation, children }) => {
   }, []);
 
   useEffect(() => {
-    async function _getUserProfile() {
-      const userData = await getUserProfile();
-      setUserProfile(userData);
-    }
-    if (auth.currentUser) {
-      _getUserProfile();
-    }
-  }, [auth]);
-
-  useEffect(() => {
     async function _getEgg() {
       const testEgg = await getEgg(currentEggID);
       const testCreator = await getCreator(testEgg.creatorID);
       const combinedEgg = { ...testEgg, ...testCreator };
-      // console.log('MP TEST EGG: ', combinedEgg);
       setCurrentEgg(combinedEgg);
     }
     if (currentEggID) {
@@ -169,37 +153,46 @@ export const MapPage = ({ navigation, children }) => {
     }
   }, [location, zoneEggs]);
 
+  //leave this for dicorverd eggs_Yan
+  useEffect(() => {
+    if (!eggsInRange || eggsInRange.length == 0) return;
+    const updatedUser = { ...userInfo };
+    updatedUser.discoverdEggs = updatedUser.discoverdEggs || [];
+    eggsInRange.forEach((eggsInRange) => {
+      if (!updatedUser.discoverdEggs.includes(eggsInRange.id)) {
+        updatedUser.discoverdEggs.push(eggsInRange.id);
+      }
+    });
+    // console.log('!!! update user in', updatedUser);
+  }, [eggsInRange]);
+
   useEffect(() => {
     async function _getTheEggs() {
       const eggos = await getGeoEggPoints(zoneToHide);
       setZoneEggs(eggos);
     }
 
-    
-
     if (zoneToHide) {
-      _getTheEggs()
+      _getTheEggs();
     } else {
       setZoneEggs(null);
       setEggsInRange(null);
-      setUserStats({})
+      setUserStats({});
     }
   }, [zoneToHide, userInfo]);
 
   useEffect(() => {
-      const collectedEggs = userInfo?.eggs;
-      let returnValue = 0;
-      const zoneEggLength = zoneEggs?.length;
-      zoneEggs?.forEach((zoneEgg) => {
-        if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
-          returnValue++;
-      });
-      const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
+    const collectedEggs = userInfo?.likedEggs;
+    let returnValue = 0;
+    const zoneEggLength = zoneEggs?.length;
+    zoneEggs?.forEach((zoneEgg) => {
+      if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
+        returnValue++;
+    });
+    const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
 
-      setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
-    
-  },[zoneEggs, userInfo])
-
+    setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
+  }, [zoneEggs, userInfo]);
 
   if (arrayOfZones == null) {
     return null;
@@ -239,13 +232,14 @@ export const MapPage = ({ navigation, children }) => {
           }}
         >
           <Avatar.Image
-            style={styles.avatar}
-            source={{
-              uri:
-                userInfo?.avataruri == null || userInfo?.avataruri == ''
-                  ? 'https://img.freepik.com/free-icon/user_318-792327.jpg?w=2000'
-                  : userInfo.avataruri
-            }}
+            style={[styles.avatar, { backgroundColor: 'transparent' }]}
+            source={
+              userInfo?.avataruri == null
+                ? defaultPicture
+                : {
+                    uri: userInfo.avataruri
+                  }
+            }
           />
         </Pressable>
       </View>

@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   screenTitle: {
+    fontFamily: 'SSRegular',
     fontSize: 32,
     fontWeight: '700',
     color: Colors.black,

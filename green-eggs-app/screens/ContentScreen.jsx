@@ -54,14 +54,14 @@ export const ContentScreen = () => {
               <Divider />
               <Card.Cover source={{ uri: currentEgg.eggURIs.imageURI }} />
               <View style={styles.buttons}>
-                {/* <Card.Actions style={styles.buttons}>
-                  <Button
+                <Card.Actions style={styles.buttons}>
+                  {/* <Button
                     onPress={() => {
                       console.log('Loved it');
                     }}
                   >
                     Love
-                  </Button>
+                  </Button> */}
                   <Button
                     onPress={() => {
                       console.log('Saved it');
@@ -71,19 +71,19 @@ export const ContentScreen = () => {
                   </Button>
                   <Button
                     onPress={() => {
-                      console.log('Shared it');
+                      console.log('Remove it');
                     }}
                   >
-                    Share
+                    Remove
                   </Button>
-                  <Button
+                  {/* <Button
                     onPress={() => {
                       console.log('Reported it');
                     }}
                   >
                     Report
-                  </Button>
-                </Card.Actions> */}
+                  </Button> */}
+                </Card.Actions>
               </View>
             </Card.Content>
           </Card>
@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flex: 1,
+
     alignItems: 'center'
   },
   shortDescription: {

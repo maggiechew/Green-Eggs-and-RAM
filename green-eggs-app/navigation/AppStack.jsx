@@ -4,7 +4,7 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import { MapPage } from '../screens';
 import { AccountScreen } from '../screens/AccountScreen';
 import { FriendsScreen } from '../screens/FriendsScreen';
-import { ProfileScreen } from '../screens/ProfileScreen';
+import { MyEggsScreen } from '../screens/MyEggsScreen';
 import { useNavigation } from '@react-navigation/native';
 import { ContentScreen } from '../screens/ContentScreen';
 
@@ -38,8 +38,8 @@ export const AppStack = () => {
         }}
       />
       <Stack.Screen
-        name='Profile'
-        component={ProfileScreen}
+        name='MyEggs'
+        component={MyEggsScreen}
         options={{
           headerLeft: () => (
             <TouchableOpacity
