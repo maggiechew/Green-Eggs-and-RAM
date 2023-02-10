@@ -1,4 +1,4 @@
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Animated, {
   useAnimatedStyle,
@@ -11,6 +11,7 @@ import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { userStats } from '../helpers/userStats';
 import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
+import tutorialContent from '../helpers/tutorialContent';
 
 export default function MessagingModal({ stats, modalType }) {
   const { showModal, setShowModal } = useEggsUserContext();
@@ -43,41 +44,47 @@ export default function MessagingModal({ stats, modalType }) {
   }));
   console.log('MODAL STATS: ', stats);
   return (
-    <Modal
-      style={styles.modal}
-      visible={showModal}
-      onDismiss={() => setShowModal(false)}
-      animationType='slide'
-      transparent
-      onShow={() => playSFX()}
-    >
-      <View style={styles.container}>
-        <View style={styles.modalView}>
-          <Animated.View style={testAnimation}>
-            <IconButton
-              icon='egg-outline'
-              containerColor={'#ffffff'}
-              onPress={() => {
-                // setShowModal(false);
-                navigation.navigate('Content');
-              }}
-              size={90}
+    <Animated.View style={testAnimation}>
+      <Modal
+        style={styles.modal}
+        visible={showModal}
+        onDismiss={() => setShowModal(false)}
+        animationType='slide'
+        transparent
+        onShow={() => playSFX()}
+      >
+        <View style={styles.container}>
+          <View style={styles.modalView}>
+            {/* <Animated.View style={testAnimation}>
+              <IconButton
+                icon='egg-outline'
+                containerColor={'#ffffff'}
+                onPress={() => {
+                  // setShowModal(false);
+                  navigation.navigate('Content');
+                }}
+                size={90}
+              />
+            </Animated.View> */}
+            <Image
+              style={{ width: 200, height: 200 }}
+              source={require('../assets/egg_crack.gif')}
             />
-          </Animated.View>
-          {modalType === 'enterZone' && stats ? userStats(stats) : <></>}
-          {modalType === 'tutorial' ? <Text>THIS IS A TUTORIAL</Text> : <></>}
-          {modalType === 'newEgg' ? <Text>THIS IS A NEW EGG</Text> : <></>}
+            {modalType === 'enterZone' && stats ? userStats(stats) : <></>}
+            {modalType === 'tutorial' ? tutorialContent() : <></>}
+            {modalType === 'newEgg' ? <Text>THIS IS A NEW EGG</Text> : <></>}
 
-          <Text style={styles.modalText}>Messaging Modal</Text>
-          <Pressable
-            style={[styles.button, styles.buttonClose]}
-            onPress={() => setShowModal(!showModal)}
-          >
-            <Text style={styles.textStyle}>Hide Modal</Text>
-          </Pressable>
+            <Text style={styles.modalText}> </Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setShowModal(!showModal)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+    </Animated.View>
   );
 }
 

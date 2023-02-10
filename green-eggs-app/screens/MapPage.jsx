@@ -48,7 +48,7 @@ export const MapPage = ({ navigation, children }) => {
   const [userStats, setUserStats] = useState({});
 
   // MODAL STATES: enterZone, tutorial, newEgg
-  const [modalType, setModalType] = useState('enterZone');
+  const [modalType, setModalType] = useState('tutorial');
 
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
