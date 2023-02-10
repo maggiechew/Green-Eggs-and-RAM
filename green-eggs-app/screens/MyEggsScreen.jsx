@@ -71,7 +71,9 @@ export const MyEggsScreen = () => {
               </View>
               <View style={styles.countsView}>
                 <View style={styles.countView}>
-                  <Text style={styles.countNum}>{userInfo.eggs.length}</Text>
+                  <Text style={styles.countNum}>
+                    {userInfo.likedEggs.length}
+                  </Text>
                   <Text style={styles.countText}>SAVE</Text>
                 </View>
                 <View style={styles.countView}>
