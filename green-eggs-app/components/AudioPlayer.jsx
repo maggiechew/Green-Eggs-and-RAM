@@ -63,12 +63,12 @@ const AudioPlayer = ({ contentButton }) => {
     if (!isPlaying && currentEgg) {
       console.log('USEFFECT1: loadaudio');
       loadAudio(currentEgg);
-      setSheetOpen(0);
+      // setSheetOpen(0);
     }
     if (currentEgg === null) {
       setIsPlayerReady(false);
       unloadAudio();
-      setSheetOpen(-1);
+      // setSheetOpen(-1);
     }
   }, [currentEgg]);
 

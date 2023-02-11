@@ -4,7 +4,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { Avatar } from 'react-native-paper';
-import AudioPlayer from '../components/AudioPlayer';
 import AvatarMenu from '../components/AvatarMenu';
 import { Markers } from '../components/Markers';
 import { Zones } from '../components/Zones';
@@ -15,23 +14,25 @@ import {
 } from '../providers/EggsSoundProvider';
 import { zonesFromDB } from '../utils/geopoints';
 
+import AudioSheet from '../components/AudioSheet';
+import MessagingModal from '../components/MessagingModal';
 import { AuthenticatedUserContext } from '../providers';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
-import MessagingModal from '../components/MessagingModal';
-import AudioSheet from '../components/AudioSheet';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
-  const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [currentEggID, setCurrentEggID] = useState(null);
-  // const [currentEggID, setCurrentEggID] = useState('35WPCG0Ax3Gc7JlJRnNJ');
 
-  const { currentEgg, setCurrentEgg } = useEggsUserContext();
-  const { sound, setSound } = useEggsUserContext();
-  const { isPlayerReady, setIsPlayerReady } = useEggsUserContext();
-  const { isPlaying, setIsPlaying } = useEggsUserContext();
-  const { showModal, setShowModal } = useEggsUserContext();
+  const {
+    currentEgg,
+    setCurrentEgg,
+    showModal,
+    setShowModal,
+    currentEggID,
+    setCurrentEggID,
+    modalType,
+    setModalType
+  } = useEggsUserContext();
 
   const [zoneToHide, setZoneToHide] = useState(null);
   const [location, setLocation] = useState(null);
@@ -42,7 +43,6 @@ export const MapPage = ({ navigation, children }) => {
   const [userStats, setUserStats] = useState({});
 
   // MODAL STATES: enterZone, tutorial, newEgg
-  const [modalType, setModalType] = useState('newEgg');
 
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
@@ -68,6 +68,7 @@ export const MapPage = ({ navigation, children }) => {
       _getEgg();
     } else {
       setCurrentEgg(null);
+      console.log('SET CURRENT EGG TO NULL');
     }
   }, [currentEggID]);
 
@@ -262,7 +263,7 @@ export const MapPage = ({ navigation, children }) => {
         modalType={modalType}
       />
 
-      <AudioSheet visible={showAudioPlayer} navigation />
+      <AudioSheet navigation />
 
       <StatusBar style='light' />
     </View>

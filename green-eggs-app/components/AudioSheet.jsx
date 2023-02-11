@@ -13,7 +13,7 @@ import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 import AudioPlayer from './AudioPlayer';
 
-export default function AudioSheet({ visible }) {
+export default function AudioSheet() {
   const {
     isPlayerReady,
     setIsPlayerReady,
@@ -24,7 +24,8 @@ export default function AudioSheet({ visible }) {
     currentEgg,
     setCurrentEgg,
     sheetOpen,
-    setSheetOpen
+    setSheetOpen,
+    currentEggID
   } = useContext(EggsUserContext);
 
   // BOTTOM SHEET setup
@@ -36,16 +37,23 @@ export default function AudioSheet({ visible }) {
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {}, []);
+  const handleClosePress = () => bottomSheetRef.current.close();
   // ^^ BOTTOM SHEET SETUP ^^
 
-  //   useEffect(() => {
-  //     if (!isPlaying && currentEgg) {
-  //       setSheetOpen(0);
-  //     }
-  //     if (currentEgg === null) {
-  //       setSheetOpen(-1);
-  //     }
-  //   }, [currentEgg]);
+  useEffect(() => {
+    if (currentEggID) {
+      setSheetOpen(0);
+    }
+    if (currentEggID === null) {
+      console.log('I SHOULD CLOSE SHEET NOW');
+      setSheetOpen(-1);
+      handleClosePress();
+    }
+  }, [currentEggID]);
+
+  useEffect(() => {
+    console.log('SHEET OPEN?: ', sheetOpen);
+  }, [sheetOpen]);
 
   return (
     <BottomSheet

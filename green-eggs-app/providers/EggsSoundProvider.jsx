@@ -55,6 +55,9 @@ export default function EggsSoundProvider({ children }) {
   const [showModal, setShowModal] = useState(false);
   const [duration, setDuration] = useState(undefined);
   const [position, setPosition] = useState(0);
+  const [currentEggID, setCurrentEggID] = useState(null);
+  // MODAL STATES: enterZone, tutorial, newEgg
+  const [modalType, setModalType] = useState('newEgg');
 
   const eggSoundValue = {
     currentEgg,
@@ -72,7 +75,11 @@ export default function EggsSoundProvider({ children }) {
     duration,
     setDuration,
     position,
-    setPosition
+    setPosition,
+    currentEggID,
+    setCurrentEggID,
+    modalType,
+    setModalType
   };
 
   return (
