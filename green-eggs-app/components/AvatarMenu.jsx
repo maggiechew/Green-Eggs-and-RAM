@@ -2,23 +2,23 @@ import { View, Text, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { signOut } from 'firebase/auth';
+// import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import {
   EggsUserContext,
   useEggsUserContext
 } from '../providers/EggsSoundProvider';
-import AddProfile from './AddProfile';
 import { AuthenticatedUserContext } from '../providers';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
 const AvatarMenu = ({ visible, handleMenu, navigation }) => {
   const authContext = useContext(AuthenticatedUserContext);
-  const { userInfo } = authContext;
+  const { userInfo, handleLogout: authLogout } = authContext;
   const handleLogout = () => {
     sound.pauseAsync();
     sound.unloadAsync();
-    signOut(auth).catch((error) => console.log('Error logging out: ', error));
+    authLogout();
+    // signOut(auth).catch((error) => console.log('Error logging out: ', error));
   };
   const { sound, setSound } = useEggsUserContext();
 
@@ -52,9 +52,9 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
         </Button> */}
           <Button
             style={styles.button}
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => navigation.navigate('MyEggs')}
           >
-            <Text style={styles.buttonText}>Update Profile</Text>
+            <Text style={styles.buttonText}>My Eggs Collection</Text>
           </Button>
           {/* Account page hidden for now */}
           {/* <Button
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   modalText: {
+    fontFamily: 'SSBold',
     fontSize: 20,
     color: 'lightblue',
     marginVertical: 5
@@ -100,11 +101,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'red'
   },
   buttonText: {
+    fontFamily: 'SSBold',
     fontSize: 16,
     color: 'white',
     weight: 'bold'
   },
   buttonClose: {
+    fontFamily: 'SSBold',
     alignItems: 'flex-end',
     bottom: 240,
     marginVertical: 5

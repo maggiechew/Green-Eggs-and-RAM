@@ -20,9 +20,11 @@ export const ContentScreen = () => {
   const navigation = useNavigation();
   const [value, setValue] = useState(currentEgg.eggName);
 
-  if (!currentEgg) {
-    return <Text>NO EGG FOUND YET! Go find some eggs. </Text>;
-  }
+  // Don't think the below is required as egg isn't pressable until in range/ egg found.
+
+  // if (!currentEgg) {
+  //   return <Text>NO EGG FOUND YET! Go find some eggs. </Text>;
+  // }
 
   return (
     <View style={styles.background}>
@@ -108,6 +110,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flex: 1,
+
     alignItems: 'center'
   },
   shortDescription: {

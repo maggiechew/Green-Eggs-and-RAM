@@ -2,15 +2,16 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../config';
-import { AuthenticatedUserContext } from './AuthenticatedUserProvider';
 
 export const AvatarPickContext = createContext();
 //default value?
 export const AvatarPickProvider = (props) => {
   const [image, setImage] = useState(null);
   const [picture, setPicture] = useState(null);
-  const authContext = useContext(AuthenticatedUserContext);
-  const { user } = authContext;
+
+  useEffect(() => {
+    console.log('this is picture', picture);
+  }, [picture]);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -94,6 +95,11 @@ export const AvatarPickProvider = (props) => {
     );
   };
 
+  const foo = (pic) => {
+    console.log('call to change picture from outside pic provider');
+    setPicture(pic);
+  };
+
   useEffect(() => {
     if (image) {
       uploadImage();
@@ -103,7 +109,8 @@ export const AvatarPickProvider = (props) => {
     <AvatarPickContext.Provider
       value={{
         pickImage,
-        picture
+        picture,
+        setPicture: foo
       }}
     >
       {props.children}
