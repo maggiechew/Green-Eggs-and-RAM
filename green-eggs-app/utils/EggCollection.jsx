@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
 // import { getEggCollection } from './getEggCollection';
-import { AuthenticatedUserContext } from '../providers';
-import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 const EggCollection = () => {
   const [usersCollection, setUserCollection] = useState([]);

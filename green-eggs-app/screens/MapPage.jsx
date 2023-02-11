@@ -22,7 +22,7 @@ export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
   const [showAudioPlayer, setShowAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [currentEggID, setCurrentEggID] = useState('35WPCG0Ax3Gc7JlJRnNJ');
+  const [currentEggID, setCurrentEggID] = useState(null);
 
   const { currentEgg, setCurrentEgg } = useEggsUserContext();
   const { sound, setSound } = useEggsUserContext();
@@ -108,6 +108,7 @@ export const MapPage = ({ navigation, children }) => {
             if (zoneToHide !== usersZone) {
               if (usersZone === undefined) {
                 setZoneToHide(null);
+                setCurrentEgg(null);
               } else {
                 setZoneToHide(usersZone);
               }
@@ -182,11 +183,11 @@ export const MapPage = ({ navigation, children }) => {
   }, [zoneToHide, userInfo]);
 
   useEffect(() => {
-    const collectedEggs = userInfo?.likedEggs;
+    const discoveredEggs = userInfo?.discoveredEggs;
     let returnValue = 0;
     const zoneEggLength = zoneEggs?.length;
     zoneEggs?.forEach((zoneEgg) => {
-      if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
+      if (discoveredEggs?.find((discovered) => discovered == zoneEgg.id))
         returnValue++;
     });
     const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;

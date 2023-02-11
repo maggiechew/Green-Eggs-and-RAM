@@ -48,7 +48,9 @@ export const MyEggsScreen = () => {
   const { userInfo } = authContext;
 
   console.log('userInfo: ', userInfo);
-  console.log('eggs: ', userInfo.likedEggs);
+  console.log('likedeggs: ', userInfo.likedEggs);
+  console.log('discoveredeggs: ', userInfo.discoveredEggs);
+
   return (
     <View style={styles.container}>
       <ScrollView showsHorizontalScrollIndicator={false}>
@@ -77,7 +79,9 @@ export const MyEggsScreen = () => {
                   <Text style={styles.countText}>SAVE</Text>
                 </View>
                 <View style={styles.countView}>
-                  <Text style={styles.countNum}>8</Text>
+                  <Text style={styles.countNum}>
+                    {userInfo.discoveredEggs.length}
+                  </Text>
                   <Text style={styles.countText}>DISCOVERED</Text>
                 </View>
                 <View style={styles.countView}>

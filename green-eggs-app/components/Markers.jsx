@@ -5,7 +5,7 @@ import { AuthenticatedUserContext } from '../providers';
 
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const { userInfo } = React.useContext(AuthenticatedUserContext);
-  const userEggs = userInfo.likedEggs;
+  const userEggs = userInfo.discoveredEggs;
   return zoneEggs?.map((egg) => {
     let locked = true;
     let discovered = false;
