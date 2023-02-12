@@ -1,11 +1,40 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import React, { useContext, useEffect, useState } from 'react';
 import { Marker } from 'react-native-maps';
+import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
 
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
-  const { userInfo } = React.useContext(AuthenticatedUserContext);
+  const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
+  const userID = user.uid;
+  const { setCurrentEgg, currentEgg } = useContext(EggsUserContext);
+
+  const newContent = async (eggID) => {
+    console.log('You discovered me!');
+    await updateDoc(doc(db, 'users', userID), {
+      discoveredEggs: arrayUnion(eggID)
+    });
+    setCurrentEgg(eggID);
+    //TODO: modal with newContent helper in it
+    navigation.navigate('Content');
+  };
+
+  const oldContent = (eggID) => {
+    // const { setCurrentEgg, currentEgg } = useContext(EggsUserContext);
+    console.log('I got here', currentEgg);
+    // passes EGGID so content loaded via modal
+    console.log('You had already found me!');
+    setCurrentEgg(eggID);
+    //TODO: modal saying content already discovered
+    navigation.navigate('Content');
+  };
+
+  const lockedContent = () => {
+    console.log('Im locked, yo!');
+    // TODO: modal with stillUnlocked
+  };
   return zoneEggs?.map((egg) => {
     let locked = true;
     let discovered = false;
@@ -19,12 +48,12 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
           longitude: egg.geopoint.longitude
         }}
         pinColor={locked ? 'red' : discovered ? 'green' : 'yellow'}
-        onPress={(e) =>
+        onPress={() =>
           locked
-            ? console.log('too bad')
+            ? lockedContent()
             : discovered
-            ? console.log('You already found me')
-            : navigation.navigate('Content')
+            ? oldContent(egg)
+            : newContent(egg)
         }
       />
     );
