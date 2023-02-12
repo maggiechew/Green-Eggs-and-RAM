@@ -43,7 +43,7 @@ export default function MessagingModal({ stats, modalType }) {
       }
     ]
   }));
-  console.log('MODAL STATS: ', stats);
+
   return (
     // <Animated.View style={testAnimation}>
     <Modal

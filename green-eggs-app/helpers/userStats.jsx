@@ -2,7 +2,6 @@ import { View, Text } from 'react-native';
 import React from 'react';
 
 export const userStats = (userStats) => {
-  console.log('HELPER stats: ', userStats);
   if (userStats && userStats.zoneFound) {
     let discoveredEggs = userStats.zoneFound;
     let undiscovered = 100 - discoveredEggs;

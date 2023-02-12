@@ -29,13 +29,8 @@ export default function AudioSheet() {
   } = useContext(EggsUserContext);
 
   // BOTTOM SHEET setup
-  // ref
   const bottomSheetRef = useRef(null);
-
-  // variables
   const snapPoints = useMemo(() => ['20%', '64%'], []);
-
-  // callbacks
   const handleSheetChanges = useCallback((index) => {}, []);
   const handleClosePress = () => bottomSheetRef.current.close();
   // ^^ BOTTOM SHEET SETUP ^^

@@ -1,9 +1,6 @@
-import { Text, StyleSheet, View } from 'react-native';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import React, { createContext, useContext, useState } from 'react';
 import { db } from '../config';
-import { auth } from '../config';
-import { collection, doc, getDoc } from 'firebase/firestore';
-import { async } from '@firebase/util';
 
 export const EggsUserContext = createContext(null);
 
