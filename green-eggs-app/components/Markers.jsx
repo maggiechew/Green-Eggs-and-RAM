@@ -5,39 +5,36 @@ import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 
-const newContent = async (eggID) => {
-  const { setCurrentEgg } = useContext(EggsUserContext);
-  const userID = user.uid;
-  const { userInfo, setUserInfo, user } = React.useContext(
-    AuthenticatedUserContext
-  );
-  console.log('You discovered me!');
-  await updateDoc(doc(db, 'users', userID), {
-    discoveredEggs: arrayUnion(eggID)
-  });
-  setCurrentEgg(eggID);
-  //TODO: modal with newContent helper in it
-  navigation.navigate('Content');
-};
-
-const oldContent = (eggID) => {
-  const { setCurrentEgg } = useContext(EggsUserContext);
-  // passes EGGID so content loaded via modal
-  console.log('You had already found me!');
-  setCurrentEgg(eggID);
-  //TODO: modal saying content already discovered
-  navigation.navigate('Content');
-};
-
-const lockedContent = () => {
-  console.log('Im locked, yo!');
-  // TODO: modal with stillUnlocked
-};
-
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
-  const { userInfo } = React.useContext(AuthenticatedUserContext);
+  const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
-
+  const userID = user.uid;
+  const { setCurrentEgg, currentEgg } = useContext(EggsUserContext);
+  
+  const newContent = async (eggID) => {
+    console.log('You discovered me!');
+    await updateDoc(doc(db, 'users', userID), {
+      discoveredEggs: arrayUnion(eggID)
+    });
+    setCurrentEgg(eggID);
+    //TODO: modal with newContent helper in it
+    navigation.navigate('Content');
+  };
+  
+  const oldContent = (eggID) => {
+    // const { setCurrentEgg, currentEgg } = useContext(EggsUserContext);
+    console.log('I got here', currentEgg)
+    // passes EGGID so content loaded via modal
+    console.log('You had already found me!');
+    setCurrentEgg(eggID);
+    //TODO: modal saying content already discovered
+    navigation.navigate('Content');
+  };
+  
+  const lockedContent = () => {
+    console.log('Im locked, yo!');
+    // TODO: modal with stillUnlocked
+  };
   return zoneEggs?.map((egg) => {
     let locked = true;
     let discovered = false;
@@ -55,8 +52,8 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
           locked
             ? lockedContent()
             : discovered
-            ? oldContent(egg.id)
-            : newContent(egg.id)
+            ? oldContent(egg)
+            : newContent(egg)
         }
       />
     );
