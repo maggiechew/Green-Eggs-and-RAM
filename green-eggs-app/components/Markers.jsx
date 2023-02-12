@@ -1,52 +1,43 @@
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Marker } from 'react-native-maps';
 import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 
-const {
-  isPlayerReady,
-  setIsPlayerReady,
-  isPlaying,
-  setIsPlaying,
-  sound,
-  setSound,
-  currentEgg,
-  setCurrentEgg,
-  sheetOpen,
-  setSheetOpen
-} = useContext(EggsUserContext);
-
-const { userInfo, setUserInfo, user } = React.useContext(
-  AuthenticatedUserContext
-);
-const userEggs = userInfo.discoveredEggs;
-const userID = user.uid;
-
 const newContent = async (eggID) => {
+  const { setCurrentEgg } = useContext(EggsUserContext);
+  const userID = user.uid;
+  const { userInfo, setUserInfo, user } = React.useContext(
+    AuthenticatedUserContext
+  );
   console.log('You discovered me!');
-  await updateDoc(doc(db, 'users', userID), { discoveredEggs: arrayUnion(eggID) });
-  setCurrentEgg(eggID)
+  await updateDoc(doc(db, 'users', userID), {
+    discoveredEggs: arrayUnion(eggID)
+  });
+  setCurrentEgg(eggID);
   //TODO: modal with newContent helper in it
-  navigation.navigate('Content')
+  navigation.navigate('Content');
 };
 
-const oldContent = (eggID) => { // passes EGGID so content loaded via modal
-  console.log('You had already found me!')
-  setCurrentEgg(eggID)
+const oldContent = (eggID) => {
+  const { setCurrentEgg } = useContext(EggsUserContext);
+  // passes EGGID so content loaded via modal
+  console.log('You had already found me!');
+  setCurrentEgg(eggID);
   //TODO: modal saying content already discovered
-  navigation.navigate('Content')
-
+  navigation.navigate('Content');
 };
 
 const lockedContent = () => {
-  console.log('Im locked, yo!')
+  console.log('Im locked, yo!');
   // TODO: modal with stillUnlocked
-}
+};
 
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const { userInfo } = React.useContext(AuthenticatedUserContext);
+  const userEggs = userInfo.discoveredEggs;
+
   return zoneEggs?.map((egg) => {
     let locked = true;
     let discovered = false;
@@ -67,7 +58,6 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
             ? oldContent(egg.id)
             : newContent(egg.id)
         }
-
       />
     );
   });
