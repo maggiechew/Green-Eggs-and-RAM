@@ -64,8 +64,6 @@ export const MyEggsScreen = () => {
   const unsubscribe = onSnapshot(UsersEggsInfo, (querySnapshot) => {
     const usersEggs = querySnapshot.docs.map((doc) => doc.data());
     console.log('usersEggs: ', usersEggs);
-    const q = query(usersEggs, where('id', '==', userLikedEggs));
-    console.log('q: ', q);
   });
 
   const [totalEggCount, setTotalEggCount] = useState(0);

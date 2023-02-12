@@ -35,7 +35,6 @@ export const MapPage = ({ navigation, children }) => {
   const [zoneEggs, setZoneEggs] = useState();
 
   const [userStats, setUserStats] = useState({});
-
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
 
@@ -152,19 +151,6 @@ export const MapPage = ({ navigation, children }) => {
       setEggsInRange(replacementEggs);
     }
   }, [location, zoneEggs]);
-
-  //leave this for dicorverd eggs_Yan
-  useEffect(() => {
-    if (!eggsInRange || eggsInRange.length == 0) return;
-    const updatedUser = { ...userInfo };
-    updatedUser.discoverdEggs = updatedUser.discoverdEggs || [];
-    eggsInRange.forEach((eggsInRange) => {
-      if (!updatedUser.discoverdEggs.includes(eggsInRange.id)) {
-        updatedUser.discoverdEggs.push(eggsInRange.id);
-      }
-    });
-    // console.log('!!! update user in', updatedUser);
-  }, [eggsInRange]);
 
   useEffect(() => {
     async function _getTheEggs() {

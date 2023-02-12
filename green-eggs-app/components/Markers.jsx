@@ -14,7 +14,7 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const newContent = async (eggID) => {
     console.log('You discovered me!');
     await updateDoc(doc(db, 'users', userID), {
-      discoveredEggs: arrayUnion(eggID)
+      discoveredEggs: arrayUnion(eggID.id)
     });
     setCurrentEgg(eggID);
     //TODO: modal with newContent helper in it

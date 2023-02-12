@@ -16,12 +16,32 @@ import {
   EggsUserContext,
   useEggsUserContext
 } from '../providers/EggsSoundProvider';
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { db } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 export const ContentScreen = () => {
-  const { currentEgg } = useContext(EggsUserContext);
-
+  const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
+  const { currentEgg, setCurrentEgg } = useContext(EggsUserContext);
+  const userID = user.uid;
   const navigation = useNavigation();
   const [value, setValue] = useState(currentEgg.eggName);
+
+  const newLikeEggs = async (eggID) => {
+    await updateDoc(doc(db, 'users', userID), {
+      likedEggs: arrayUnion(eggID.id)
+    });
+    setCurrentEgg(eggID);
+    navigation.navigate('MyEggs');
+  };
+
+  const removeEggs = async (eggID) => {
+    await updateDoc(doc(db, 'users', userID), {
+      likedEggs: arrayRemove(eggID.id)
+    });
+    setCurrentEgg(eggID);
+    navigation.navigate('MyEggs');
+  };
 
   // Don't think the below is required as egg isn't pressable until in range/ egg found.
 
@@ -64,14 +84,16 @@ export const ContentScreen = () => {
                   </Button> */}
                   <Button
                     onPress={() => {
-                      console.log('Saved it');
+                      newLikeEggs(currentEgg);
+                      console.log('Liked it');
                     }}
                   >
-                    Save
+                    Like
                   </Button>
                   <Button
                     onPress={() => {
-                      console.log('Remove it');
+                      removeEggs(currentEgg);
+                      console.log('Remove Egg');
                     }}
                   >
                     Remove
