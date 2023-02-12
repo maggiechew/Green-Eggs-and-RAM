@@ -32,7 +32,6 @@ export const MapPage = ({ navigation, children }) => {
   const [zoneToHide, setZoneToHide] = useState(null);
   const [location, setLocation] = useState(null);
   const [eggsInRange, setEggsInRange] = useState();
-  const [userProfile, setUserProfile] = useState({});
   const [zoneEggs, setZoneEggs] = useState();
 
   const [userStats, setUserStats] = useState({});

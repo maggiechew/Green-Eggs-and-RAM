@@ -15,8 +15,8 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo, handleLogout: authLogout } = authContext;
   const handleLogout = () => {
-    sound.pauseAsync();
-    sound.unloadAsync();
+    // sound.pauseAsync();
+    // sound.unloadAsync();
     authLogout();
     // signOut(auth).catch((error) => console.log('Error logging out: ', error));
   };

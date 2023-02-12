@@ -8,16 +8,24 @@ import {
   ActivityIndicator,
   Dimensions
 } from 'react-native';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AuthenticatedUserContext } from '../providers';
 
-import { EggsUserContext } from '../providers/EggsSoundProvider';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { db } from '../config';
 // Fonts
 
-function ImagesSaved({ images }) {
+function ImagesLiked({ images }) {
   const imgWidth = Dimensions.get('screen').width * 0.33333;
-  const { currentEgg } = useContext(EggsUserContext);
+  const { userInfo } = useContext(AuthenticatedUserContext);
+  const userLikedEggs = userInfo.likedEggs;
+  const userDiscoveredEggs = userInfo.discoveredEggs;
+
+  const [userEggsURI, setUserEggsURI] = useState([]);
+  let currentUserEggs = collection(db, 'eggs');
+  console.log('currentUserEggsInfodetail!!!!!!!!!: ', currentUserEggs);
+
   return (
     <View style={{}}>
       <View
@@ -27,13 +35,11 @@ function ImagesSaved({ images }) {
           alignItems: 'flex-start'
         }}
       >
-        {images.map((ImagesSaved, index) => (
+        {images.map(() => (
           <View key={index}>
             <Image
-              title={currentEgg.eggName}
-              subtitle={currentEgg.creatorName}
               style={{ width: imgWidth, height: imgWidth }}
-              source={{ uri: currentEgg.eggURIs.imageURI }}
+              source={{ uri: images }}
             />
           </View>
         ))}
@@ -50,6 +56,26 @@ export const MyEggsScreen = () => {
   console.log('userInfo: ', userInfo);
   console.log('likedeggs: ', userInfo.likedEggs);
   console.log('discoveredeggs: ', userInfo.discoveredEggs);
+
+  const userLikedEggs = userInfo.likedEggs;
+  console.log('userLikedEggs: ', userLikedEggs);
+  let UsersEggsInfo = collection(db, 'eggs');
+  console.log('AllEggsInfodetail: ', UsersEggsInfo);
+  const unsubscribe = onSnapshot(UsersEggsInfo, (querySnapshot) => {
+    const usersEggs = querySnapshot.docs.map((doc) => doc.data());
+    console.log('usersEggs: ', usersEggs);
+    const q = query(usersEggs, where('id', '==', userLikedEggs));
+    console.log('q: ', q);
+  });
+
+  const [totalEggCount, setTotalEggCount] = useState(0);
+  useEffect(() => {
+    let totalRef = collection(db, 'eggs');
+    const unsubscribe = onSnapshot(totalRef, (querySnapshot) => {
+      setTotalEggCount(querySnapshot.size);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -85,7 +111,7 @@ export const MyEggsScreen = () => {
                   <Text style={styles.countText}>DISCOVERED</Text>
                 </View>
                 <View style={styles.countView}>
-                  <Text style={styles.countNum}>10</Text>
+                  <Text style={styles.countNum}>{totalEggCount}</Text>
                   <Text style={styles.countText}>TOTAL</Text>
                 </View>
               </View>
