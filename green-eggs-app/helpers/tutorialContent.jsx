@@ -1,9 +1,25 @@
 import { View, Text, Image } from 'react-native';
-import React from 'react';
+import { db } from '../config';
+import React, { useContext, useEffect } from 'react';
+import { AuthenticatedUserContext } from '../providers';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+
 // import
 
 const tutorialContent = () => {
   //function to update userInfo.tutorial(viewed) and updateDoc (here or in Modal??)
+
+  const { user } = useContext(AuthenticatedUserContext);
+  const userID = user.uid;
+
+  useEffect(() => {
+    const checkUserTutorial = async () => {
+      await updateDoc(doc(db, 'users', userID), {
+        seenTutorial: true
+      });
+    };
+    checkUserTutorial();
+  }, []);
   return (
     <View>
       <Text>Welcome to Egg Hunter!</Text>

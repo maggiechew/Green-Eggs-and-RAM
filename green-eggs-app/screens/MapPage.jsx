@@ -33,6 +33,7 @@ export const MapPage = ({ navigation, children }) => {
     modalType,
     setModalType
   } = useEggsUserContext();
+  // MODAL STATES: enterZone, tutorial, newEgg
 
   const [zoneToHide, setZoneToHide] = useState(null);
   const [location, setLocation] = useState(null);
@@ -42,10 +43,9 @@ export const MapPage = ({ navigation, children }) => {
 
   const [userStats, setUserStats] = useState({});
 
-  // MODAL STATES: enterZone, tutorial, newEgg
-
   const authContext = useContext(AuthenticatedUserContext);
-  const { userInfo } = authContext;
+  const { userInfo, user } = authContext;
+  const userID = user.uid;
 
   const defaultPicture = require('../assets/defaultavatar.jpg');
 
@@ -56,6 +56,16 @@ export const MapPage = ({ navigation, children }) => {
     }
     _getZones();
   }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      if (!userInfo.seenTutorial) {
+        console.log('SEEN TUTORIAL: ', userInfo);
+        setModalType('tutorial');
+        setShowModal(true);
+      }
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     async function _getEgg() {
@@ -119,6 +129,10 @@ export const MapPage = ({ navigation, children }) => {
                 setCurrentEgg(null);
               } else {
                 setZoneToHide(usersZone);
+                if (modalType !== 'enterZone' && modalType !== 'tutorial') {
+                  setModalType('enterZone');
+                  setShowModal(true);
+                }
               }
             }
           };
