@@ -12,7 +12,7 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
   const userID = user.uid;
-  const { setCurrentEgg } = useContext(EggsUserContext);
+  const { setCurrentEgg, setShowModal, setModalType } = useContext(EggsUserContext);
   
   const getCreator = async (creatorID) => {
     const creatorRef = doc(db, 'creators', creatorID);
@@ -36,16 +36,16 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
     const creatorInfo = await getCreator(egg.creatorID);
     const combinedEgg = {Egg: egg, Creator: creatorInfo}
     setCurrentEgg(combinedEgg);
-    //TODO: modal with newContent helper in it
-    navigation.navigate('Content');
+    setModalType('newEgg')
+    setShowModal(true)
+    // navigation.navigate('Content');
   };
   
   const oldContent = async (egg) => {
     const creatorInfo = await getCreator(egg.creatorID);
     const combinedEgg = {Egg: egg, Creator: creatorInfo}
     setCurrentEgg(combinedEgg);
-        //TODO: modal saying content already discovered
-    navigation.navigate('Content');
+    // navigation.navigate('Content');
   };
   
   const lockedContent = () => {

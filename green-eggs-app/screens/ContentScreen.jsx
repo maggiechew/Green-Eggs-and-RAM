@@ -19,7 +19,7 @@ export const ContentScreen = () => {
 
   const creator = currentEgg.Creator;
   const egg= currentEgg.Egg;
-  console.log('egg', egg)
+  // console.log('egg', egg)
 
   const navigation = useNavigation();
   const [value, setValue] = useState(currentEgg.eggName);
@@ -37,7 +37,7 @@ export const ContentScreen = () => {
           <Card mode='elevated' style={{ backgroundColor: 'white' }}>
             <Card.Title
               title={egg.eggName}
-              subtitle={egg.creatorName}
+              subtitle={creator.creatorName}
               subtitleNumberOfLines={2}
               left={(props) => (
                 <Avatar.Image

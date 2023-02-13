@@ -47,8 +47,8 @@ export const MyEggsScreen = () => {
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
 
-  console.log('userInfo: ', userInfo);
-  console.log('eggs: ', userInfo.likedEggs);
+  // console.log('userInfo: ', userInfo);
+  // console.log('eggs: ', userInfo.likedEggs);
   return (
     <View style={styles.container}>
       <ScrollView showsHorizontalScrollIndicator={false}>

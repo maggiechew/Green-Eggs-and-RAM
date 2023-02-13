@@ -17,7 +17,8 @@ export const EggContent = () => {
   const creator = currentEgg.Creator;
   const egg= currentEgg.Egg;
 
-  if (!currentEgg) return <Text>NO EGG LOADED</Text>;
+  // if (!currentEgg) return <Text>NO EGG LOADED</Text>;
+  // if (currentEgg) console.log('creator:', creator.creatorName)
   const LeftContent = () => (
     <Avatar.Image size={40} source={{ uri: creator.creatorAvatarURI }} />
   );
@@ -28,7 +29,7 @@ export const EggContent = () => {
         <Card mode='elevated'>
           <Card.Title
             title={egg.eggName}
-            subtitle={egg.creatorName}
+            subtitle={creator.creatorName}
             subtitleNumberOfLines={2}
             left={LeftContent}
           />
