@@ -1,49 +1,9 @@
-import { Text, StyleSheet, View } from 'react-native';
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { db } from '../config';
-import { auth } from '../config';
-import { collection, doc, getDoc } from 'firebase/firestore';
-import { async } from '@firebase/util';
+import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
 
 export const EggsUserContext = createContext(null);
 
 export const useEggsUserContext = () => {
   return useContext(EggsUserContext);
-};
-
-export const getEgg = async (eggID) => {
-  const eggRef = doc(db, 'eggs', eggID);
-  const docSnap = await getDoc(eggRef);
-  // console.log('Egg docSnap', docSnap);
-  if (!docSnap.exists) {
-    console.log('No such document!');
-  } else {
-    const eggData = docSnap.data();
-    return {
-      eggCoordinates: eggData.eggCoordinates,
-      eggDescription: eggData.eggDescription,
-      eggName: eggData.eggName,
-      eggURIs: eggData.eggURIs,
-      creatorID: eggData.creatorID,
-      eggBlurb: eggData.eggBlurb
-    };
-  }
-};
-
-export const getCreator = async (creatorID) => {
-  const creatorRef = doc(db, 'creators', creatorID);
-  const docSnap = await getDoc(creatorRef);
-  // console.log('Creator docSnap', docSnap);
-  if (!docSnap.exists) {
-    console.log('No such document!');
-  } else {
-    const creatorData = docSnap.data();
-    return {
-      creatorName: creatorData.creatorName,
-      creatorAvatarURI: creatorData.creatorAvatarURI,
-      creatorBlurb: creatorData.creatorBlurb
-    };
-  }
 };
 
 export default function EggsSoundProvider({ children }) {

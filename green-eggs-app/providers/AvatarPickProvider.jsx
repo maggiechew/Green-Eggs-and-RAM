@@ -9,9 +9,9 @@ export const AvatarPickProvider = (props) => {
   const [image, setImage] = useState(null);
   const [picture, setPicture] = useState(null);
 
-  useEffect(() => {
-    console.log('this is picture', picture);
-  }, [picture]);
+  // useEffect(() => {
+  //   console.log('this is picture', picture);
+  // }, [picture]);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({

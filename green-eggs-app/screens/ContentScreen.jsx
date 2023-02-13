@@ -20,6 +20,10 @@ import {
 export const ContentScreen = () => {
   const { currentEgg } = useContext(EggsUserContext);
 
+  const creator = currentEgg.Creator;
+  const egg= currentEgg.Egg;
+  console.log('egg', egg)
+
   const navigation = useNavigation();
   const [value, setValue] = useState(currentEgg.eggName);
 
@@ -35,24 +39,24 @@ export const ContentScreen = () => {
         <View style={styles.card}>
           <Card mode='elevated'>
             <Card.Title
-              title={currentEgg.eggName}
-              subtitle={currentEgg.creatorName}
+              title={egg.eggName}
+              subtitle={egg.creatorName}
               subtitleNumberOfLines={2}
               left={(props) => (
                 <Avatar.Image
                   {...props}
-                  source={{ uri: currentEgg.creatorAvatarURI }}
+                  source={{ uri: creator.creatorAvatarURI }}
                 />
               )}
             />
             <Card.Content>
               <Divider />
               <Text variant='bodyMedium' style={styles.shortDescription}>
-                {currentEgg.eggBlurb}
+                {egg.eggBlurb}
               </Text>
               {/* <Text style={styles.link}> </Text> */}
               <Divider />
-              <Card.Cover source={{ uri: currentEgg.eggURIs.imageURI }} />
+              <Card.Cover source={{ uri: egg.eggURIs.imageURI }} />
               <View style={styles.buttons}>
                 <Card.Actions style={styles.buttons}>
                   {/* <Button
@@ -94,24 +98,24 @@ export const ContentScreen = () => {
                 onValueChange={setValue}
                 buttons={[
                   {
-                    value: currentEgg.eggName,
+                    value: egg.eggName,
                     label: 'More about the Egg'
                   },
                   {
-                    value: currentEgg.creatorName,
+                    value: creator.creatorName,
                     label: 'More about the Creator'
                   }
                 ]}
               />
               <List.Item title={value} />
-              {value === currentEgg.eggName && (
+              {value === egg.eggName && (
                 <>
-                  <Text>{currentEgg.eggDescription}</Text>
+                  <Text>{egg.eggDescription}</Text>
                 </>
               )}
-              {value === currentEgg.creatorName && (
+              {value === creator.creatorName && (
                 <>
-                  <Text>{currentEgg.creatorBlurb}</Text>
+                  <Text>{creator.creatorBlurb}</Text>
                 </>
               )}
             </List.Accordion>

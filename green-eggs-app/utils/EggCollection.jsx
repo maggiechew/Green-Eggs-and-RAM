@@ -1,6 +1,5 @@
 import { View, Text } from 'react-native';
 import React, { useEffect, useState, useContext } from 'react';
-// import { getEggCollection } from './getEggCollection';
 import { AuthenticatedUserContext } from '../providers';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../config';

@@ -8,38 +8,23 @@ import AudioPlayer from '../components/AudioPlayer';
 import AvatarMenu from '../components/AvatarMenu';
 import { Markers } from '../components/Markers';
 import { Zones } from '../components/Zones';
-import {
-  getCreator,
-  getEgg,
-  useEggsUserContext
-} from '../providers/EggsSoundProvider';
+import {useEggsUserContext} from '../providers/EggsSoundProvider';
 import { zonesFromDB } from '../utils/geopoints';
-
 import { AuthenticatedUserContext } from '../providers';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
-  const [showAudioPlayer, setShowAudioPlayer] = useState(false);
+  const [showAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const [currentEggID, setCurrentEggID] = useState(null);
-  // const [currentEggID, setCurrentEggID] = useState('35WPCG0Ax3Gc7JlJRnNJ');
-
-  const { currentEgg, setCurrentEgg } = useEggsUserContext();
-  const { sound, setSound } = useEggsUserContext();
-  const { isPlayerReady, setIsPlayerReady } = useEggsUserContext();
-  const { isPlaying, setIsPlaying } = useEggsUserContext();
-
   const [zoneToHide, setZoneToHide] = useState(null);
   const [location, setLocation] = useState(null);
   const [eggsInRange, setEggsInRange] = useState();
-  const [userProfile, setUserProfile] = useState({});
   const [zoneEggs, setZoneEggs] = useState();
-
   const [userStats, setUserStats] = useState({});
 
-  const authContext = useContext(AuthenticatedUserContext);
-  const { userInfo } = authContext;
+  const { setCurrentEgg } = useEggsUserContext();
+  const { userInfo } = useContext(AuthenticatedUserContext);
 
   const defaultPicture = require('../assets/defaultavatar.jpg');
 
@@ -50,20 +35,6 @@ export const MapPage = ({ navigation, children }) => {
     }
     _getZones();
   }, []);
-
-  useEffect(() => {
-    async function _getEgg() {
-      const testEgg = await getEgg(currentEggID);
-      const testCreator = await getCreator(testEgg.creatorID);
-      const combinedEgg = { ...testEgg, ...testCreator };
-      setCurrentEgg(combinedEgg);
-    }
-    if (currentEggID) {
-      _getEgg();
-    } else {
-      setCurrentEgg(null);
-    }
-  }, [currentEggID]);
 
   const handleMenu = () => {
     setShowMenu(!showMenu);

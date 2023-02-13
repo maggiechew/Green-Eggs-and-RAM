@@ -1,4 +1,4 @@
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { arrayUnion, doc, updateDoc, getDoc } from 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react';
 import { Marker } from 'react-native-maps';
 import { db } from '../config';
@@ -9,25 +9,39 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
   const userID = user.uid;
-  const { setCurrentEgg, currentEgg } = useContext(EggsUserContext);
+  const { setCurrentEgg } = useContext(EggsUserContext);
   
-  const newContent = async (eggID) => {
-    console.log('You discovered me!');
+  const getCreator = async (creatorID) => {
+    const creatorRef = doc(db, 'creators', creatorID);
+    const docSnap = await getDoc(creatorRef);
+    if (!docSnap.exists) {
+      console.log('No such document!');
+    } else {
+      const creatorData = docSnap.data();
+      return {
+        creatorName: creatorData.creatorName,
+        creatorAvatarURI: creatorData.creatorAvatarURI,
+        creatorBlurb: creatorData.creatorBlurb
+      };
+    }
+  };
+
+  const newContent = async (egg) => {
     await updateDoc(doc(db, 'users', userID), {
-      discoveredEggs: arrayUnion(eggID)
+      discoveredEggs: arrayUnion(egg.id)
     });
-    setCurrentEgg(eggID);
+    const creatorInfo = await getCreator(egg.creatorID);
+    const combinedEgg = {Egg: egg, Creator: creatorInfo}
+    setCurrentEgg(combinedEgg);
     //TODO: modal with newContent helper in it
     navigation.navigate('Content');
   };
   
-  const oldContent = (eggID) => {
-    // const { setCurrentEgg, currentEgg } = useContext(EggsUserContext);
-    console.log('I got here', currentEgg)
-    // passes EGGID so content loaded via modal
-    console.log('You had already found me!');
-    setCurrentEgg(eggID);
-    //TODO: modal saying content already discovered
+  const oldContent = async (egg) => {
+    const creatorInfo = await getCreator(egg.creatorID);
+    const combinedEgg = {Egg: egg, Creator: creatorInfo}
+    setCurrentEgg(combinedEgg);
+        //TODO: modal saying content already discovered
     navigation.navigate('Content');
   };
   
@@ -42,12 +56,12 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
     if (userEggs?.find((foundEgg) => foundEgg === egg.id)) discovered = true;
     return (
       <Marker
-        key={`${egg.id}-${locked}-${discovered}`} //required to make marker colors change properly (workaround)
+        key={`${egg.id}-${locked}-${discovered}`} //required to make markers change properly (workaround)
         coordinate={{
           latitude: egg.geopoint.latitude,
           longitude: egg.geopoint.longitude
         }}
-        pinColor={locked ? 'red' : discovered ? 'green' : 'yellow'}
+        pinColor={locked ? 'red' : discovered ? 'yellow' : 'green'}
         onPress={() =>
           locked
             ? lockedContent()

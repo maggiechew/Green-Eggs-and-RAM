@@ -14,11 +14,12 @@ import {
 
 export const EggContent = () => {
   const { currentEgg } = useContext(EggsUserContext);
-  // const egg = currentEgg;
+  const creator = currentEgg.Creator;
+  const egg= currentEgg.Egg;
+
   if (!currentEgg) return <Text>NO EGG LOADED</Text>;
-  // console.log('EGG CONTENT: ', currentEgg);
   const LeftContent = () => (
-    <Avatar.Image size={40} source={{ uri: currentEgg.creatorAvatarURI }} />
+    <Avatar.Image size={40} source={{ uri: creator.creatorAvatarURI }} />
   );
 
   return (
@@ -26,18 +27,17 @@ export const EggContent = () => {
       <View style={styles.card}>
         <Card mode='elevated'>
           <Card.Title
-            title={currentEgg.eggName}
-            subtitle={currentEgg.creatorName}
+            title={egg.eggName}
+            subtitle={egg.creatorName}
             subtitleNumberOfLines={2}
             left={LeftContent}
           />
           <Card.Content>
             <Text variant='bodyMedium' style={styles.shortDescription}>
-              {currentEgg.eggBlurb}
+              {egg.eggBlurb}
             </Text>
-            {/* <Text style={styles.link}> </Text> */}
-            {currentEgg.eggURIs.imageURI ? (
-              <Card.Cover source={{ uri: currentEgg.eggURIs.imageURI }} />
+            {egg.eggURIs.imageURI ? (
+              <Card.Cover source={{ uri: egg.eggURIs.imageURI }} />
             ) : (
               <Card />
             )}

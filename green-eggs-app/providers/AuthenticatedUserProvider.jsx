@@ -2,13 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import {
-  collection,
-  doc,
-  setDoc,
-  getDoc,
-  onSnapshot
-} from 'firebase/firestore';
+import {collection, doc, setDoc, onSnapshot} from 'firebase/firestore';
 import { getAuth, signOut } from 'firebase/auth';
 import { AvatarPickContext } from './AvatarPickProvider';
 import { Alert } from 'react-native';

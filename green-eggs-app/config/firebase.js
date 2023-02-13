@@ -14,7 +14,6 @@ const firebaseConfig = {
   appId: Constants.manifest.extra.appId,
   measurementId: Constants.manifest.extra.measurementId
 };
-// console.log('This is firebasConfig', firebaseConfig);
 
 // initialize firebase
 const app = initializeApp(firebaseConfig);

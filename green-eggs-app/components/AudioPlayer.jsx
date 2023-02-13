@@ -70,7 +70,6 @@ const AudioPlayer = ({ visible }) => {
 
   useEffect(() => {
     if (!isPlaying && currentEgg) {
-      // console.log('USEFFECT1: loadaudio');
       loadAudio(currentEgg);
       setSheetOpen(0);
     }
@@ -110,10 +109,10 @@ const AudioPlayer = ({ visible }) => {
     }
   }, [sound, isPlayerReady]);
 
-  async function loadAudio(egg) {
-    if (egg !== null) {
+  async function loadAudio(passedEgg) {
+    if (passedEgg !== null) {
       const { sound: soundData } = await Audio.Sound.createAsync(
-        { uri: egg.eggURIs.audioURI },
+        { uri: passedEgg.Egg.eggURIs.audioURI },
         { shouldPlay: false }
       );
       setSound(soundData);
@@ -167,7 +166,7 @@ const AudioPlayer = ({ visible }) => {
         {!currentEgg ? (
           <Text style={styles.eggName}>'No egg loaded'</Text>
         ) : (
-          <Text style={styles.eggName}>{currentEgg.eggName}</Text>
+          <Text style={styles.eggName}>{currentEgg.Egg.eggName}</Text>
         )}
         <View style={styles.audioPlayer}>
           <Animated.View style={testAnimation}>
