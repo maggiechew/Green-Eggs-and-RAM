@@ -21,11 +21,9 @@ import {
   documentId
 } from 'firebase/firestore';
 import { db } from '../config';
-import { EggsUserContext } from '../providers/EggsSoundProvider';
-// Fonts
 
 function ImagesLikedEggs() {
-  const imgWidth = Dimensions.get('screen').width * 0.33333;
+  const imgWidth = Dimensions.get('screen').width * 0.5;
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userLikedEggs = userInfo.likedEggs;
 
@@ -50,7 +48,7 @@ function ImagesLikedEggs() {
     }
   }, [userLikedEggs]);
 
-  console.log('#########', likeEggsInfo);
+  // console.log('AllLikeEggsInfo', likeEggsInfo);
   const imageURI = likeEggsInfo?.map((image) => image.eggURIs.imageURI);
   console.log('imageURI: ', imageURI);
 
@@ -63,11 +61,71 @@ function ImagesLikedEggs() {
           alignItems: 'flex-start'
         }}
       >
-        {imageURI.map(() => (
+        {imageURI?.map((index) => (
           <View key={index}>
             <Image
               style={{ width: imgWidth, height: imgWidth }}
+              onPress={() => {
+                navigator.navigate('Content');
+              }}
               source={{ uri: imageURI }}
+            />
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+function ImagesDiscoveredEggs() {
+  const imgWidth = Dimensions.get('screen').width * 0.5;
+  const { userInfo, user } = useContext(AuthenticatedUserContext);
+  const userDiscoveredEggs = userInfo.discoveredEggs;
+
+  console.log('userDiscoveredEggs: ', userDiscoveredEggs);
+  const [discoverEggsInfo, setDiscoverEggsInfo] = useState(null);
+
+  useEffect(() => {
+    if (userDiscoveredEggs) {
+      const getDiscoverEggsInfo = async () => {
+        const q = query(
+          collection(db, 'eggs'),
+          where(documentId(), 'in', userDiscoveredEggs)
+        );
+        const querySnapshot = await getDocs(q);
+        const discoverEggsInfo = [];
+        querySnapshot.forEach((doc) => {
+          discoverEggsInfo.push(doc.data());
+        });
+        setDiscoverEggsInfo(discoverEggsInfo);
+      };
+      getDiscoverEggsInfo();
+    }
+  }, [userDiscoveredEggs]);
+
+  // console.log('AllDiscoverEggsInfo', discoverEggsInfo);
+  const imageDiscoverURI = discoverEggsInfo?.map(
+    (image) => image.eggURIs.imageURI
+  );
+  console.log('imageDiscoverURI: ', imageDiscoverURI);
+
+  return (
+    <View style={{}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          alignItems: 'flex-start'
+        }}
+      >
+        {imageDiscoverURI?.map((index) => (
+          <View key={index}>
+            <Image
+              style={{ width: imgWidth, height: imgWidth }}
+              onPress={() => {
+                navigator.navigate('Content');
+              }}
+              source={{ uri: imageDiscoverURI }}
             />
           </View>
         ))}
@@ -80,8 +138,8 @@ export const MyEggsScreen = () => {
   const navigation = useNavigation();
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
-
   const [totalEggCount, setTotalEggCount] = useState(0);
+
   useEffect(() => {
     let totalRef = collection(db, 'eggs');
     const unsubscribe = onSnapshot(totalRef, (querySnapshot) => {
@@ -90,7 +148,8 @@ export const MyEggsScreen = () => {
     return () => unsubscribe();
   }, []);
 
-  ImagesLikedEggs();
+  const [showContent, setShowContent] = useState('ImagesLikedEggs');
+  // ImagesDiscoveredEggs();
 
   return (
     <View style={styles.container}>
@@ -130,6 +189,52 @@ export const MyEggsScreen = () => {
                   <Text style={styles.countText}>TOTAL</Text>
                 </View>
               </View>
+              {/* Interact Buttons View */}
+              <View style={styles.interactButtonsView}>
+                <TouchableOpacity style={styles.interactButton}>
+                  <Text style={styles.interactButtonText}>Follower</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    ...styles.interactButton,
+                    backgroundColor: 'white',
+                    borderWidth: 2,
+                    borderColor: '#4b7bec'
+                  }}
+                >
+                  <Text
+                    style={{ ...styles.interactButtonText, color: '#4b7bec' }}
+                  >
+                    Message
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/* Audio Images View */}
+            <View style={{ marginTop: 20 }}>
+              <View style={styles.profileContentButtonsView}>
+                <TouchableOpacity
+                  style={{
+                    ...styles.showContentButton,
+                    borderBottomWidth: showContent === 'ImagesLikedEggs' ? 2 : 0
+                  }}
+                  onPress={() => setShowContent('ImagesLikedEggs')}
+                >
+                  <Text style={styles.showContentButtonText}>Liked Eggs</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    ...styles.showContentButton,
+                    borderBottomWidth:
+                      showContent === 'ImagesDiscoveredEggs' ? 2 : 0
+                  }}
+                  onPress={() => setShowContent('ImagesDiscoveredEggs')}
+                >
+                  <Text style={styles.showContentButtonText}>
+                    Discovered Eggs
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </>
@@ -145,6 +250,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  profileContainer: {
+    // height: 1000,
+    backgroundColor: '#fff',
+    marginTop: -10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
+  },
   coverImage: { height: 200, width: Dimensions.get('window').width },
   profileImageView: { alignItems: 'center', marginTop: -50 },
   profileImage: {
@@ -157,5 +269,41 @@ const styles = StyleSheet.create({
   countsView: { flexDirection: 'row', marginTop: 20 },
   countView: { flex: 1, alignItems: 'center' },
   countNum: { fontFamily: 'SSBold', fontSize: 20 },
-  countText: { fontFamily: 'SSRegular', fontSize: 18, color: '#333' }
+  countText: { fontFamily: 'SSRegular', fontSize: 18, color: '#333' },
+  interactButtonsView: {
+    flexDirection: 'row',
+    marginTop: 10,
+    paddingHorizontal: 20
+  },
+  interactButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#4b7bec',
+    margin: 5,
+    borderRadius: 4
+  },
+  interactButtonText: {
+    fontFamily: 'SSBold',
+    color: '#fff',
+    fontSize: 18,
+    paddingVertical: 6
+  },
+  profileContentButtonsView: {
+    flexDirection: 'row',
+    borderTopWidth: 2,
+    borderTopColor: '#f1f3f6'
+  },
+  showContentButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomColor: '#000'
+  },
+  showContentButtonText: {
+    color: '#333',
+    fontFamily: 'SSRegular',
+    fontSize: 18
+  }
 });
