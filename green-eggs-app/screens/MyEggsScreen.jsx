@@ -12,19 +12,47 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AuthenticatedUserContext } from '../providers';
 
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+  getDocs,
+  documentId
+} from 'firebase/firestore';
 import { db } from '../config';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
 // Fonts
 
-function ImagesLiked({ images }) {
+function ImagesLikedEggs() {
   const imgWidth = Dimensions.get('screen').width * 0.33333;
-  const { userInfo } = useContext(AuthenticatedUserContext);
+  const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userLikedEggs = userInfo.likedEggs;
-  const userDiscoveredEggs = userInfo.discoveredEggs;
 
-  const [userEggsURI, setUserEggsURI] = useState([]);
-  let currentUserEggs = collection(db, 'eggs');
-  console.log('currentUserEggsInfodetail!!!!!!!!!: ', currentUserEggs);
+  console.log('userLikedEggs: ', userLikedEggs);
+  const [likeEggsInfo, setLikeEggsInfo] = useState(null);
+
+  useEffect(() => {
+    if (userLikedEggs) {
+      const getLikeEggsInfo = async () => {
+        const q = query(
+          collection(db, 'eggs'),
+          where(documentId(), 'in', userLikedEggs)
+        );
+        const querySnapshot = await getDocs(q);
+        const likeEggsInfo = [];
+        querySnapshot.forEach((doc) => {
+          likeEggsInfo.push(doc.data());
+        });
+        setLikeEggsInfo(likeEggsInfo);
+      };
+      getLikeEggsInfo();
+    }
+  }, [userLikedEggs]);
+
+  console.log('#########', likeEggsInfo);
+  const imageURI = likeEggsInfo?.map((image) => image.eggURIs.imageURI);
+  console.log('imageURI: ', imageURI);
 
   return (
     <View style={{}}>
@@ -35,11 +63,11 @@ function ImagesLiked({ images }) {
           alignItems: 'flex-start'
         }}
       >
-        {images.map(() => (
+        {imageURI.map(() => (
           <View key={index}>
             <Image
               style={{ width: imgWidth, height: imgWidth }}
-              source={{ uri: images }}
+              source={{ uri: imageURI }}
             />
           </View>
         ))}
@@ -53,19 +81,6 @@ export const MyEggsScreen = () => {
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
 
-  console.log('userInfo: ', userInfo);
-  console.log('likedeggs: ', userInfo.likedEggs);
-  console.log('discoveredeggs: ', userInfo.discoveredEggs);
-
-  const userLikedEggs = userInfo.likedEggs;
-  console.log('userLikedEggs: ', userLikedEggs);
-  let UsersEggsInfo = collection(db, 'eggs');
-  console.log('AllEggsInfodetail: ', UsersEggsInfo);
-  const unsubscribe = onSnapshot(UsersEggsInfo, (querySnapshot) => {
-    const usersEggs = querySnapshot.docs.map((doc) => doc.data());
-    console.log('usersEggs: ', usersEggs);
-  });
-
   const [totalEggCount, setTotalEggCount] = useState(0);
   useEffect(() => {
     let totalRef = collection(db, 'eggs');
@@ -74,6 +89,8 @@ export const MyEggsScreen = () => {
     });
     return () => unsubscribe();
   }, []);
+
+  ImagesLikedEggs();
 
   return (
     <View style={styles.container}>
