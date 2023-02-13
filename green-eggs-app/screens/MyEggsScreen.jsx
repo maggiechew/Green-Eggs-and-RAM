@@ -4,6 +4,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  TouchableHighlight,
   Image,
   ActivityIndicator,
   Dimensions
@@ -11,7 +12,7 @@ import {
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AuthenticatedUserContext } from '../providers';
-
+import { Images } from '../config';
 import {
   collection,
   onSnapshot,
@@ -81,7 +82,7 @@ function ImagesDiscoveredEggs() {
   const imgWidth = Dimensions.get('screen').width * 0.5;
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userDiscoveredEggs = userInfo.discoveredEggs;
-
+  const navigation = useNavigation();
   console.log('userDiscoveredEggs: ', userDiscoveredEggs);
   const [discoverEggsInfo, setDiscoverEggsInfo] = useState(null);
 
@@ -105,7 +106,7 @@ function ImagesDiscoveredEggs() {
 
   // console.log('AllDiscoverEggsInfo', discoverEggsInfo);
   const imageDiscoverURIs = discoverEggsInfo?.map(
-    (image) => image.eggURIs.imageURI
+    (image) => image.eggURIs.imageURI || 'defaultImage'
   );
   console.log('imageDiscoverURIs: ', imageDiscoverURIs);
 
@@ -119,15 +120,17 @@ function ImagesDiscoveredEggs() {
         }}
       >
         {imageDiscoverURIs?.map((image, index) => (
-          <View key={index}>
+          <TouchableHighlight
+            key={index}
+            onPress={() => {
+              navigation.navigate('Content');
+            }}
+          >
             <Image
               style={{ width: imgWidth, height: imgWidth }}
-              onPress={() => {
-                navigator.navigate('Content');
-              }}
-              source={{ uri: image }}
+              source={image == 'defaultImage' ? Images.logo : { uri: image }}
             />
-          </View>
+          </TouchableHighlight>
         ))}
       </View>
     </View>
@@ -135,7 +138,6 @@ function ImagesDiscoveredEggs() {
 }
 
 export const MyEggsScreen = () => {
-  const navigation = useNavigation();
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
   const [totalEggCount, setTotalEggCount] = useState(0);
