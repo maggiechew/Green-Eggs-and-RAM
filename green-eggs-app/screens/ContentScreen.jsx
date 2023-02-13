@@ -2,8 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import * as WebBrowser from 'expo-web-browser';
 import {
   Avatar,
+  Button,
   Card,
   Divider,
   List,
@@ -15,13 +17,21 @@ import { EggsUserContext } from '../providers/EggsSoundProvider';
 
 export const ContentScreen = () => {
   const { currentEgg } = useContext(EggsUserContext);
-
   const creator = currentEgg.Creator;
-  const egg= currentEgg.Egg;
+  const egg = currentEgg.Egg;
+  const arLink = egg.eggURIs.arURI;
 
   const navigation = useNavigation();
   const [value, setValue] = useState(currentEgg.eggName);
+  const [result, setResult] = useState(null);
 
+  const _handlePressButtonAsync = async () => {
+    let result = await WebBrowser.openBrowserAsync(
+      arLink
+    );
+    setResult(result);
+  };
+  
   return (
     <View style={styles.background}>
       <ScrollView style={styles.container}>
@@ -40,7 +50,7 @@ export const ContentScreen = () => {
             />
             <AudioPlayer contentButton={false} />
             <Card.Content>
-              <Divider />
+              {/* <Divider /> */}
               <Text variant='bodyMedium' style={styles.shortDescription}>
                 {egg.eggBlurb}
               </Text>
@@ -50,6 +60,16 @@ export const ContentScreen = () => {
               <View style={styles.buttons}></View>
             </Card.Content>
           </Card>
+          {arLink && (
+            <Button
+              style={styles.arButton}
+              onPress={() => {
+                _handlePressButtonAsync();
+              }}
+            >
+              <Text>Click here to enjoy your AR experience</Text>
+            </Button>
+          )}
           <List.Section style={styles.list}>
             <List.Accordion title='Learn More'>
               <SegmentedButtons
@@ -115,5 +135,11 @@ const styles = StyleSheet.create({
   },
   list: {
     margin: 20
+  },
+  arButton: {
+    marginVertical: 5,
+    marginHorizontal: 10,
+    textColor: 'white',
+    backgroundColor: '#FFCC33'
   }
 });
