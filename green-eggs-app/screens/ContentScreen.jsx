@@ -1,21 +1,18 @@
-import { View, StyleSheet, StatusBar } from 'react-native';
-import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import React, { useContext, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
-  Button,
+  Avatar,
   Card,
-  Text,
   Divider,
   List,
-  Avatar,
-  SegmentedButtons
+  SegmentedButtons,
+  Text
 } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
 // import AudioPlayer from '../components/AudioPlayer';
-import {
-  EggsUserContext,
-  useEggsUserContext
-} from '../providers/EggsSoundProvider';
+import AudioPlayer from '../components/AudioPlayer';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
 
 export const ContentScreen = () => {
   const { currentEgg } = useContext(EggsUserContext);
@@ -37,7 +34,7 @@ export const ContentScreen = () => {
     <View style={styles.background}>
       <ScrollView style={styles.container}>
         <View style={styles.card}>
-          <Card mode='elevated'>
+          <Card mode='elevated' style={{ backgroundColor: 'white' }}>
             <Card.Title
               title={egg.eggName}
               subtitle={egg.creatorName}
@@ -49,46 +46,16 @@ export const ContentScreen = () => {
                 />
               )}
             />
+            <AudioPlayer contentButton={false} />
             <Card.Content>
               <Divider />
               <Text variant='bodyMedium' style={styles.shortDescription}>
                 {egg.eggBlurb}
               </Text>
-              {/* <Text style={styles.link}> </Text> */}
+
               <Divider />
-              <Card.Cover source={{ uri: egg.eggURIs.imageURI }} />
-              <View style={styles.buttons}>
-                <Card.Actions style={styles.buttons}>
-                  {/* <Button
-                    onPress={() => {
-                      console.log('Loved it');
-                    }}
-                  >
-                    Love
-                  </Button> */}
-                  <Button
-                    onPress={() => {
-                      console.log('Saved it');
-                    }}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      console.log('Remove it');
-                    }}
-                  >
-                    Remove
-                  </Button>
-                  {/* <Button
-                    onPress={() => {
-                      console.log('Reported it');
-                    }}
-                  >
-                    Report
-                  </Button> */}
-                </Card.Actions>
-              </View>
+              <Card.Cover source={{ uri: currentEgg.Egg.eggURIs.imageURI }} />
+              <View style={styles.buttons}></View>
             </Card.Content>
           </Card>
           <List.Section style={styles.list}>
@@ -122,13 +89,6 @@ export const ContentScreen = () => {
           </List.Section>
         </View>
       </ScrollView>
-      {/* <Card style={styles.subcontent}>
-        <Card mode="contained" style={styles.sampleAudio}>
-          <Text variant="headlineLarge">Audio Player here</Text>
-          <Text>Audio Player here</Text>
-        </Card>
-        <Button onPress={() => navigation.navigate('Map')}>Go Back</Button>
-      </Card> */}
     </View>
   );
 };
@@ -148,7 +108,9 @@ const styles = StyleSheet.create({
   },
   background: {
     height: '100%',
-    alignContent: 'space-between'
+    alignContent: 'space-between',
+    backgroundColor: 'white',
+    background: 'white'
   },
   buttons: {
     flex: 1,

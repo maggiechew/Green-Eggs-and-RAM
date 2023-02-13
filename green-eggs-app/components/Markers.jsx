@@ -3,7 +3,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Marker } from 'react-native-maps';
 import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
-import { EggsUserContext } from '../providers/EggsSoundProvider';
+import {
+  EggsUserContext,
+  useEggsUserContext
+} from '../providers/EggsSoundProvider';
 
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);

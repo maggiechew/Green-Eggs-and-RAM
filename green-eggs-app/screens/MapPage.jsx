@@ -4,27 +4,42 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { Avatar } from 'react-native-paper';
-import AudioPlayer from '../components/AudioPlayer';
 import AvatarMenu from '../components/AvatarMenu';
 import { Markers } from '../components/Markers';
 import { Zones } from '../components/Zones';
 import {useEggsUserContext} from '../providers/EggsSoundProvider';
 import { zonesFromDB } from '../utils/geopoints';
+
+import AudioSheet from '../components/AudioSheet';
+import MessagingModal from '../components/MessagingModal';
 import { AuthenticatedUserContext } from '../providers';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
-  const [showAudioPlayer] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+
+  const {
+    currentEgg,
+    setCurrentEgg,
+    showModal,
+    setShowModal,
+    currentEggID,
+    setCurrentEggID,
+    modalType,
+    setModalType
+  } = useEggsUserContext();
+  // MODAL STATES: enterZone, tutorial, newEgg
+
   const [zoneToHide, setZoneToHide] = useState(null);
   const [location, setLocation] = useState(null);
   const [eggsInRange, setEggsInRange] = useState();
   const [zoneEggs, setZoneEggs] = useState();
   const [userStats, setUserStats] = useState({});
 
-  const { setCurrentEgg } = useEggsUserContext();
-  const { userInfo } = useContext(AuthenticatedUserContext);
+  const authContext = useContext(AuthenticatedUserContext);
+  const { userInfo, user } = authContext;
+  const userID = user.uid;
 
   const defaultPicture = require('../assets/defaultavatar.jpg');
 
@@ -35,6 +50,31 @@ export const MapPage = ({ navigation, children }) => {
     }
     _getZones();
   }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      if (!userInfo.seenTutorial) {
+        console.log('SEEN TUTORIAL: ', userInfo);
+        setModalType('tutorial');
+        setShowModal(true);
+      }
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    async function _getEgg() {
+      const testEgg = await getEgg(currentEggID);
+      const testCreator = await getCreator(testEgg.creatorID);
+      const combinedEgg = { ...testEgg, ...testCreator };
+      setCurrentEgg(combinedEgg);
+    }
+    if (currentEggID) {
+      _getEgg();
+    } else {
+      setCurrentEgg(null);
+      console.log('SET CURRENT EGG TO NULL');
+    }
+  }, [currentEggID]);
 
   const handleMenu = () => {
     setShowMenu(!showMenu);
@@ -80,9 +120,13 @@ export const MapPage = ({ navigation, children }) => {
             if (zoneToHide !== usersZone) {
               if (usersZone === undefined) {
                 setZoneToHide(null);
-                setCurrentEgg(null)
+                setCurrentEgg(null);
               } else {
                 setZoneToHide(usersZone);
+                if (modalType !== 'enterZone' && modalType !== 'tutorial') {
+                  setModalType('enterZone');
+                  setShowModal(true);
+                }
               }
             }
           };
@@ -221,8 +265,13 @@ export const MapPage = ({ navigation, children }) => {
         handleMenu={handleMenu}
         navigation={navigation}
       />
+      <MessagingModal
+        visible={showModal}
+        stats={userStats}
+        modalType={modalType}
+      />
 
-      <AudioPlayer visible={showAudioPlayer} navigation />
+      <AudioSheet navigation />
 
       <StatusBar style='light' />
     </View>

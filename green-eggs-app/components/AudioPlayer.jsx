@@ -22,9 +22,7 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 
-const AudioPlayer = ({ visible }) => {
-  const [duration, setDuration] = useState(undefined);
-  const [position, setPosition] = useState(0);
+const AudioPlayer = ({ contentButton }) => {
   const {
     isPlayerReady,
     setIsPlayerReady,
@@ -35,21 +33,14 @@ const AudioPlayer = ({ visible }) => {
     currentEgg,
     setCurrentEgg,
     sheetOpen,
-    setSheetOpen
+    setSheetOpen,
+    duration,
+    setDuration,
+    position,
+    setPosition
   } = useContext(EggsUserContext);
 
   const navigation = useNavigation();
-
-  // BOTTOM SHEET setup
-  // ref
-  const bottomSheetRef = useRef(null);
-
-  // variables
-  const snapPoints = useMemo(() => ['20%', '64%'], []);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index) => {}, []);
-  // ^^ BOTTOM SHEET SETUP ^^
 
   // ANIMATION TEST
   const testAnimation = useAnimatedStyle(() => ({
@@ -70,13 +61,14 @@ const AudioPlayer = ({ visible }) => {
 
   useEffect(() => {
     if (!isPlaying && currentEgg) {
+      console.log('USEFFECT1: loadaudio');
       loadAudio(currentEgg);
-      setSheetOpen(0);
+      // setSheetOpen(0);
     }
     if (currentEgg === null) {
       setIsPlayerReady(false);
       unloadAudio();
-      setSheetOpen(-1);
+      // setSheetOpen(-1);
     }
   }, [currentEgg]);
 
@@ -156,19 +148,16 @@ const AudioPlayer = ({ visible }) => {
   };
 
   return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      index={sheetOpen}
-      snapPoints={snapPoints}
-      onChange={handleSheetChanges}
-    >
-      <View style={styles.modal}>
-        {!currentEgg ? (
-          <Text style={styles.eggName}>'No egg loaded'</Text>
-        ) : (
-          <Text style={styles.eggName}>{currentEgg.Egg.eggName}</Text>
-        )}
-        <View style={styles.audioPlayer}>
+    <View style={styles.modal}>
+      {!currentEgg ? (
+        <Text style={styles.eggName}>'No egg loaded'</Text>
+      ) : contentButton ? (
+        <Text style={styles.eggName}>{currentEgg.Egg.eggName}</Text>
+      ) : (
+        <></>
+      )}
+      <View style={styles.audioPlayer}>
+        {contentButton ? (
           <Animated.View style={testAnimation}>
             <IconButton
               icon='egg-outline'
@@ -180,44 +169,43 @@ const AudioPlayer = ({ visible }) => {
               size={40}
             />
           </Animated.View>
+        ) : (
+          <></>
+        )}
 
-          {isPlaying ? (
-            <IconButton
-              icon='pause-circle'
-              containerColor={'#ffffff'}
-              onPress={() => pausePlayAudio()}
-              size={35}
-            />
-          ) : (
-            <IconButton
-              icon='play-circle'
-              containerColor={'#ffffff'}
-              onPress={() => pausePlayAudio()}
-              size={35}
-            />
-          )}
-
-          <Slider
-            style={{ width: 170, height: 30 }}
-            minimumValue={0}
-            maximumValue={1}
-            value={calculateSeekBar()}
-            onValueChange={(value) => {
-              setPosition(value * duration);
-            }}
-            onSlidingComplete={async (value) => {
-              await sound.setPositionAsync(value * duration);
-              setPosition(value * duration);
-            }}
-            step={0.01}
+        {isPlaying ? (
+          <IconButton
+            icon='pause-circle'
+            containerColor={'#ffffff'}
+            onPress={() => pausePlayAudio()}
+            size={35}
           />
-          <Text>-{renderCurrentTime()}</Text>
-        </View>
+        ) : (
+          <IconButton
+            icon='play-circle'
+            containerColor={'#ffffff'}
+            onPress={() => pausePlayAudio()}
+            size={35}
+          />
+        )}
+
+        <Slider
+          style={{ width: 170, height: 30 }}
+          minimumValue={0}
+          maximumValue={1}
+          value={calculateSeekBar()}
+          onValueChange={(value) => {
+            setPosition(value * duration);
+          }}
+          onSlidingComplete={async (value) => {
+            await sound.setPositionAsync(value * duration);
+            setPosition(value * duration);
+          }}
+          step={0.01}
+        />
+        <Text>-{renderCurrentTime()}</Text>
       </View>
-      <BottomSheetScrollView>
-        {currentEgg !== null ? <EggContent /> : <Text>Loading...</Text>}
-      </BottomSheetScrollView>
-    </BottomSheet>
+    </View>
   );
 };
 

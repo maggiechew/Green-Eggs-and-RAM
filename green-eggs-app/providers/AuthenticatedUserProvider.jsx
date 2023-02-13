@@ -55,7 +55,8 @@ export const AuthenticatedUserProvider = ({ children }) => {
       email: email,
       discoveredEggs: [],
       likedEggs: [],
-      friends: []
+      friends: [],
+      tutorial: false
     });
     return user;
   };
