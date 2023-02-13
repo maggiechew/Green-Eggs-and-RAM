@@ -2,6 +2,7 @@ import { View, Text } from 'react-native';
 import React from 'react';
 
 export const userStats = (userStats) => {
+  console.log('SHOW STATS: ', userStats);
   if (userStats && userStats.zoneFound) {
     let discoveredEggs = userStats.zoneFound;
     let undiscovered = 100 - discoveredEggs;
@@ -12,5 +13,5 @@ export const userStats = (userStats) => {
         <Text>There are {undiscovered}% of eggs still to discover! </Text>
       </View>
     );
-  } else return <Text>NO STATS</Text>;
+  } else return <Text>Loading...</Text>;
 };
