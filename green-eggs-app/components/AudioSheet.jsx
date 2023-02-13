@@ -28,26 +28,22 @@ export default function AudioSheet() {
     currentEggID
   } = useContext(EggsUserContext);
 
-  // BOTTOM SHEET setup
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['20%', '64%'], []);
   const handleSheetChanges = useCallback((index) => {}, []);
   const handleClosePress = () => bottomSheetRef.current.close();
-  // ^^ BOTTOM SHEET SETUP ^^
 
   useEffect(() => {
     if (currentEgg) {
       setSheetOpen(0);
     }
     if (currentEgg === null) {
-      console.log('I SHOULD CLOSE SHEET NOW');
       setSheetOpen(-1);
       handleClosePress();
     }
   }, [currentEgg]);
 
   useEffect(() => {
-    console.log('SHEET OPEN?: ', sheetOpen);
   }, [sheetOpen]);
 
   return (

@@ -38,19 +38,16 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
     setCurrentEgg(combinedEgg);
     setModalType('newEgg')
     setShowModal(true)
-    // navigation.navigate('Content');
   };
   
   const oldContent = async (egg) => {
     const creatorInfo = await getCreator(egg.creatorID);
     const combinedEgg = {Egg: egg, Creator: creatorInfo}
     setCurrentEgg(combinedEgg);
-    // navigation.navigate('Content');
   };
   
   const lockedContent = () => {
     console.log('Im locked, yo!');
-    // TODO: modal with stillUnlocked
   };
   return zoneEggs?.map((egg) => {
     let locked = true;

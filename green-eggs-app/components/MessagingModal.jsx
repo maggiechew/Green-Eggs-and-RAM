@@ -20,7 +20,6 @@ export default function MessagingModal({ stats, modalType }) {
   const navigation = useNavigation();
 
   const playSFX = async () => {
-    console.log('Loading Sound');
     const { sound: soundFX } = await Audio.Sound.createAsync(
       require('../assets/hit-fiver.mp3'),
       { shouldPlay: true }

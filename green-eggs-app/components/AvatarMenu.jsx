@@ -2,7 +2,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
 import { Provider, Modal, Portal, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-// import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import {
   EggsUserContext,
@@ -18,7 +17,6 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
     sound.pauseAsync();
     sound.unloadAsync();
     authLogout();
-    // signOut(auth).catch((error) => console.log('Error logging out: ', error));
   };
   const { sound, setSound } = useEggsUserContext();
 
@@ -43,26 +41,12 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
           </Button>
         </View>
         <View style={styles.bottom}>
-          {/* MyFriends page hidden for now */}
-          {/* <Button
-          style={styles.button}
-          onPress={() => navigation.push('Friends')}
-        >
-          <Text style={styles.buttonText}>My Friends</Text>
-        </Button> */}
           <Button
             style={styles.button}
             onPress={() => navigation.navigate('MyEggs')}
           >
             <Text style={styles.buttonText}>My Eggs Collection</Text>
           </Button>
-          {/* Account page hidden for now */}
-          {/* <Button
-          style={styles.button}
-          onPress={() => navigation.navigate('Account')}
-        >
-          <Text style={styles.butt0onText}>My Account</Text>
-        </Button> */}
           <Button style={styles.signOutButton} onPress={handleLogout}>
             <Text style={styles.buttonText}>Sign Out</Text>
           </Button>

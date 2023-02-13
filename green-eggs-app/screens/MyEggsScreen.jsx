@@ -13,7 +13,6 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthenticatedUserContext } from '../providers';
 
 import { EggsUserContext } from '../providers/EggsSoundProvider';
-// Fonts
 
 function ImagesSaved({ images }) {
   const imgWidth = Dimensions.get('screen').width * 0.33333;
@@ -47,8 +46,6 @@ export const MyEggsScreen = () => {
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
 
-  // console.log('userInfo: ', userInfo);
-  // console.log('eggs: ', userInfo.likedEggs);
   return (
     <View style={styles.container}>
       <ScrollView showsHorizontalScrollIndicator={false}>

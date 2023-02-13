@@ -18,7 +18,6 @@ export const AppStack = () => {
   return (
     <Stack.Navigator
       initialRouteName='Login'
-      // screenOptions={{ headerShown: true }}
     >
       <Stack.Screen name='Map' component={MapPage} />
 

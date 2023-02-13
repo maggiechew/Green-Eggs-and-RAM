@@ -9,9 +9,6 @@ export const AvatarPickProvider = (props) => {
   const [image, setImage] = useState(null);
   const [picture, setPicture] = useState(null);
 
-  // useEffect(() => {
-  //   console.log('this is picture', picture);
-  // }, [picture]);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -22,7 +19,6 @@ export const AvatarPickProvider = (props) => {
     });
     console.log('this is Result', result);
     if (!result.canceled) {
-      // setImage(result.assets[0].uri);this is correct one, but I have to use wrong one make it work
       setImage(result.uri);
     }
   };

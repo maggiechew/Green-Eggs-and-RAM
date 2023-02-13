@@ -1,29 +1,22 @@
-import { View, Text } from 'react-native';
-import React, { useEffect, useState, useContext } from 'react';
-import { AuthenticatedUserContext } from '../providers';
-import { collection, doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
+import React, { useContext, useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
 import { db } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 
 const EggCollection = () => {
-  const [usersCollection, setUserCollection] = useState([]);
-  const { userInfo, user } = useContext(AuthenticatedUserContext);
+  const [setUserCollection] = useState([]);
+  const { user } = useContext(AuthenticatedUserContext);
   useEffect(() => {
     if (user) {
-      // console.log('user!!!: ', Object.keys(user?.user));
       const docRef = doc(db, 'users', user?.uid);
-      console.log('docRef: ', docRef);
-      // let queryRef = query(collectionRef, where('egg', '==', true));
       const unsubscribe = onSnapshot(docRef, (querySnap) => {
-        console.log('querySnap: ', querySnap);
         if (querySnap.empty) {
-          console.log('No matching documents.');
           return;
         } else {
           let usersData = querySnap.data();
           setUserCollection(usersData);
-          //   console.log('usersData!!!: ', usersData);
           const userEgg = usersData.likedEggs;
-          console.log('One User Egg!!!!: ', userEgg);
         }
       });
       return () => unsubscribe();

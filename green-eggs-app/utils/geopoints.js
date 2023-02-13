@@ -21,6 +21,5 @@ export const zonesFromDB = async () => {
       })
     };
   });
-  // console.log('Data is', data)
   return data;
 };

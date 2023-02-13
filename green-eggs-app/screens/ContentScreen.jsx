@@ -10,7 +10,6 @@ import {
   SegmentedButtons,
   Text
 } from 'react-native-paper';
-// import AudioPlayer from '../components/AudioPlayer';
 import AudioPlayer from '../components/AudioPlayer';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 
@@ -19,16 +18,9 @@ export const ContentScreen = () => {
 
   const creator = currentEgg.Creator;
   const egg= currentEgg.Egg;
-  // console.log('egg', egg)
 
   const navigation = useNavigation();
   const [value, setValue] = useState(currentEgg.eggName);
-
-  // Don't think the below is required as egg isn't pressable until in range/ egg found.
-
-  // if (!currentEgg) {
-  //   return <Text>NO EGG FOUND YET! Go find some eggs. </Text>;
-  // }
 
   return (
     <View style={styles.background}>

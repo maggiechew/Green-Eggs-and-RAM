@@ -54,7 +54,6 @@ export const MapPage = ({ navigation, children }) => {
   useEffect(() => {
     if (userInfo) {
       if (!userInfo.seenTutorial) {
-        console.log('SEEN TUTORIAL: ', userInfo);
         setModalType('tutorial');
         setShowModal(true);
       }
@@ -72,7 +71,6 @@ export const MapPage = ({ navigation, children }) => {
       _getEgg();
     } else {
       setCurrentEgg(null);
-      console.log('SET CURRENT EGG TO NULL');
     }
   }, [currentEggID]);
 
@@ -180,7 +178,6 @@ export const MapPage = ({ navigation, children }) => {
         updatedUser.discoverdEggs.push(eggsInRange.id);
       }
     });
-    // console.log('!!! update user in', updatedUser);
   }, [eggsInRange]);
 
   useEffect(() => {

@@ -61,14 +61,11 @@ const AudioPlayer = ({ contentButton }) => {
 
   useEffect(() => {
     if (!isPlaying && currentEgg) {
-      console.log('USEFFECT1: loadaudio');
       loadAudio(currentEgg);
-      // setSheetOpen(0);
     }
     if (currentEgg === null) {
       setIsPlayerReady(false);
       unloadAudio();
-      // setSheetOpen(-1);
     }
   }, [currentEgg]);
 
@@ -88,9 +85,7 @@ const AudioPlayer = ({ contentButton }) => {
           setPosition(status.positionMillis);
         }
         if (status.isLoaded && !status.isPlaying) {
-          // setIsPlayerReady(true);
           setDuration(status.durationMillis);
-          // if (position === 0) setPosition(1);
         }
         if (status.didJustFinish) {
           sound.pauseAsync();
@@ -163,7 +158,6 @@ const AudioPlayer = ({ contentButton }) => {
               icon='egg-outline'
               containerColor={'#ffffff'}
               onPress={() => {
-                // sound.unloadAsync();
                 navigation.navigate('Content');
               }}
               size={40}
@@ -221,7 +215,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginRight: 25,
-    // marginBottom: 20,
     marginTop: 0
   },
   eggName: {
@@ -231,13 +224,6 @@ const styles = StyleSheet.create({
     marginBottom: -20
   },
   animationContainer: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // position: 'absolute',
-    // top: 8,
-    // bottom: 0,
-    // left: 0,
-    // right: 4
   }
 });
 
