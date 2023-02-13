@@ -48,9 +48,9 @@ function ImagesLikedEggs() {
     }
   }, [userLikedEggs]);
 
-  // console.log('AllLikeEggsInfo', likeEggsInfo);
-  const imageURI = likeEggsInfo?.map((image) => image.eggURIs.imageURI);
-  console.log('imageURI: ', imageURI);
+  console.log('AllLikeEggsInfo', likeEggsInfo);
+  const imageURIs = likeEggsInfo?.map((image) => image.eggURIs.imageURI);
+  console.log('imageURIs: ', imageURIs);
 
   return (
     <View style={{}}>
@@ -61,14 +61,14 @@ function ImagesLikedEggs() {
           alignItems: 'flex-start'
         }}
       >
-        {imageURI?.map((index) => (
+        {imageURIs?.map((image, index) => (
           <View key={index}>
             <Image
               style={{ width: imgWidth, height: imgWidth }}
               onPress={() => {
                 navigator.navigate('Content');
               }}
-              source={{ uri: imageURI }}
+              source={{ uri: image }}
             />
           </View>
         ))}
@@ -104,10 +104,10 @@ function ImagesDiscoveredEggs() {
   }, [userDiscoveredEggs]);
 
   // console.log('AllDiscoverEggsInfo', discoverEggsInfo);
-  const imageDiscoverURI = discoverEggsInfo?.map(
+  const imageDiscoverURIs = discoverEggsInfo?.map(
     (image) => image.eggURIs.imageURI
   );
-  console.log('imageDiscoverURI: ', imageDiscoverURI);
+  console.log('imageDiscoverURIs: ', imageDiscoverURIs);
 
   return (
     <View style={{}}>
@@ -118,14 +118,14 @@ function ImagesDiscoveredEggs() {
           alignItems: 'flex-start'
         }}
       >
-        {imageDiscoverURI?.map((index) => (
+        {imageDiscoverURIs?.map((image, index) => (
           <View key={index}>
             <Image
               style={{ width: imgWidth, height: imgWidth }}
               onPress={() => {
                 navigator.navigate('Content');
               }}
-              source={{ uri: imageDiscoverURI }}
+              source={{ uri: image }}
             />
           </View>
         ))}
@@ -149,7 +149,6 @@ export const MyEggsScreen = () => {
   }, []);
 
   const [showContent, setShowContent] = useState('ImagesLikedEggs');
-  // ImagesDiscoveredEggs();
 
   return (
     <View style={styles.container}>
@@ -222,6 +221,7 @@ export const MyEggsScreen = () => {
                 >
                   <Text style={styles.showContentButtonText}>Liked Eggs</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
                   style={{
                     ...styles.showContentButton,
@@ -235,6 +235,11 @@ export const MyEggsScreen = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
+              {showContent === 'ImagesLikedEggs' ? (
+                <ImagesLikedEggs />
+              ) : (
+                <ImagesDiscoveredEggs />
+              )}
             </View>
           </View>
         </>
