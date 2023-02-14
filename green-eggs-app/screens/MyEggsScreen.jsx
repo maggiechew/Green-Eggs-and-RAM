@@ -1,8 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import {
-  collection, doc, documentId,
+  collection,
+  doc,
+  documentId,
   getDoc,
-  getDocs, query,
+  getDocs,
+  query,
   where
 } from 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react';
@@ -20,6 +23,7 @@ import {
 import { db, Images } from '../config';
 import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
+
 function ImagesLikedEggs() {
   const imgWidth = Dimensions.get('screen').width * 0.5;
   const { userInfo, user } = useContext(AuthenticatedUserContext);
@@ -40,7 +44,10 @@ function ImagesLikedEggs() {
         const querySnapshot = await getDocs(q);
         const likeEggsInfo = [];
         querySnapshot.forEach((doc) => {
-          likeEggsInfo.push(doc.data());
+          likeEggsInfo.push({
+            id: doc.id,
+            ...doc.data()
+          });
         });
         setLikeEggsInfo(likeEggsInfo);
       };
@@ -194,6 +201,27 @@ export const MyEggsScreen = () => {
                   Hi, {userInfo.firstname} {userInfo.lastname}
                 </Text>
               </View>
+              {/* test */}
+              {/* <View style={styles.interactButtonsView}>
+                <TouchableOpacity style={styles.interactButton}>
+                  <Text style={styles.interactButtonText}>Follow</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    ...styles.interactButton,
+                    backgroundColor: 'white',
+                    borderWidth: 2,
+                    borderColor: '#4b7bec'
+                  }}
+                >
+                  <Text
+                    style={{ ...styles.interactButtonText, color: '#4b7bec' }}
+                  >
+                    Message
+                  </Text>
+                </TouchableOpacity>
+              </View> */}
+              {/* end of test */}
               <View style={styles.countsView}>
                 <View style={styles.countView}>
                   <Text style={styles.countNum}>
