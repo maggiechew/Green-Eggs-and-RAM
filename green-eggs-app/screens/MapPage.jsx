@@ -4,15 +4,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { Avatar } from 'react-native-paper';
+import AudioSheet from '../components/AudioSheet';
 import AvatarMenu from '../components/AvatarMenu';
 import { Markers } from '../components/Markers';
-import { Zones } from '../components/Zones';
-import { useEggsUserContext } from '../providers/EggsSoundProvider';
-import { zonesFromDB } from '../utils/geopoints';
-import AudioSheet from '../components/AudioSheet';
 import MessagingModal from '../components/MessagingModal';
+import { Zones } from '../components/Zones';
 import { AuthenticatedUserContext } from '../providers';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
+import { zonesFromDB } from '../utils/geopoints';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
@@ -32,7 +32,6 @@ export const MapPage = ({ navigation, children }) => {
   const [eggsInRange, setEggsInRange] = useState();
   const [zoneEggs, setZoneEggs] = useState();
   const [userStats, setUserStats] = useState({});
-
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo, user } = authContext;
   const userID = user.uid;
@@ -150,18 +149,6 @@ export const MapPage = ({ navigation, children }) => {
     }
   }, [location, zoneEggs]);
 
-  //leave this for dicorverd eggs_Yan
-  useEffect(() => {
-    if (!eggsInRange || eggsInRange.length == 0) return;
-    const updatedUser = { ...userInfo };
-    updatedUser.discoverdEggs = updatedUser.discoverdEggs || [];
-    eggsInRange.forEach((eggsInRange) => {
-      if (!updatedUser.discoverdEggs.includes(eggsInRange.id)) {
-        updatedUser.discoverdEggs.push(eggsInRange.id);
-      }
-    });
-  }, [eggsInRange]);
-
   useEffect(() => {
     async function _getTheEggs() {
       const eggos = await getGeoEggPoints(activeZone);
@@ -178,11 +165,11 @@ export const MapPage = ({ navigation, children }) => {
   }, [activeZone, userInfo]);
 
   useEffect(() => {
-    const collectedEggs = userInfo?.likedEggs;
+    const discoveredEggs = userInfo?.discoveredEggs;
     let returnValue = 0;
     const zoneEggLength = zoneEggs?.length;
     zoneEggs?.forEach((zoneEgg) => {
-      if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
+      if (discoveredEggs?.find((discovered) => discovered == zoneEgg.id))
         returnValue++;
     });
     const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;

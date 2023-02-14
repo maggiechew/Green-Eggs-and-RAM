@@ -1,13 +1,10 @@
-import { View, Text, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
-import { Provider, Modal, Portal, Button } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import { auth } from '../config';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button, Modal } from 'react-native-paper';
+import { AuthenticatedUserContext } from '../providers';
 import {
-  EggsUserContext,
   useEggsUserContext
 } from '../providers/EggsSoundProvider';
-import { AuthenticatedUserContext } from '../providers';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
 const AvatarMenu = ({ visible, handleMenu, navigation }) => {

@@ -14,6 +14,7 @@ import {
 
 export const EggContent = () => {
   const { currentEgg } = useContext(EggsUserContext);
+  console.log('LE CURRENT EGG', currentEgg)
   const creator = currentEgg.Creator;
   const egg= currentEgg.Egg;
 
