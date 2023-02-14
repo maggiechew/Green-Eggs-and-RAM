@@ -7,7 +7,8 @@ import {
   TouchableHighlight,
   Image,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  Alert
 } from 'react-native';
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
@@ -22,10 +23,12 @@ import {
   documentId
 } from 'firebase/firestore';
 import { db } from '../config';
-
+import { EggsUserContext } from '../providers/EggsSoundProvider';
+import { isIndexedDBAvailable } from '@firebase/util';
 function ImagesLikedEggs() {
   const imgWidth = Dimensions.get('screen').width * 0.5;
   const { userInfo, user } = useContext(AuthenticatedUserContext);
+  const { currentEgg, setCurrentEgg } = useContext(EggsUserContext);
   const userLikedEggs = userInfo.likedEggs;
   const navigation = useNavigation();
 
@@ -54,8 +57,19 @@ function ImagesLikedEggs() {
   const imageURIs = likeEggsInfo?.map(
     (image) => image.eggURIs.imageURI || 'defaultImage'
   );
-  console.log('imageURIs: ', imageURIs);
 
+  //set pictureIndex is index of Array imageURIs
+  // const arrayIndex = (picToDisplay) => {
+  //   const indexArray = [];
+  //   for (const entry in picToDisplay) {
+  //     // pictureID =
+  //   }
+  //   return indexArray;
+  // };
+  // const indexArray = arrayIndex(imageURIs);
+  // console.log('indexArray', indexArray);
+
+  console.log('imageURIs: ', imageURIs);
   return (
     <View style={{}}>
       <View
@@ -65,16 +79,20 @@ function ImagesLikedEggs() {
           alignItems: 'flex-start'
         }}
       >
-        {imageURIs?.map((image, index) => (
+        {likeEggsInfo?.map((egg, index) => (
+          // console.log('egg!!!!: ', egg),
           <TouchableHighlight
             key={index}
             onPress={() => {
+              setCurrentEgg(egg);
               navigation.navigate('Content');
             }}
           >
             <Image
               style={{ width: imgWidth, height: imgWidth }}
-              source={image == 'defaultImage' ? Images.logo : { uri: image }}
+              source={{
+                uri: egg.eggURIs.imageURI ? egg.eggURIs.imageURI : Images.logo
+              }}
             />
           </TouchableHighlight>
         ))}
@@ -128,7 +146,7 @@ function ImagesDiscoveredEggs() {
           <TouchableHighlight
             key={index}
             onPress={() => {
-              navigation.navigate('Content');
+              Alert.alert('LIKED the egg, you can see more details');
             }}
           >
             <Image
@@ -145,7 +163,7 @@ function ImagesDiscoveredEggs() {
 export const MyEggsScreen = () => {
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
-
+  console.log('userInfo: ', userInfo);
   const [showContent, setShowContent] = useState('ImagesLikedEggs');
 
   return (
@@ -168,6 +186,12 @@ export const MyEggsScreen = () => {
                   source={{ uri: userInfo.avataruri }}
                 />
               </View>
+              {/* User NAME */}
+              <View>
+                <Text style={styles.name}>
+                  Hi, {userInfo.firstname} {userInfo.lastname}
+                </Text>
+              </View>
               <View style={styles.countsView}>
                 <View style={styles.countView}>
                   <Text style={styles.countNum}>
@@ -181,26 +205,6 @@ export const MyEggsScreen = () => {
                   </Text>
                   <Text style={styles.countText}>DISCOVERED</Text>
                 </View>
-              </View>
-              {/* Interact Buttons View */}
-              <View style={styles.interactButtonsView}>
-                <TouchableOpacity style={styles.interactButton}>
-                  <Text style={styles.interactButtonText}>Follower</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    ...styles.interactButton,
-                    backgroundColor: 'white',
-                    borderWidth: 2,
-                    borderColor: '#4b7bec'
-                  }}
-                >
-                  <Text
-                    style={{ ...styles.interactButtonText, color: '#4b7bec' }}
-                  >
-                    Message
-                  </Text>
-                </TouchableOpacity>
               </View>
             </View>
             {/* Audio Images View */}
@@ -267,28 +271,8 @@ const styles = StyleSheet.create({
   },
   countsView: { flexDirection: 'row', marginTop: 20 },
   countView: { flex: 1, alignItems: 'center' },
-  countNum: { fontFamily: 'SSBold', fontSize: 20 },
-  countText: { fontFamily: 'SSRegular', fontSize: 18, color: '#333' },
-  interactButtonsView: {
-    flexDirection: 'row',
-    marginTop: 10,
-    paddingHorizontal: 20
-  },
-  interactButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignContent: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#4b7bec',
-    margin: 5,
-    borderRadius: 4
-  },
-  interactButtonText: {
-    fontFamily: 'SSBold',
-    color: '#fff',
-    fontSize: 18,
-    paddingVertical: 6
-  },
+  countNum: { fontFamily: 'SSBold', fontSize: 20, color: '#4b7bec' },
+  countText: { fontFamily: 'SSRegular', fontSize: 18, color: '#4b7bec' },
   profileContentButtonsView: {
     flexDirection: 'row',
     borderTopWidth: 2,
@@ -304,5 +288,12 @@ const styles = StyleSheet.create({
     color: '#333',
     fontFamily: 'SSRegular',
     fontSize: 18
+  },
+  name: {
+    fontFamily: 'SSBold',
+    fontSize: 20,
+    color: '#333',
+    marginTop: 10,
+    textAlign: 'center'
   }
 });
