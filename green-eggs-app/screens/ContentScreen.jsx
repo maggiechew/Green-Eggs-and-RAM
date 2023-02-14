@@ -30,26 +30,26 @@ export const ContentScreen = () => {
 
   const newLikeEggs = async (egg) => {
     await updateDoc(doc(db, 'users', userID), {
-      likedEggs: arrayUnion(egg.id)
+      likedEggs: arrayUnion(currentEgg.Egg.id)
+    });
+
+    navigation.navigate('MyEggs');
+  };
+  r;
+  const removeEggs = async () => {
+    await updateDoc(doc(db, 'users', userID), {
+      likedEggs: arrayRemove(currentEgg.Egg.id)
     });
     navigation.navigate('MyEggs');
   };
 
-  const removeEggs = async (egg) => {
-    await updateDoc(doc(db, 'users', userID), {
-      likedEggs: arrayRemove(egg.id)
-    });
-    navigation.navigate('MyEggs');
-  };
   const [result, setResult] = useState(null);
 
   const _handlePressButtonAsync = async () => {
-    let result = await WebBrowser.openBrowserAsync(
-      arLink
-    );
+    let result = await WebBrowser.openBrowserAsync(arLink);
     setResult(result);
   };
-  
+
   return (
     <View style={styles.background}>
       <ScrollView style={styles.container}>
