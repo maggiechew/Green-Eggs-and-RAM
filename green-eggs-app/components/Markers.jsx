@@ -1,15 +1,14 @@
-import { arrayUnion, doc, updateDoc, getDoc } from 'firebase/firestore';
-import React, { useContext, useEffect, useState } from 'react';
+import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
+import React, { useContext } from 'react';
 import { Marker } from 'react-native-maps';
 import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
 import {
-  EggsUserContext,
-  useEggsUserContext
+  EggsUserContext
 } from '../providers/EggsSoundProvider';
 
 export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
-  const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
+  const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
   const userID = user.uid;
   const { setCurrentEgg, setShowModal, setModalType } = useContext(EggsUserContext);
@@ -46,8 +45,9 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
     setCurrentEgg(combinedEgg);
   };
   
-  const lockedContent = () => {
+  const lockedContent = (egg) => {
     console.log('Im locked, yo!');
+    console.log('Egg discovery radius is:', egg.discoveryRadius)
   };
   return zoneEggs?.map((egg) => {
     let locked = true;
@@ -64,7 +64,7 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
         pinColor={locked ? 'red' : discovered ? 'yellow' : 'green'}
         onPress={() =>
           locked
-            ? lockedContent()
+            ? lockedContent(egg)
             : discovered
             ? oldContent(egg)
             : newContent(egg)

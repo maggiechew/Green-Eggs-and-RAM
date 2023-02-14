@@ -7,9 +7,8 @@ import { Avatar } from 'react-native-paper';
 import AvatarMenu from '../components/AvatarMenu';
 import { Markers } from '../components/Markers';
 import { Zones } from '../components/Zones';
-import {useEggsUserContext} from '../providers/EggsSoundProvider';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { zonesFromDB } from '../utils/geopoints';
-
 import AudioSheet from '../components/AudioSheet';
 import MessagingModal from '../components/MessagingModal';
 import { AuthenticatedUserContext } from '../providers';
@@ -20,18 +19,15 @@ export const MapPage = ({ navigation, children }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   const {
-    currentEgg,
     setCurrentEgg,
     showModal,
     setShowModal,
-    currentEggID,
-    setCurrentEggID,
     modalType,
     setModalType
   } = useEggsUserContext();
   // MODAL STATES: enterZone, tutorial, newEgg
 
-  const [zoneToHide, setZoneToHide] = useState(null);
+  const [activeZone, setActiveZone] = useState(null);
   const [location, setLocation] = useState(null);
   const [eggsInRange, setEggsInRange] = useState();
   const [zoneEggs, setZoneEggs] = useState();
@@ -59,20 +55,6 @@ export const MapPage = ({ navigation, children }) => {
       }
     }
   }, [userInfo]);
-
-  useEffect(() => {
-    async function _getEgg() {
-      const testEgg = await getEgg(currentEggID);
-      const testCreator = await getCreator(testEgg.creatorID);
-      const combinedEgg = { ...testEgg, ...testCreator };
-      setCurrentEgg(combinedEgg);
-    }
-    if (currentEggID) {
-      _getEgg();
-    } else {
-      setCurrentEgg(null);
-    }
-  }, [currentEggID]);
 
   const handleMenu = () => {
     setShowMenu(!showMenu);
@@ -115,12 +97,12 @@ export const MapPage = ({ navigation, children }) => {
           );
 
           const determineZone = () => {
-            if (zoneToHide !== usersZone) {
+            if (activeZone !== usersZone) {
               if (usersZone === undefined) {
-                setZoneToHide(null);
+                setActiveZone(null);
                 setCurrentEgg(null);
               } else {
-                setZoneToHide(usersZone);
+                setActiveZone(usersZone);
                 if (modalType !== 'enterZone' && modalType !== 'tutorial') {
                   setModalType('enterZone');
                   setShowModal(true);
@@ -154,7 +136,7 @@ export const MapPage = ({ navigation, children }) => {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude
           },
-          100
+          egg.discoveryRadius? egg.discoveryRadius : 100
         );
       };
 
@@ -182,18 +164,18 @@ export const MapPage = ({ navigation, children }) => {
 
   useEffect(() => {
     async function _getTheEggs() {
-      const eggos = await getGeoEggPoints(zoneToHide);
+      const eggos = await getGeoEggPoints(activeZone);
       setZoneEggs(eggos);
     }
 
-    if (zoneToHide) {
+    if (activeZone) {
       _getTheEggs();
     } else {
       setZoneEggs(null);
       setEggsInRange(null);
       setUserStats({});
     }
-  }, [zoneToHide, userInfo]);
+  }, [activeZone, userInfo]);
 
   useEffect(() => {
     const collectedEggs = userInfo?.likedEggs;
@@ -214,19 +196,20 @@ export const MapPage = ({ navigation, children }) => {
   return (
     <View style={styles.container}>
       <StatusBar hidden />
+      {location && 
       <MapView
         style={styles.map}
         showsUserLocation
         provider='google'
         initialRegion={{
-          latitude: 51.049999,
-          longitude: -114.066666,
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
           latitudeDelta: 0.1,
           longitudeDelta: 0.1
         }}
       >
         {arrayOfZones?.map((zone) => {
-          if (zone?.id === zoneToHide?.id) {
+          if (zone?.id === activeZone?.id) {
             return (
               <Markers
                 key={zone.id}
@@ -237,7 +220,7 @@ export const MapPage = ({ navigation, children }) => {
             );
           } else return <Zones key={zone.id} zone={zone} />;
         })}
-      </MapView>
+      </MapView>}
 
       <View style={styles.avatarButtonContainer}>
         <Pressable
