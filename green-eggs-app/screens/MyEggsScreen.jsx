@@ -27,6 +27,7 @@ function ImagesLikedEggs() {
   const imgWidth = Dimensions.get('screen').width * 0.5;
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userLikedEggs = userInfo.likedEggs;
+  const navigation = useNavigation();
 
   console.log('userLikedEggs: ', userLikedEggs);
   const [likeEggsInfo, setLikeEggsInfo] = useState(null);
@@ -49,8 +50,10 @@ function ImagesLikedEggs() {
     }
   }, [userLikedEggs]);
 
-  console.log('AllLikeEggsInfo', likeEggsInfo);
-  const imageURIs = likeEggsInfo?.map((image) => image.eggURIs.imageURI);
+  // console.log('AllLikeEggsInfo', likeEggsInfo);
+  const imageURIs = likeEggsInfo?.map(
+    (image) => image.eggURIs.imageURI || 'defaultImage'
+  );
   console.log('imageURIs: ', imageURIs);
 
   return (
@@ -63,15 +66,17 @@ function ImagesLikedEggs() {
         }}
       >
         {imageURIs?.map((image, index) => (
-          <View key={index}>
+          <TouchableHighlight
+            key={index}
+            onPress={() => {
+              navigation.navigate('Content');
+            }}
+          >
             <Image
               style={{ width: imgWidth, height: imgWidth }}
-              onPress={() => {
-                navigator.navigate('Content');
-              }}
-              source={{ uri: image }}
+              source={image == 'defaultImage' ? Images.logo : { uri: image }}
             />
-          </View>
+          </TouchableHighlight>
         ))}
       </View>
     </View>
@@ -140,15 +145,6 @@ function ImagesDiscoveredEggs() {
 export const MyEggsScreen = () => {
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
-  const [totalEggCount, setTotalEggCount] = useState(0);
-
-  useEffect(() => {
-    let totalRef = collection(db, 'eggs');
-    const unsubscribe = onSnapshot(totalRef, (querySnapshot) => {
-      setTotalEggCount(querySnapshot.size);
-    });
-    return () => unsubscribe();
-  }, []);
 
   const [showContent, setShowContent] = useState('ImagesLikedEggs');
 
@@ -177,17 +173,13 @@ export const MyEggsScreen = () => {
                   <Text style={styles.countNum}>
                     {userInfo.likedEggs.length}
                   </Text>
-                  <Text style={styles.countText}>SAVE</Text>
+                  <Text style={styles.countText}>LIKED</Text>
                 </View>
                 <View style={styles.countView}>
                   <Text style={styles.countNum}>
                     {userInfo.discoveredEggs.length}
                   </Text>
                   <Text style={styles.countText}>DISCOVERED</Text>
-                </View>
-                <View style={styles.countView}>
-                  <Text style={styles.countNum}>{totalEggCount}</Text>
-                  <Text style={styles.countText}>TOTAL</Text>
                 </View>
               </View>
               {/* Interact Buttons View */}
