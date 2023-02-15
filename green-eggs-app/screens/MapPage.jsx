@@ -18,13 +18,8 @@ export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
   const [showMenu, setShowMenu] = useState(false);
 
-  const {
-    setCurrentEgg,
-    showModal,
-    setShowModal,
-    modalType,
-    setModalType
-  } = useEggsUserContext();
+  const { setCurrentEgg, showModal, setShowModal, modalType, setModalType } =
+    useEggsUserContext();
   // MODAL STATES: enterZone, tutorial, newEgg
 
   const [activeZone, setActiveZone] = useState(null);
@@ -104,7 +99,7 @@ export const MapPage = ({ navigation, children }) => {
                 setActiveZone(usersZone);
                 if (modalType !== 'enterZone' && modalType !== 'tutorial') {
                   setModalType('enterZone');
-                  setShowModal(true);
+                  // setShowModal(true);
                 }
               }
             }
@@ -124,6 +119,14 @@ export const MapPage = ({ navigation, children }) => {
   }, [arrayOfZones]);
 
   useEffect(() => {
+    if (activeZone) {
+      setShowModal(true);
+    } else {
+      setShowModal(false);
+    }
+  }, [activeZone]);
+
+  useEffect(() => {
     if (zoneEggs) {
       const isItInRadius = (egg) => {
         return isPointWithinRadius(
@@ -135,7 +138,7 @@ export const MapPage = ({ navigation, children }) => {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude
           },
-          egg.discoveryRadius? egg.discoveryRadius : 100
+          egg.discoveryRadius ? egg.discoveryRadius : 100
         );
       };
 
@@ -183,31 +186,32 @@ export const MapPage = ({ navigation, children }) => {
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      {location && 
-      <MapView
-        style={styles.map}
-        showsUserLocation
-        provider='google'
-        initialRegion={{
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1
-        }}
-      >
-        {arrayOfZones?.map((zone) => {
-          if (zone?.id === activeZone?.id) {
-            return (
-              <Markers
-                key={zone.id}
-                zoneEggs={zoneEggs}
-                eggsInRange={eggsInRange}
-                navigation={navigation}
-              />
-            );
-          } else return <Zones key={zone.id} zone={zone} />;
-        })}
-      </MapView>}
+      {location && (
+        <MapView
+          style={styles.map}
+          showsUserLocation
+          provider='google'
+          initialRegion={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1
+          }}
+        >
+          {arrayOfZones?.map((zone) => {
+            if (zone?.id === activeZone?.id) {
+              return (
+                <Markers
+                  key={zone.id}
+                  zoneEggs={zoneEggs}
+                  eggsInRange={eggsInRange}
+                  navigation={navigation}
+                />
+              );
+            } else return <Zones key={zone.id} zone={zone} />;
+          })}
+        </MapView>
+      )}
 
       <View style={styles.avatarButtonContainer}>
         <Pressable

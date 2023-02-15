@@ -14,9 +14,9 @@ import {
 
 export const EggContent = () => {
   const { currentEgg } = useContext(EggsUserContext);
-  console.log('LE CURRENT EGG', currentEgg)
+  // console.log('LE CURRENT EGG', currentEgg)
   const creator = currentEgg.Creator;
-  const egg= currentEgg.Egg;
+  const egg = currentEgg.Egg;
 
   const LeftContent = () => (
     <Avatar.Image size={40} source={{ uri: creator.creatorAvatarURI }} />

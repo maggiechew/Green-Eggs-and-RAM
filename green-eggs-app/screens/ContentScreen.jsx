@@ -35,7 +35,7 @@ export const ContentScreen = () => {
 
     navigation.navigate('MyEggs');
   };
-  r;
+
   const removeEggs = async () => {
     await updateDoc(doc(db, 'users', userID), {
       likedEggs: arrayRemove(currentEgg.Egg.id)
