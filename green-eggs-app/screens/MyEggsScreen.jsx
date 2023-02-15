@@ -1,8 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import {
-  collection, doc, documentId,
+  collection,
+  doc,
+  documentId,
   getDoc,
-  getDocs, query,
+  getDocs,
+  query,
   where
 } from 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react';
@@ -20,6 +23,7 @@ import {
 import { db, Images } from '../config';
 import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
+
 function ImagesLikedEggs() {
   const imgWidth = Dimensions.get('screen').width * 0.5;
   const { userInfo, user } = useContext(AuthenticatedUserContext);
@@ -31,7 +35,7 @@ function ImagesLikedEggs() {
   const [likeEggsInfo, setLikeEggsInfo] = useState(null);
 
   useEffect(() => {
-    if (userLikedEggs) {
+    if (userLikedEggs && userLikedEggs.length > 0) {
       const getLikeEggsInfo = async () => {
         const q = query(
           collection(db, 'eggs'),
@@ -40,11 +44,16 @@ function ImagesLikedEggs() {
         const querySnapshot = await getDocs(q);
         const likeEggsInfo = [];
         querySnapshot.forEach((doc) => {
-          likeEggsInfo.push(doc.data());
+          likeEggsInfo.push({
+            id: doc.id,
+            ...doc.data()
+          });
         });
         setLikeEggsInfo(likeEggsInfo);
       };
       getLikeEggsInfo();
+    } else {
+      setLikeEggsInfo([]);
     }
   }, [userLikedEggs]);
 
@@ -112,7 +121,7 @@ function ImagesDiscoveredEggs() {
   const [discoverEggsInfo, setDiscoverEggsInfo] = useState(null);
 
   useEffect(() => {
-    if (userDiscoveredEggs) {
+    if (userDiscoveredEggs && userDiscoveredEggs.length > 0) {
       const getDiscoverEggsInfo = async () => {
         const q = query(
           collection(db, 'eggs'),
@@ -126,6 +135,8 @@ function ImagesDiscoveredEggs() {
         setDiscoverEggsInfo(discoverEggsInfo);
       };
       getDiscoverEggsInfo();
+    } else {
+      setDiscoverEggsInfo([]);
     }
   }, [userDiscoveredEggs]);
 
@@ -191,23 +202,41 @@ export const MyEggsScreen = () => {
               {/* User NAME */}
               <View>
                 <Text style={styles.name}>
-                  Hi, {userInfo.firstname} {userInfo.lastname}
+                  {userInfo.firstname} {userInfo.lastname}
                 </Text>
               </View>
-              <View style={styles.countsView}>
-                <View style={styles.countView}>
-                  <Text style={styles.countNum}>
-                    {userInfo.likedEggs.length}
+              {/* test */}
+              <View style={styles.interactButtonsView}>
+                <TouchableOpacity
+                  style={{
+                    ...styles.interactButton,
+                    backgroundColor: 'white',
+                    borderWidth: 2,
+                    borderColor: 'orange'
+                  }}
+                >
+                  <Text
+                    style={{ ...styles.interactButtonText, color: 'orange' }}
+                  >
+                    LIKED: {userInfo.likedEggs.length}
                   </Text>
-                  <Text style={styles.countText}>LIKED</Text>
-                </View>
-                <View style={styles.countView}>
-                  <Text style={styles.countNum}>
-                    {userInfo.discoveredEggs.length}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    ...styles.interactButton,
+                    backgroundColor: 'white',
+                    borderWidth: 2,
+                    borderColor: 'orange'
+                  }}
+                >
+                  <Text
+                    style={{ ...styles.interactButtonText, color: 'orange' }}
+                  >
+                    DISCOVERED: {userInfo.discoveredEggs.length}
                   </Text>
-                  <Text style={styles.countText}>DISCOVERED</Text>
-                </View>
+                </TouchableOpacity>
               </View>
+              {/* end of test */}
             </View>
             {/* Audio Images View */}
             <View style={{ marginTop: 20 }}>
@@ -297,5 +326,23 @@ const styles = StyleSheet.create({
     color: '#333',
     marginTop: 10,
     textAlign: 'center'
+  },
+  interactButtonsView: {
+    flexDirection: 'row',
+    marginTop: 10,
+    paddingHorizontal: 20
+  },
+  interactButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'center',
+    margin: 5,
+    borderRadius: 4
+  },
+  interactButtonText: {
+    fontFamily: 'SSBold',
+    fontSize: 18,
+    paddingVertical: 6
   }
 });
