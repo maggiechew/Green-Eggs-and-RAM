@@ -43,12 +43,12 @@ export const ForgotPasswordScreen = ({ navigation }) => {
           <>
             {/* Email input field */}
             <TextInput
-              name="email"
-              leftIconName="email"
-              placeholder="Enter email"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              textContentType="emailAddress"
+              name='email'
+              leftIconName='email'
+              placeholder='Enter email'
+              autoCapitalize='none'
+              keyboardType='email-address'
+              textContentType='emailAddress'
               value={values.email}
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
@@ -79,7 +79,7 @@ export const ForgotPasswordScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: 'black',
     paddingHorizontal: 12
   },
   innercontainer: {
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   screenTitle: {
     fontSize: 32,
     fontWeight: '700',
-    color: Colors.black,
+    color: 'gold',
     paddingTop: 20
   },
   button: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 8,
-    backgroundColor: Colors.orange,
+    backgroundColor: 'orange',
     padding: 10,
     borderRadius: 8
   },

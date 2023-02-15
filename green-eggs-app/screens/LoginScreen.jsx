@@ -134,20 +134,21 @@ const styles = StyleSheet.create({
   },
   screenTitle: {
     fontFamily: 'Lobster-Regular',
-    fontSize: 90,
-    fontWeight: '700',
+    fontSize: 80,
+    // fontWeight: '700',
     color: 'gold',
     paddingTop: 20,
     justifyContent: 'center',
-    marginBottom: -30
+    marginBottom: -40
   },
   screenTitle2: {
     fontFamily: 'Lobster-Regular',
-    fontSize: 40,
-    fontWeight: '700',
+    fontSize: 35,
+    // fontWeight: '700',
     color: 'gold',
-    paddingTop: 20,
+    // paddingTop: 20,
     justifyContent: 'center',
+    marginTop: 20,
     marginBottom: 25
   },
   footer: {

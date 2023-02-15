@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   modalText: {
-    fontFamily: 'SSBold',
+    fontFamily: 'SSLight',
     fontSize: 20,
     color: 'lightblue',
     marginVertical: 5
