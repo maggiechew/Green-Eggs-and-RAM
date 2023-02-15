@@ -59,7 +59,8 @@ export default function MessagingModal({ stats, modalType }) {
             <Pressable>
               <IconButton
                 icon='window-close'
-                containerColor={'#ffffff'}
+                iconColor={'gold'}
+                containerColor={'black'}
                 onPress={() => {
                   setShowModal(false);
                 }}
@@ -103,11 +104,11 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 16,
-    color: 'black'
+    color: 'gold'
   },
   modalView: {
+    backgroundColor: 'black',
     margin: 20,
-    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',

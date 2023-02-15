@@ -1,6 +1,12 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React, { useContext } from 'react';
-import { Provider, Modal, Portal, Button } from 'react-native-paper';
+import {
+  Provider,
+  Modal,
+  Portal,
+  Button,
+  IconButton
+} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../config';
 import {
@@ -26,12 +32,25 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
 
   return (
     <Modal style={styles.avatarModal} visible={visible} onDismiss={handleMenu}>
+      <View style={styles.closeX}>
+        <Pressable>
+          <IconButton
+            icon='window-close'
+            iconColor={'gold'}
+            containerColor={'black'}
+            onPress={() => {
+              setShowModal(false);
+            }}
+            size={23}
+          />
+        </Pressable>
+      </View>
       <View>
         <Text style={styles.modalText}>
           Welcome,{' '}
           {userInfo?.firstname == null || userInfo?.firstname == ''
             ? userInfo?.email
-            : userInfo?.firstname}{' '}
+            : userInfo?.firstname}
           !
         </Text>
         <Text style={styles.modalText}>
@@ -39,11 +58,11 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
         </Text>
         <Text style={styles.modalText}>Login email: {userInfo?.email}</Text>
 
-        <View style={styles.avatarButtonClose}>
+        {/* <View style={styles.avatarButtonClose}>
           <Button onPress={() => handleMenu()}>
             <Text style={styles.avatarButtonText}>Close</Text>
           </Button>
-        </View>
+        </View> */}
         <View style={styles.bottom}>
           <Button
             style={styles.avatarButton}

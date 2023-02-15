@@ -16,10 +16,16 @@ export const AppStack = () => {
   const navigation = useNavigation();
 
   return (
-    <Stack.Navigator
-      initialRouteName='Login'
-    >
-      <Stack.Screen name='Map' component={MapPage} />
+    <Stack.Navigator initialRouteName='Login'>
+      <Stack.Screen
+        name='Map'
+        component={MapPage}
+        options={{
+          title: 'Egg Hunter Map',
+          headerTitleStyle: { color: 'gold', fontFamily: 'Lobster-Regular' },
+          headerStyle: { backgroundColor: 'black' }
+        }}
+      />
 
       <Stack.Screen name='Account' component={AccountScreen} />
       <Stack.Screen
@@ -40,12 +46,14 @@ export const AppStack = () => {
         name='MyEggs'
         component={MyEggsScreen}
         options={{
+          headerTitleStyle: { color: 'gold', fontFamily: 'Lobster-Regular' },
+          headerStyle: { backgroundColor: 'black' },
           headerLeft: () => (
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
-              <Entypo name='chevron-left' size={24} color='black' />
+              <Entypo name='chevron-left' size={24} color='gold' />
             </TouchableOpacity>
           )
         }}
@@ -54,12 +62,14 @@ export const AppStack = () => {
         name='Content'
         component={ContentScreen}
         options={{
+          headerTitleStyle: { color: 'gold', fontFamily: 'Lobster-Regular' },
+          headerStyle: { backgroundColor: 'black' },
           headerLeft: () => (
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
-              <Entypo name='chevron-left' size={24} color='black' />
+              <Entypo name='chevron-left' size={24} color='gold' />
             </TouchableOpacity>
           )
         }}

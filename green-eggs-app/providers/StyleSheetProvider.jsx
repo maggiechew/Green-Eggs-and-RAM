@@ -14,8 +14,13 @@ export default function StyleSheetProvider({ children }) {
 
 const styles = StyleSheet.create({
   modal: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     height: 140,
+    padding: 10
+  },
+  modalSmall: {
+    // backgroundColor: '#fff',
+    height: 70,
     padding: 10
   },
   audioPlayer: {
@@ -30,35 +35,41 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 15,
     marginTop: 15,
-    marginBottom: -20
+    marginBottom: -20,
+    color: 'gold'
   },
   animationContainer: {},
   avatarModal: {
-    backgroundColor: 'rgba(72,72,72,0.8)',
+    backgroundColor: 'black',
+    flex: 1,
+    justifyContent: 'flex-end',
     theme: 'dark',
     margin: 20,
     marginTop: 60,
-    marginBottom: 200,
+    marginBottom: 270,
     padding: 20,
     zIndex: 100000,
     borderRadius: 20
   },
   modalText: {
-    fontFamily: 'SSLight',
-    fontSize: 20,
-    color: 'lightblue',
-    marginVertical: 5
+    fontSize: 16,
+    color: 'gold',
+    marginVertical: 5,
+    marginLeft: 13,
+    fontWeight: 'bold'
   },
   avatarButton: {
-    marginVertical: 5,
+    marginVertical: 10,
     marginHorizontal: 10,
     textColor: 'white',
-    backgroundColor: '#FFCC33'
+    backgroundColor: 'orange',
+    marginTop: 30
   },
   signOutButton: {
     marginVertical: 5,
     marginHorizontal: 10,
-    backgroundColor: 'red'
+    backgroundColor: 'red',
+    marginBottom: 30
   },
   avatarButtonText: {
     fontFamily: 'SSBold',
@@ -83,5 +94,33 @@ const styles = StyleSheet.create({
   shortDescription: {
     marginBottom: 20,
     marginTop: 10
+  },
+  tutorialTitle: {
+    color: 'gold'
+  },
+  tutorialText: {
+    color: 'white'
+  },
+  newEggBodyText: {
+    textAlign: 'center',
+    color: 'white'
+  },
+  clickMeText: {
+    textAlign: 'center',
+    marginTop: 24,
+    marginBottom: -10,
+    fontSize: 18,
+    color: 'gold'
+  },
+  newEggContainer: {
+    alignItems: 'center'
+  },
+  closeX: {
+    // marginRight: -20,
+    // marginTop: -100,
+    marginLeft: 270,
+    marginBottom: 110,
+    padding: 0,
+    bottom: 0
   }
 });

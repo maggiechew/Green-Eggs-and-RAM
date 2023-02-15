@@ -26,21 +26,60 @@ export const ContentScreen = () => {
   const [result, setResult] = useState(null);
 
   const _handlePressButtonAsync = async () => {
-    let result = await WebBrowser.openBrowserAsync(
-      arLink
-    );
+    let result = await WebBrowser.openBrowserAsync(arLink);
     setResult(result);
   };
-  
+
   return (
     <View style={styles.background}>
       <ScrollView style={styles.container}>
-        <View style={styles.card}>
-          <Card mode='elevated' style={{ backgroundColor: 'white' }}>
+        <Card mode='elevated' style={{ backgroundColor: 'black' }}>
+          <Card.Title
+            title={egg.eggName}
+            titleStyle={{ color: 'gold', fontSize: 16 }}
+            subtitleStyle={{ color: 'white' }}
+            subtitle={creator.creatorName}
+            subtitleNumberOfLines={2}
+            left={(props) => (
+              <Avatar.Image
+                {...props}
+                source={{ uri: creator.creatorAvatarURI }}
+              />
+            )}
+          />
+          <AudioPlayer contentButton={false} />
+          <Card.Content>
+            {/* <Divider /> */}
+            <Text variant='bodyMedium' style={styles.shortDescription}>
+              {egg.eggBlurb}
+            </Text>
+
+            <Divider />
+            <Card.Cover source={{ uri: currentEgg.Egg.eggURIs.imageURI }} />
+            <View style={styles.buttons}></View>
+          </Card.Content>
+        </Card>
+        {arLink && (
+          <Button
+            style={styles.arButton}
+            onPress={() => {
+              _handlePressButtonAsync();
+            }}
+          >
+            <Text>Click here for an Augmented Reality (AR) experience</Text>
+          </Button>
+        )}
+        <View>
+          <Text style={styles.bodyText}>{egg.eggDescription}</Text>
+        </View>
+        <View>
+          <View style={styles.creatorView}>
+            <Text style={[styles.bodyText, styles.titleText]}>
+              About the Creator
+            </Text>
             <Card.Title
-              title={egg.eggName}
+              subtitleStyle={{ color: 'white' }}
               subtitle={creator.creatorName}
-              subtitleNumberOfLines={2}
               left={(props) => (
                 <Avatar.Image
                   {...props}
@@ -48,57 +87,8 @@ export const ContentScreen = () => {
                 />
               )}
             />
-            <AudioPlayer contentButton={false} />
-            <Card.Content>
-              {/* <Divider /> */}
-              <Text variant='bodyMedium' style={styles.shortDescription}>
-                {egg.eggBlurb}
-              </Text>
-
-              <Divider />
-              <Card.Cover source={{ uri: currentEgg.Egg.eggURIs.imageURI }} />
-              <View style={styles.buttons}></View>
-            </Card.Content>
-          </Card>
-          {arLink && (
-            <Button
-              style={styles.arButton}
-              onPress={() => {
-                _handlePressButtonAsync();
-              }}
-            >
-              <Text>Click here to enjoy your AR experience</Text>
-            </Button>
-          )}
-          <List.Section style={styles.list}>
-            <List.Accordion title='Learn More'>
-              <SegmentedButtons
-                value={value}
-                onValueChange={setValue}
-                buttons={[
-                  {
-                    value: egg.eggName,
-                    label: 'More about the Egg'
-                  },
-                  {
-                    value: creator.creatorName,
-                    label: 'More about the Creator'
-                  }
-                ]}
-              />
-              <List.Item title={value} />
-              {value === egg.eggName && (
-                <>
-                  <Text>{egg.eggDescription}</Text>
-                </>
-              )}
-              {value === creator.creatorName && (
-                <>
-                  <Text>{creator.creatorBlurb}</Text>
-                </>
-              )}
-            </List.Accordion>
-          </List.Section>
+            <Text style={styles.bodyText}>{creator.creatorBlurb}</Text>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -121,8 +111,8 @@ const styles = StyleSheet.create({
   background: {
     height: '100%',
     alignContent: 'space-between',
-    backgroundColor: 'white',
-    background: 'white'
+    backgroundColor: 'black'
+    // background: 'black'
   },
   buttons: {
     flex: 1,
@@ -131,7 +121,8 @@ const styles = StyleSheet.create({
   },
   shortDescription: {
     paddingVertical: 10,
-    paddingTop: 15
+    paddingTop: 15,
+    color: 'white'
   },
   list: {
     margin: 20
@@ -141,5 +132,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     textColor: 'white',
     backgroundColor: '#FFCC33'
+  },
+  bodyText: {
+    color: 'white',
+    marginHorizontal: 20
+  },
+  titleText: {
+    color: 'gold',
+    marginVertical: 10,
+    marginBottom: 0,
+    fontSize: 16
+  },
+  creatorView: {
+    margin: 10
   }
 });

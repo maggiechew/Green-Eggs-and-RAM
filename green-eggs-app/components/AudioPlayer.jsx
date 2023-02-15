@@ -146,7 +146,7 @@ const AudioPlayer = ({ contentButton }) => {
   };
 
   return (
-    <View style={styles.modal}>
+    <View style={contentButton ? styles.modal : styles.modalSmall}>
       {!currentEgg ? (
         <Text style={styles.eggName}>'No egg loaded'</Text>
       ) : contentButton ? (
@@ -159,7 +159,8 @@ const AudioPlayer = ({ contentButton }) => {
           <Animated.View style={testAnimation}>
             <IconButton
               icon='egg-outline'
-              containerColor={'#ffffff'}
+              iconColor='gold'
+              containerColor={'black'}
               onPress={() => {
                 navigation.navigate('Content');
               }}
@@ -173,14 +174,16 @@ const AudioPlayer = ({ contentButton }) => {
         {isPlaying ? (
           <IconButton
             icon='pause-circle'
-            containerColor={'#ffffff'}
+            iconColor='gold'
+            containerColor={'black'}
             onPress={() => pausePlayAudio()}
             size={35}
           />
         ) : (
           <IconButton
             icon='play-circle'
-            containerColor={'#ffffff'}
+            iconColor='gold'
+            containerColor={'black'}
             onPress={() => pausePlayAudio()}
             size={35}
           />
@@ -191,6 +194,9 @@ const AudioPlayer = ({ contentButton }) => {
           minimumValue={0}
           maximumValue={1}
           value={calculateSeekBar()}
+          minimumTrackTintColor={'orange'}
+          maximumTrackTintColor={'dimgrey'}
+          thumbTintColor={'gold'}
           onValueChange={(value) => {
             setPosition(value * duration);
           }}
@@ -200,7 +206,9 @@ const AudioPlayer = ({ contentButton }) => {
           }}
           step={0.01}
         />
-        <Text>-{renderCurrentTime()}</Text>
+        <Text style={{ color: 'gold', marginLeft: 8 }}>
+          -{renderCurrentTime()}
+        </Text>
       </View>
     </View>
   );

@@ -7,7 +7,7 @@ import { Avatar } from 'react-native-paper';
 import AvatarMenu from '../components/AvatarMenu';
 import { Markers } from '../components/Markers';
 import { Zones } from '../components/Zones';
-import {useEggsUserContext} from '../providers/EggsSoundProvider';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { zonesFromDB } from '../utils/geopoints';
 
 import AudioSheet from '../components/AudioSheet';

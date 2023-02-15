@@ -51,6 +51,8 @@ export default function AudioSheet() {
       index={sheetOpen}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
+      backgroundStyle={{ backgroundColor: 'black' }}
+      handleIndicatorStyle={{ color: 'orange', backgroundColor: 'gold' }}
     >
       <AudioPlayer contentButton />
       <BottomSheetScrollView>

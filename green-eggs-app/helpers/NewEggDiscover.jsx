@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import Animated, {
@@ -11,10 +11,12 @@ import Animated, {
   withSpring,
   withDelay
 } from 'react-native-reanimated';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 const NewEggDiscover = () => {
   const { showModal, setShowModal } = useEggsUserContext();
   const navigation = useNavigation();
+  const styles = useContext(StyleSheetContext);
 
   // ANIMATION TEST
   const testAnimation = useAnimatedStyle(() => ({
@@ -35,12 +37,12 @@ const NewEggDiscover = () => {
   }));
 
   return (
-    <View style={styles.container}>
+    <View style={styles.newEggContainer}>
       <Image
         style={{ width: 200, height: 200 }}
-        source={require('../assets/egg_crack.gif')}
+        source={require('../assets/egg_crack_gold.gif')}
       />
-      <Text style={styles.bodyText}>You've discovered a new egg!</Text>
+      <Text style={styles.newEggBodyText}>You've discovered a new egg!</Text>
       <Pressable
         onPress={() => {
           setShowModal(false);
@@ -58,18 +60,3 @@ const NewEggDiscover = () => {
 };
 
 export default NewEggDiscover;
-
-const styles = StyleSheet.create({
-  bodyText: {
-    textAlign: 'center'
-  },
-  clickMeText: {
-    textAlign: 'center',
-    marginTop: 24,
-    marginBottom: -10,
-    fontSize: 18
-  },
-  container: {
-    alignItems: 'center'
-  }
-});
