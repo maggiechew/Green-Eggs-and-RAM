@@ -35,7 +35,7 @@ function ImagesLikedEggs() {
   const [likeEggsInfo, setLikeEggsInfo] = useState(null);
 
   useEffect(() => {
-    if (userLikedEggs) {
+    if (userLikedEggs && userLikedEggs.length > 0) {
       const getLikeEggsInfo = async () => {
         const q = query(
           collection(db, 'eggs'),
@@ -52,6 +52,8 @@ function ImagesLikedEggs() {
         setLikeEggsInfo(likeEggsInfo);
       };
       getLikeEggsInfo();
+    } else {
+      setLikeEggsInfo([]);
     }
   }, [userLikedEggs]);
 
@@ -119,7 +121,7 @@ function ImagesDiscoveredEggs() {
   const [discoverEggsInfo, setDiscoverEggsInfo] = useState(null);
 
   useEffect(() => {
-    if (userDiscoveredEggs) {
+    if (userDiscoveredEggs && userDiscoveredEggs.length > 0) {
       const getDiscoverEggsInfo = async () => {
         const q = query(
           collection(db, 'eggs'),
@@ -133,6 +135,8 @@ function ImagesDiscoveredEggs() {
         setDiscoverEggsInfo(discoverEggsInfo);
       };
       getDiscoverEggsInfo();
+    } else {
+      setDiscoverEggsInfo([]);
     }
   }, [userDiscoveredEggs]);
 
@@ -198,44 +202,41 @@ export const MyEggsScreen = () => {
               {/* User NAME */}
               <View>
                 <Text style={styles.name}>
-                  Hi, {userInfo.firstname} {userInfo.lastname}
+                  {userInfo.firstname} {userInfo.lastname}
                 </Text>
               </View>
               {/* test */}
-              {/* <View style={styles.interactButtonsView}>
-                <TouchableOpacity style={styles.interactButton}>
-                  <Text style={styles.interactButtonText}>Follow</Text>
+              <View style={styles.interactButtonsView}>
+                <TouchableOpacity
+                  style={{
+                    ...styles.interactButton,
+                    backgroundColor: 'white',
+                    borderWidth: 2,
+                    borderColor: 'orange'
+                  }}
+                >
+                  <Text
+                    style={{ ...styles.interactButtonText, color: 'orange' }}
+                  >
+                    LIKED: {userInfo.likedEggs.length}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
                     ...styles.interactButton,
                     backgroundColor: 'white',
                     borderWidth: 2,
-                    borderColor: '#4b7bec'
+                    borderColor: 'orange'
                   }}
                 >
                   <Text
-                    style={{ ...styles.interactButtonText, color: '#4b7bec' }}
+                    style={{ ...styles.interactButtonText, color: 'orange' }}
                   >
-                    Message
+                    DISCOVERED: {userInfo.discoveredEggs.length}
                   </Text>
                 </TouchableOpacity>
-              </View> */}
-              {/* end of test */}
-              <View style={styles.countsView}>
-                <View style={styles.countView}>
-                  <Text style={styles.countNum}>
-                    {userInfo.likedEggs.length}
-                  </Text>
-                  <Text style={styles.countText}>LIKED</Text>
-                </View>
-                <View style={styles.countView}>
-                  <Text style={styles.countNum}>
-                    {userInfo.discoveredEggs.length}
-                  </Text>
-                  <Text style={styles.countText}>DISCOVERED</Text>
-                </View>
               </View>
+              {/* end of test */}
             </View>
             {/* Audio Images View */}
             <View style={{ marginTop: 20 }}>
@@ -325,5 +326,23 @@ const styles = StyleSheet.create({
     color: '#333',
     marginTop: 10,
     textAlign: 'center'
+  },
+  interactButtonsView: {
+    flexDirection: 'row',
+    marginTop: 10,
+    paddingHorizontal: 20
+  },
+  interactButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'center',
+    margin: 5,
+    borderRadius: 4
+  },
+  interactButtonText: {
+    fontFamily: 'SSBold',
+    fontSize: 18,
+    paddingVertical: 6
   }
 });
