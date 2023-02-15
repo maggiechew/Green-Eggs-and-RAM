@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, StyleSheet, View, Image } from 'react-native';
+import { Text, StyleSheet, View, Image, Platform } from 'react-native';
 import { Formik } from 'formik';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -129,27 +129,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12
   },
   logoContainer: {
+    flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-evenly'
   },
   screenTitle: {
+    paddingVertical: 0,
     fontFamily: 'Lobster-Regular',
     fontSize: 80,
-    // fontWeight: '700',
     color: 'gold',
-    paddingTop: 20,
-    justifyContent: 'center',
-    marginBottom: -40
+    ...Platform.select({
+      ios: {
+        marginTop: 20,
+        marginBottom: -10
+      },
+      android: {
+        marginTop: 20,
+        marginBottom: -30
+      }
+    })
   },
   screenTitle2: {
+    paddingVertical: 0,
     fontFamily: 'Lobster-Regular',
     fontSize: 35,
-    // fontWeight: '700',
-    color: 'gold',
-    // paddingTop: 20,
-    justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 25
+    color: 'gold'
   },
   footer: {
     backgroundColor: 'black',
