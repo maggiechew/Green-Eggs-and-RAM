@@ -21,6 +21,7 @@ import Animated, {
   withSequence,
   withTiming
 } from 'react-native-reanimated';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 const AudioPlayer = ({ contentButton }) => {
   const {
@@ -39,6 +40,8 @@ const AudioPlayer = ({ contentButton }) => {
     position,
     setPosition
   } = useContext(EggsUserContext);
+
+  const styles = useContext(StyleSheetContext);
 
   const navigation = useNavigation();
 
@@ -202,29 +205,5 @@ const AudioPlayer = ({ contentButton }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  modal: {
-    backgroundColor: '#fff',
-    height: 140,
-    padding: 10
-  },
-  audioPlayer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginRight: 25,
-    marginTop: 0
-  },
-  eggName: {
-    fontSize: 16,
-    marginLeft: 15,
-    marginTop: 15,
-    marginBottom: -20
-  },
-  animationContainer: {
-  }
-});
 
 export default AudioPlayer;

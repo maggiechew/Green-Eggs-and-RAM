@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { LoadingIndicator } from '../components';
 import { AuthenticatedUserContext } from '../providers';
 import EggsSoundProvider from '../providers/EggsSoundProvider';
+import StyleSheetProvider from '../providers/StyleSheetProvider';
 import { AppStack } from './AppStack';
 import { AuthStack } from './AuthStack';
 
@@ -15,9 +16,11 @@ export const RootNavigator = () => {
 
   return (
     <EggsSoundProvider>
-      <NavigationContainer>
-        {user ? <AppStack /> : <AuthStack />}
-      </NavigationContainer>
+      <StyleSheetProvider>
+        <NavigationContainer>
+          {user ? <AppStack /> : <AuthStack />}
+        </NavigationContainer>
+      </StyleSheetProvider>
     </EggsSoundProvider>
   );
 };

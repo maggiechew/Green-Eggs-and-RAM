@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View, Image } from 'react-native';
 import { Formik } from 'formik';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -23,8 +23,12 @@ export const LoginScreen = ({ navigation }) => {
         <KeyboardAwareScrollView enableOnAndroid={true}>
           {/* LogoContainer: consits app logo and screen title */}
           <View style={styles.logoContainer}>
-            <Logo uri={Images.logo} />
-            <Text style={styles.screenTitle}>Welcome back!</Text>
+            <Image
+              source={require('../assets/egghunterlogo.png')}
+              style={{ width: 250, height: 250, marginBottom: -70 }}
+            />
+            <Text style={styles.screenTitle}>EGG</Text>
+            <Text style={styles.screenTitle2}>HUNTER</Text>
           </View>
           <Formik
             initialValues={{
@@ -121,21 +125,33 @@ export const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: 'black',
     paddingHorizontal: 12
   },
   logoContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   screenTitle: {
-    fontFamily: 'SSRegular',
-    fontSize: 32,
+    fontFamily: 'Lobster-Regular',
+    fontSize: 90,
     fontWeight: '700',
-    color: Colors.black,
-    paddingTop: 20
+    color: 'gold',
+    paddingTop: 20,
+    justifyContent: 'center',
+    marginBottom: -30
+  },
+  screenTitle2: {
+    fontFamily: 'Lobster-Regular',
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'gold',
+    paddingTop: 20,
+    justifyContent: 'center',
+    marginBottom: 25
   },
   footer: {
-    backgroundColor: Colors.white,
+    backgroundColor: 'black',
     paddingHorizontal: 12,
     paddingBottom: 48,
     alignItems: 'center'
@@ -143,25 +159,26 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 14,
     fontWeight: '700',
-    color: Colors.orange
+    color: 'orange'
   },
   button: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 8,
-    backgroundColor: Colors.orange,
+    backgroundColor: 'orange',
     padding: 10,
     borderRadius: 8
   },
   buttonText: {
     fontSize: 20,
-    color: Colors.white,
+    color: 'white',
     fontWeight: '700'
   },
   borderlessButtonContainer: {
     marginTop: 16,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    color: 'gold'
   }
 });

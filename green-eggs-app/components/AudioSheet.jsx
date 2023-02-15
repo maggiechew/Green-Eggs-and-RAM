@@ -43,8 +43,7 @@ export default function AudioSheet() {
     }
   }, [currentEgg]);
 
-  useEffect(() => {
-  }, [sheetOpen]);
+  useEffect(() => {}, [sheetOpen]);
 
   return (
     <BottomSheet
@@ -60,5 +59,3 @@ export default function AudioSheet() {
     </BottomSheet>
   );
 }
-
-const styles = StyleSheet.create({});

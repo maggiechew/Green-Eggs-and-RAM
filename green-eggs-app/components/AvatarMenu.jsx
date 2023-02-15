@@ -8,20 +8,24 @@ import {
   useEggsUserContext
 } from '../providers/EggsSoundProvider';
 import { AuthenticatedUserContext } from '../providers';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
 const AvatarMenu = ({ visible, handleMenu, navigation }) => {
   const authContext = useContext(AuthenticatedUserContext);
+  const styles = useContext(StyleSheetContext);
   const { userInfo, handleLogout: authLogout } = authContext;
   const handleLogout = () => {
-    sound.pauseAsync();
-    sound.unloadAsync();
+    if (sound) {
+      sound.pauseAsync();
+      sound.unloadAsync();
+    }
     authLogout();
   };
   const { sound, setSound } = useEggsUserContext();
 
   return (
-    <Modal style={styles.modal} visible={visible} onDismiss={handleMenu}>
+    <Modal style={styles.avatarModal} visible={visible} onDismiss={handleMenu}>
       <View>
         <Text style={styles.modalText}>
           Welcome,{' '}
@@ -35,67 +39,25 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
         </Text>
         <Text style={styles.modalText}>Login email: {userInfo?.email}</Text>
 
-        <View style={styles.buttonClose}>
+        <View style={styles.avatarButtonClose}>
           <Button onPress={() => handleMenu()}>
-            <Text style={styles.buttonText}>Close</Text>
+            <Text style={styles.avatarButtonText}>Close</Text>
           </Button>
         </View>
         <View style={styles.bottom}>
           <Button
-            style={styles.button}
+            style={styles.avatarButton}
             onPress={() => navigation.navigate('MyEggs')}
           >
-            <Text style={styles.buttonText}>My Eggs Collection</Text>
+            <Text style={styles.avatarButtonText}>My Eggs Collection</Text>
           </Button>
           <Button style={styles.signOutButton} onPress={handleLogout}>
-            <Text style={styles.buttonText}>Sign Out</Text>
+            <Text style={styles.avatarButtonText}>Sign Out</Text>
           </Button>
         </View>
       </View>
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  modal: {
-    backgroundColor: 'rgba(72,72,72,0.8)',
-    theme: 'dark',
-    margin: 20,
-    marginTop: 60,
-    marginBottom: 200,
-    padding: 20,
-    zIndex: 100000,
-    borderRadius: 20
-  },
-  modalText: {
-    fontFamily: 'SSBold',
-    fontSize: 20,
-    color: 'lightblue',
-    marginVertical: 5
-  },
-  button: {
-    marginVertical: 5,
-    marginHorizontal: 10,
-    textColor: 'white',
-    backgroundColor: '#FFCC33'
-  },
-  signOutButton: {
-    marginVertical: 5,
-    marginHorizontal: 10,
-    backgroundColor: 'red'
-  },
-  buttonText: {
-    fontFamily: 'SSBold',
-    fontSize: 16,
-    color: 'white',
-    weight: 'bold'
-  },
-  buttonClose: {
-    fontFamily: 'SSBold',
-    alignItems: 'flex-end',
-    bottom: 240,
-    marginVertical: 5
-  }
-});
 
 export default AvatarMenu;
