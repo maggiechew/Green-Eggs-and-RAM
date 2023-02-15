@@ -3,11 +3,9 @@ import React, { useContext } from 'react';
 import { Marker } from 'react-native-maps';
 import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
-import {
-  EggsUserContext
-} from '../providers/EggsSoundProvider';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
 
-export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
+export const Markers = ({ zoneEggs, eggsInRange }) => {
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
   const userID = user.uid;
@@ -33,22 +31,23 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
       discoveredEggs: arrayUnion(egg.id)
     });
     const creatorInfo = await getCreator(egg.creatorID);
-    const combinedEgg = {Egg: egg, Creator: creatorInfo}
+    const combinedEgg = { Egg: egg, Creator: creatorInfo };
     setCurrentEgg(combinedEgg);
-    setModalType('newEgg')
-    setShowModal(true)
+    setModalType('newEgg');
+    setShowModal(true);
   };
-  
+
   const oldContent = async (egg) => {
     const creatorInfo = await getCreator(egg.creatorID);
-    const combinedEgg = {Egg: egg, Creator: creatorInfo}
+    const combinedEgg = { Egg: egg, Creator: creatorInfo };
     setCurrentEgg(combinedEgg);
   };
-  
+
   const lockedContent = (egg) => {
     console.log('Im locked, yo!');
-    console.log('Egg discovery radius is:', egg.discoveryRadius)
+    console.log('Egg discovery radius is:', egg.discoveryRadius);
   };
+  
   return zoneEggs?.map((egg) => {
     let locked = true;
     let discovered = false;
@@ -56,7 +55,7 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
     if (userEggs?.find((foundEgg) => foundEgg === egg.id)) discovered = true;
     return (
       <Marker
-        key={`${egg.id}-${locked}-${discovered}`} //required to make markers change properly (workaround)
+        key={`${egg.id}-${locked}-${discovered}`} //required to make markers change properly (workaround) https://github.com/react-native-maps/react-native-maps/issues/1800#issuecomment-347905340
         coordinate={{
           latitude: egg.geopoint.latitude,
           longitude: egg.geopoint.longitude

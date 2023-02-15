@@ -76,7 +76,7 @@ export const MapPage = ({ navigation, children }) => {
     // subscribe async function
     const subscribe = async () => {
       return await Location.watchPositionAsync(
-        { accuracy: Location.LocationAccuracy.Highest },
+        { accuracy: Location.LocationAccuracy.Highest, distanceInterval: 2 },
         (newLocation) => {
           setLocation(newLocation);
 
@@ -148,7 +148,7 @@ export const MapPage = ({ navigation, children }) => {
           replacementEggs.push(egg);
         }
       });
-      setEggsInRange(replacementEggs);
+      replacementEggs !== eggsInRange ? setEggsInRange(replacementEggs) : null
     }
   }, [location, zoneEggs]);
 
