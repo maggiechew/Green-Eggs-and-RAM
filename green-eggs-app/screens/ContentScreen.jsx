@@ -77,36 +77,25 @@ export const ContentScreen = () => {
               <Card.Cover source={{ uri: currentEgg.Egg.eggURIs.imageURI }} />
               <View style={styles.buttons}>
                 <Card.Actions style={styles.buttons}>
-                  {/* <Button
-                    onPress={() => {
-                      console.log('Loved it');
-                    }}
-                  >
-                    Love
-                  </Button> */}
-                  <Button
-                    onPress={() => {
-                      newLikeEggs(currentEgg);
-                      console.log('Liked it');
-                    }}
-                  >
-                    Like
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      removeEggs(currentEgg);
-                      console.log('Remove Egg');
-                    }}
-                  >
-                    Remove
-                  </Button>
-                  {/* <Button
-                    onPress={() => {
-                      console.log('Reported it');
-                    }}
-                  >
-                    Report
-                  </Button> */}
+                  {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
+                    <Button
+                      onPress={() => {
+                        newLikeEggs(currentEgg);
+                        console.log('Liked it');
+                      }}
+                    >
+                      Like
+                    </Button>
+                  ) : (
+                    <Button
+                      onPress={() => {
+                        removeEggs(currentEgg);
+                        console.log('Remove Egg');
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  )}
                 </Card.Actions>
               </View>
             </Card.Content>
