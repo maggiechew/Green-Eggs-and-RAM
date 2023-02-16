@@ -45,7 +45,7 @@ export const Markers = ({ zoneEggs, eggsInRange }) => {
     setCurrentEgg(combinedEgg);
   };
 
-  const lockedContent = () => {
+  const lockedContent = (egg) => {
     console.log('Im locked, yo!');
     console.log('Egg discovery radius is:', egg.discoveryRadius);
   };

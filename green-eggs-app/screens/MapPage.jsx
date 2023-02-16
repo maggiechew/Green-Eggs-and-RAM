@@ -4,20 +4,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { Avatar } from 'react-native-paper';
-import AudioSheet from '../components/AudioSheet';
 import AvatarMenu from '../components/AvatarMenu';
 import { Markers } from '../components/Markers';
-import { Zones } from '../components/Zones';
 import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { zonesFromDB } from '../utils/geopoints';
-
 import AudioSheet from '../components/AudioSheet';
 import MessagingModal from '../components/MessagingModal';
 import { Zones } from '../components/Zones';
 import { AuthenticatedUserContext } from '../providers';
-import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
-import { zonesFromDB } from '../utils/geopoints';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
