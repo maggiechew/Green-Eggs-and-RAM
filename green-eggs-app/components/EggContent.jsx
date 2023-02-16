@@ -1,20 +1,14 @@
-import { Text, StyleSheet, View } from 'react-native';
 import React, { useContext } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import {
-  Avatar,
-  Button,
-  Card,
-  List,
-  SegmentedButtons
+  Avatar, Card
 } from 'react-native-paper';
 import {
-  EggsUserContext,
-  useEggsUserContext
+  EggsUserContext
 } from '../providers/EggsSoundProvider';
 
 export const EggContent = () => {
   const { currentEgg } = useContext(EggsUserContext);
-  // console.log('LE CURRENT EGG', currentEgg)
   const creator = currentEgg.Creator;
   const egg = currentEgg.Egg;
 

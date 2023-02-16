@@ -1,21 +1,19 @@
-import React, { useContext } from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { Formik } from 'formik';
-
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, { useContext } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput, Logo, Button, FormErrorMessage } from '../components';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, FormErrorMessage, TextInput } from '../components';
 import { Colors } from '../config';
 import { useTogglePasswordVisibility } from '../hooks';
 import { signupValidationSchema } from '../utils';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { AuthenticatedUserContext } from '../providers';
 import { AvatarPickContext } from '../providers/AvatarPickProvider';
 
 export const SignupScreen = ({ navigation }) => {
   const authContext = useContext(AuthenticatedUserContext);
-  const { user, handleSignup, errorState } = authContext;
+  const { handleSignup, errorState } = authContext;
   const avatarConxt = useContext(AvatarPickContext);
   const { picture, pickImage } = avatarConxt;
 

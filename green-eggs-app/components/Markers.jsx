@@ -2,6 +2,7 @@ import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import React, { useContext } from 'react';
 import { Marker } from 'react-native-maps';
 import { db } from '../config';
+import { Alert } from 'react-native';
 import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 
@@ -15,7 +16,7 @@ export const Markers = ({ zoneEggs, eggsInRange }) => {
     const creatorRef = doc(db, 'creators', creatorID);
     const docSnap = await getDoc(creatorRef);
     if (!docSnap.exists) {
-      console.log('No such document!');
+      // console.log('No such document!');
     } else {
       const creatorData = docSnap.data();
       return {
@@ -44,8 +45,7 @@ export const Markers = ({ zoneEggs, eggsInRange }) => {
   };
 
   const lockedContent = (egg) => {
-    console.log('Im locked, yo!');
-    console.log('Egg discovery radius is:', egg.discoveryRadius);
+    Alert.alert(`I'm locked!`)
   };
   
   return zoneEggs?.map((egg) => {
