@@ -14,12 +14,10 @@ export default function StyleSheetProvider({ children }) {
 
 const styles = StyleSheet.create({
   modal: {
-    // backgroundColor: '#fff',
     height: 140,
     padding: 10
   },
   modalSmall: {
-    // backgroundColor: '#fff',
     height: 70,
     padding: 10
   },
@@ -116,8 +114,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   closeX: {
-    // marginRight: -20,
-    // marginTop: -100,
     marginLeft: 270,
     marginBottom: 110,
     padding: 0,
