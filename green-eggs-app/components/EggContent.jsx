@@ -1,15 +1,10 @@
-import { Text, StyleSheet, View } from 'react-native';
 import React, { useContext } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import {
-  Avatar,
-  Button,
-  Card,
-  List,
-  SegmentedButtons
+  Avatar, Card
 } from 'react-native-paper';
 import {
-  EggsUserContext,
-  useEggsUserContext
+  EggsUserContext
 } from '../providers/EggsSoundProvider';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
