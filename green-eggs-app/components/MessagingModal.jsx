@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import {
@@ -10,21 +10,14 @@ import {
   withTiming
 } from 'react-native-reanimated';
 import NewEggDiscover from '../helpers/NewEggDiscover';
-import tutorialContent from '../helpers/tutorialContent';
-import { userStats } from '../helpers/userStats';
-import { useEggsUserContext } from '../providers/EggsSoundProvider';
+import TutorialContent from '../helpers/TutorialContent';
+import { UserStats } from '../helpers/UserStats';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
 
 export default function MessagingModal({ stats, modalType }) {
-  const { showModal, setShowModal } = useEggsUserContext();
+  const { showModal, setShowModal } = useContext(EggsUserContext);
 
   const navigation = useNavigation();
-
-  const playSFX = async () => {
-    const { sound: soundFX } = await Audio.Sound.createAsync(
-      require('../assets/hit-fiver.mp3'),
-      { shouldPlay: true }
-    );
-  };
 
   // ANIMATION TEST
   const testAnimation = useAnimatedStyle(() => ({
@@ -42,6 +35,13 @@ export default function MessagingModal({ stats, modalType }) {
       }
     ]
   }));
+
+  const playSFX = async () => {
+    const { sound: soundFX } = await Audio.Sound.createAsync(
+      require('../assets/hit-fiver.mp3'),
+      { shouldPlay: true }
+    );
+  };
 
   return (
     // <Animated.View style={testAnimation}>
@@ -68,8 +68,12 @@ export default function MessagingModal({ stats, modalType }) {
               />
             </Pressable>
           </View>
-          {modalType === 'enterZone' && stats ? userStats(stats) : <></>}
-          {modalType === 'tutorial' ? tutorialContent() : <></>}
+          {modalType === 'enterZone' && stats ? (
+            <UserStats userStats={stats} />
+          ) : (
+            <></>
+          )}
+          {modalType === 'tutorial' ? <TutorialContent /> : <></>}
           {modalType === 'newEgg' ? <NewEggDiscover /> : <></>}
 
           <Text style={styles.modalText}> </Text>

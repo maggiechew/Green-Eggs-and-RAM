@@ -202,7 +202,7 @@ const AudioPlayer = ({ contentButton }) => {
           }}
           onSlidingComplete={async (value) => {
             await sound.setPositionAsync(value * duration);
-            setPosition(value * duration);
+            // setPosition(value * duration);
           }}
           step={0.01}
         />

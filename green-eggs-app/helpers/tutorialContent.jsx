@@ -1,11 +1,11 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { db } from '../config';
 import React, { useContext, useEffect } from 'react';
 import { AuthenticatedUserContext } from '../providers';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
-const tutorialContent = () => {
+const TutorialContent = () => {
   const { user } = useContext(AuthenticatedUserContext);
   const userID = user.uid;
 
@@ -20,7 +20,6 @@ const tutorialContent = () => {
     }
   }, []);
 
-  const styles = useContext(StyleSheetContext);
   return (
     <View>
       <Text style={styles.tutorialTitle}>Welcome to Egg Hunter!</Text>
@@ -66,4 +65,31 @@ const tutorialContent = () => {
   );
 };
 
-export default tutorialContent;
+const styles = StyleSheet.create({
+  newEggBodyText: {
+    textAlign: 'center',
+    color: 'white'
+  },
+  clickMeText: {
+    textAlign: 'center',
+    marginTop: 24,
+    marginBottom: -10,
+    fontSize: 18,
+    color: 'gold'
+  },
+  newEggContainer: {
+    alignItems: 'center'
+  },
+  eggIconTutorial: {
+    width: 28,
+    height: 28
+  },
+  tutorialTitle: {
+    color: 'gold'
+  },
+  tutorialText: {
+    color: 'white'
+  }
+});
+
+export default TutorialContent;

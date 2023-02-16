@@ -15,8 +15,8 @@ import { AvatarPickContext } from '../providers/AvatarPickProvider';
 
 export const SignupScreen = ({ navigation }) => {
   const authContext = useContext(AuthenticatedUserContext);
-  const { user, handleSignup, errorState } = authContext;
   const avatarConxt = useContext(AvatarPickContext);
+  const { user, handleSignup, errorState } = authContext;
   const { picture, pickImage } = avatarConxt;
 
   const {

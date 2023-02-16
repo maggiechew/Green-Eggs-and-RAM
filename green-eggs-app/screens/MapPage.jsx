@@ -15,20 +15,19 @@ import { AuthenticatedUserContext } from '../providers';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
 
 export const MapPage = ({ navigation, children }) => {
-  const [arrayOfZones, setArrayOfZones] = useState();
-  const [showMenu, setShowMenu] = useState(false);
-
   const { setCurrentEgg, showModal, setShowModal, modalType, setModalType } =
     useEggsUserContext();
   // MODAL STATES: enterZone, tutorial, newEgg
+  const authContext = useContext(AuthenticatedUserContext);
+  const { userInfo, user } = authContext;
 
+  const [arrayOfZones, setArrayOfZones] = useState();
+  const [showMenu, setShowMenu] = useState(false);
   const [activeZone, setActiveZone] = useState(null);
   const [location, setLocation] = useState(null);
   const [eggsInRange, setEggsInRange] = useState();
   const [zoneEggs, setZoneEggs] = useState();
   const [userStats, setUserStats] = useState({});
-  const authContext = useContext(AuthenticatedUserContext);
-  const { userInfo, user } = authContext;
   const userID = user.uid;
 
   const defaultPicture = require('../assets/defaultavatar.jpg');
