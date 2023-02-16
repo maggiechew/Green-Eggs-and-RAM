@@ -15,7 +15,9 @@ const tutorialContent = () => {
         seenTutorial: true
       });
     };
-    checkUserTutorial();
+    if (user) {
+      checkUserTutorial();
+    }
   }, []);
 
   const styles = useContext(StyleSheetContext);

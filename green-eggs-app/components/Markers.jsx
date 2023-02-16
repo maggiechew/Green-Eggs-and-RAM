@@ -12,8 +12,9 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
   const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
   const userID = user.uid;
-  const { setCurrentEgg, setShowModal, setModalType } = useContext(EggsUserContext);
-  
+  const { setCurrentEgg, setShowModal, setModalType } =
+    useContext(EggsUserContext);
+
   const getCreator = async (creatorID) => {
     const creatorRef = doc(db, 'creators', creatorID);
     const docSnap = await getDoc(creatorRef);
@@ -34,18 +35,18 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
       discoveredEggs: arrayUnion(egg.id)
     });
     const creatorInfo = await getCreator(egg.creatorID);
-    const combinedEgg = {Egg: egg, Creator: creatorInfo}
+    const combinedEgg = { Egg: egg, Creator: creatorInfo };
     setCurrentEgg(combinedEgg);
-    setModalType('newEgg')
-    setShowModal(true)
+    setModalType('newEgg');
+    setShowModal(true);
   };
-  
+
   const oldContent = async (egg) => {
     const creatorInfo = await getCreator(egg.creatorID);
-    const combinedEgg = {Egg: egg, Creator: creatorInfo}
+    const combinedEgg = { Egg: egg, Creator: creatorInfo };
     setCurrentEgg(combinedEgg);
   };
-  
+
   const lockedContent = () => {
     console.log('Im locked, yo!');
   };
@@ -65,7 +66,7 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
         onPress={() =>
           locked
             ? lockedContent()
-            : discovered
+            : discovered && egg
             ? oldContent(egg)
             : newContent(egg)
         }
