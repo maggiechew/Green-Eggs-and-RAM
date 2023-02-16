@@ -122,5 +122,9 @@ const styles = StyleSheet.create({
     marginBottom: 110,
     padding: 0,
     bottom: 0
+  },
+  eggIconTutorial: {
+    width: 28,
+    height: 28
   }
 });

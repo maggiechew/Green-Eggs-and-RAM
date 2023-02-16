@@ -35,15 +35,27 @@ const tutorialContent = () => {
         range of it.
       </Text>
       <Text style={styles.tutorialText}>
-        Red eggs signify that you need to get a little bit closer to view its
+        <Image
+          source={require('../assets/eggicon_locked.png')}
+          style={styles.eggIconTutorial}
+        />{' '}
+        eggs signify that you need to get a little bit closer to view its
         contents
       </Text>
       <Text style={styles.tutorialText}>
-        Green eggs represent eggs that you have yet to discover!
+        <Image
+          source={require('../assets/eggicon_undiscovered.png')}
+          style={styles.eggIconTutorial}
+        />{' '}
+        eggs represent eggs that you have yet to discover!
       </Text>
       <Text style={styles.tutorialText}>
-        Yellow eggs tell you which eggs you can interact with, but that you have
-        already "opened"
+        <Image
+          source={require('../assets/eggicon_unlocked.png')}
+          style={styles.eggIconTutorial}
+        />{' '}
+        eggs tell you which eggs you can interact with, but that you have
+        already "opened".
       </Text>
       <Text style={styles.tutorialText}>Happy hunting!</Text>
     </View>
