@@ -126,5 +126,6 @@ const styles = StyleSheet.create({
   eggIconTutorial: {
     width: 28,
     height: 28
-  }
+  },
+  zoneTutorial: {}
 });

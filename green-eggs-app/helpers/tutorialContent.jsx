@@ -27,6 +27,10 @@ const tutorialContent = () => {
       <Text style={styles.tutorialText}>
         Use the map to find hidden "egg zones" all around the City of Calgary...
       </Text>
+      <Image
+        source={require('../assets/zone.png')}
+        style={styles.zoneTutorial}
+      />
       <Text style={styles.tutorialText}>
         ... and walk up to those zones to see the eggy secrets hidden within!
       </Text>
