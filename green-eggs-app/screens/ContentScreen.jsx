@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   Divider,
+  IconButton,
   List,
   SegmentedButtons,
   Text
@@ -33,7 +34,7 @@ export const ContentScreen = () => {
       likedEggs: arrayUnion(currentEgg.Egg.id)
     });
 
-    navigation.navigate('MyEggs');
+    // navigation.navigate('MyEggs');
   };
 
   const removeEggs = async () => {
@@ -66,42 +67,52 @@ export const ContentScreen = () => {
               />
             )}
           />
-          <AudioPlayer contentButton={false} />
+          <View style={styles.likeView}>
+            <AudioPlayer contentButton={false} />
+            {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
+              // <Button
+              //   onPress={() => {
+              //     newLikeEggs(currentEgg);
+              //   }}
+              // >
+              //   Add To My Liked Eggs
+              // </Button>
+              <View style={styles.likeView}>
+                <IconButton
+                  icon='heart-outline'
+                  iconColor='gold'
+                  containerColor={'black'}
+                  onPress={() => {
+                    newLikeEggs(currentEgg);
+                  }}
+                  size={35}
+                />
+                {/* <Text style={styles.titleText}>Click to like!</Text> */}
+              </View>
+            ) : (
+              <View style={styles.likeView}>
+                <IconButton
+                  icon='heart'
+                  iconColor='gold'
+                  containerColor={'black'}
+                  onPress={() => {
+                    removeEggs(currentEgg);
+                  }}
+                  size={35}
+                />
+                {/* <Text style={styles.titleText}>Click to remove like!</Text> */}
+              </View>
+            )}
+          </View>
           <Card.Content>
             {/* <Divider /> */}
-            <Text variant='bodyMedium' style={styles.shortDescription}>
-              {egg.eggBlurb}
-            </Text>
+            <Text style={styles.shortDescription}>{egg.eggBlurb}</Text>
 
             <Divider />
             <Card.Cover source={{ uri: currentEgg.Egg.eggURIs.imageURI }} />
-            <View style={styles.buttons}>
-            <Card.Actions style={styles.buttons}>
-                  {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
-                    <Button
-                      onPress={() => {
-                        newLikeEggs(currentEgg);
-                      }}
-                    >
-                      Add To My Liked Eggs
-                    </Button>
-                  ) : (
-                    <Button
-                      onPress={() => {
-                        removeEggs(currentEgg);
-                      }}
-                    >
-                      Remove From My Liked Eggs
-                    </Button>
-                  )}
-                  </Card.Actions>
-
-
-
-            </View>
           </Card.Content>
         </Card>
-       
+
         {arLink && (
           <Button
             style={styles.arButton}
@@ -109,7 +120,7 @@ export const ContentScreen = () => {
               _handlePressButtonAsync();
             }}
           >
-            <Text>Click here for an Augmented Reality (AR) experience</Text>
+            <Text>Try an Augmented Reality (AR) experience</Text>
           </Button>
         )}
         <View>
@@ -157,10 +168,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'black'
     // background: 'black'
   },
-  buttons: {
-    flex: 1,
-    alignItems: 'center'
-  },
+  // buttons: {
+  //   flex: 1,
+  //   alignItems: 'center'
+  // },
   shortDescription: {
     paddingVertical: 10,
     paddingTop: 15,
@@ -171,7 +182,7 @@ const styles = StyleSheet.create({
   },
   arButton: {
     marginVertical: 5,
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     textColor: 'white',
     backgroundColor: '#FFCC33'
   },
@@ -181,11 +192,19 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: 'gold',
-    marginVertical: 10,
-    marginBottom: 0,
+    // marginVertical: 10,
+    // marginBottom: 0,
     fontSize: 16
   },
   creatorView: {
     margin: 10
+  },
+  likeView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginRight: 25,
+    marginTop: 0
   }
 });
