@@ -246,7 +246,19 @@ export const MyEggsScreen = () => {
                   }}
                   onPress={() => setShowContent('ImagesLikedEggs')}
                 >
-                  <Text style={styles.showContentButtonText}>Liked Eggs</Text>
+                  <Text
+                    style={{
+                      color:
+                        showContent === 'ImagesLikedEggs' ? 'gold' : 'orange',
+                      fontFamily:
+                        showContent === 'ImagesLikedEggs'
+                          ? 'SSBold'
+                          : 'SSRegular',
+                      fontSize: 18
+                    }}
+                  >
+                    Liked Eggs
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -257,7 +269,19 @@ export const MyEggsScreen = () => {
                   }}
                   onPress={() => setShowContent('ImagesDiscoveredEggs')}
                 >
-                  <Text style={styles.showContentButtonText}>
+                  <Text
+                    style={{
+                      color:
+                        showContent === 'ImagesDiscoveredEggs'
+                          ? 'gold'
+                          : 'orange',
+                      fontFamily:
+                        showContent === 'ImagesDiscoveredEggs'
+                          ? 'SSBold'
+                          : 'SSRegular',
+                      fontSize: 18
+                    }}
+                  >
                     Discovered Eggs
                   </Text>
                 </TouchableOpacity>
@@ -313,11 +337,16 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: '#000'
   },
-  showContentButtonText: {
-    color: 'orange',
-    fontFamily: 'SSRegular',
-    fontSize: 18
-  },
+  // showContentButtonTextLiked: {
+  //   color: showContent === 'ImagesLikedEggs' ? 'gold' : 'orange',
+  //   fontFamily: 'SSRegular',
+  //   fontSize: 18
+  // },
+  // showContentButtonTextDisc: {
+  //   color: showContent === 'ImagesDiscoveredEggs' ? 'gold' : 'orange',
+  //   fontFamily: 'SSRegular',
+  //   fontSize: 18
+  // },
   name: {
     fontFamily: 'SSBold',
     fontSize: 20,
