@@ -246,7 +246,7 @@ export const MapPage = ({ navigation, children }) => {
           }}
         >
           <Avatar.Image
-            style={[styles.avatar, { backgroundColor: 'transparent' }]}
+            style={[styles.avatar, { backgroundColor: 'black' }]}
             source={
               userInfo?.avataruri == null
                 ? defaultPicture
@@ -284,8 +284,15 @@ const styles = StyleSheet.create({
   avatarButtonContainer: {
     paddingLeft: 20,
     paddingTop: 20,
-    zIndex: 46,
-    alignSelf: 'flex-start'
+    zIndex: 46
+    // alignSelf: 'flex-start'
+  },
+  avatar: {
+    borderWidth: 3,
+    borderColor: 'gold',
+    // borderStyle: 'solid',
+    padding: -3,
+    overflow: 'hidden'
   },
 
   playButtonContainer: {

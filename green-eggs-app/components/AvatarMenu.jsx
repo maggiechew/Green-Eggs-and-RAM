@@ -38,9 +38,7 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
             icon='window-close'
             iconColor={'gold'}
             containerColor={'black'}
-            onPress={() => {
-              setShowModal(false);
-            }}
+            onPress={() => handleMenu()}
             size={23}
           />
         </Pressable>
