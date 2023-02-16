@@ -28,8 +28,6 @@ export const MapPage = ({ navigation, children }) => {
   const [eggsInRange, setEggsInRange] = useState();
   const [zoneEggs, setZoneEggs] = useState();
   const [userStats, setUserStats] = useState({});
-  const authContext = useContext(AuthenticatedUserContext);
-  const { userInfo, user } = authContext;
 
   const defaultPicture = require('../assets/defaultavatar.jpg');
 
