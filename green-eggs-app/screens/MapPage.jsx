@@ -216,7 +216,9 @@ export const MapPage = ({ navigation, children }) => {
       <StatusBar hidden />
       <MapView
         style={styles.map}
+        showsCompass={false}
         showsUserLocation
+        showsMyLocationButton
         provider='google'
         initialRegion={{
           latitude: 51.049999,

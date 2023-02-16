@@ -1,6 +1,7 @@
 import { arrayUnion, doc, updateDoc, getDoc } from 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react';
 import { Marker } from 'react-native-maps';
+import { IconButton } from 'react-native-paper';
 import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
 import {
@@ -62,6 +63,13 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
           latitude: egg.geopoint.latitude,
           longitude: egg.geopoint.longitude
         }}
+        icon={
+          locked
+            ? require('../assets/eggicon_locked.png')
+            : discovered
+            ? require('../assets/eggicon_unlocked.png')
+            : require('../assets/eggicon_undiscovered.png')
+        }
         pinColor={locked ? 'red' : discovered ? 'yellow' : 'green'}
         onPress={() =>
           locked
