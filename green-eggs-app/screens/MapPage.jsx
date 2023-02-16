@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { Avatar } from 'react-native-paper';
+import AudioSheet from '../components/AudioSheet';
 import AvatarMenu from '../components/AvatarMenu';
 import { Markers } from '../components/Markers';
 import { Zones } from '../components/Zones';
@@ -12,31 +13,25 @@ import { zonesFromDB } from '../utils/geopoints';
 
 import AudioSheet from '../components/AudioSheet';
 import MessagingModal from '../components/MessagingModal';
+import { Zones } from '../components/Zones';
 import { AuthenticatedUserContext } from '../providers';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
+import { zonesFromDB } from '../utils/geopoints';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
   const [showMenu, setShowMenu] = useState(false);
 
-  const {
-    currentEgg,
-    setCurrentEgg,
-    showModal,
-    setShowModal,
-    currentEggID,
-    setCurrentEggID,
-    modalType,
-    setModalType
-  } = useEggsUserContext();
+  const { setCurrentEgg, showModal, setShowModal, modalType, setModalType } =
+    useEggsUserContext();
   // MODAL STATES: enterZone, tutorial, newEgg
 
-  const [zoneToHide, setZoneToHide] = useState(null);
+  const [activeZone, setActiveZone] = useState(null);
   const [location, setLocation] = useState(null);
   const [eggsInRange, setEggsInRange] = useState();
   const [zoneEggs, setZoneEggs] = useState();
   const [userStats, setUserStats] = useState({});
-
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo, user } = authContext;
   const userID = user.uid;
@@ -59,20 +54,6 @@ export const MapPage = ({ navigation, children }) => {
       }
     }
   }, [userInfo]);
-
-  useEffect(() => {
-    async function _getEgg() {
-      const testEgg = await getEgg(currentEggID);
-      const testCreator = await getCreator(testEgg.creatorID);
-      const combinedEgg = { ...testEgg, ...testCreator };
-      setCurrentEgg(combinedEgg);
-    }
-    if (currentEggID) {
-      _getEgg();
-    } else {
-      setCurrentEgg(null);
-    }
-  }, [currentEggID]);
 
   const handleMenu = () => {
     setShowMenu(!showMenu);
@@ -100,7 +81,7 @@ export const MapPage = ({ navigation, children }) => {
     // subscribe async function
     const subscribe = async () => {
       return await Location.watchPositionAsync(
-        { accuracy: Location.LocationAccuracy.Highest },
+        { accuracy: Location.LocationAccuracy.Highest, distanceInterval: 2 },
         (newLocation) => {
           setLocation(newLocation);
 
@@ -115,15 +96,15 @@ export const MapPage = ({ navigation, children }) => {
           );
 
           const determineZone = () => {
-            if (zoneToHide !== usersZone) {
+            if (activeZone !== usersZone) {
               if (usersZone === undefined) {
-                setZoneToHide(null);
+                setActiveZone(null);
                 setCurrentEgg(null);
               } else {
-                setZoneToHide(usersZone);
+                setActiveZone(usersZone);
                 if (modalType !== 'enterZone' && modalType !== 'tutorial') {
                   setModalType('enterZone');
-                  setShowModal(true);
+                  // setShowModal(true);
                 }
               }
             }
@@ -143,6 +124,14 @@ export const MapPage = ({ navigation, children }) => {
   }, [arrayOfZones]);
 
   useEffect(() => {
+    if (activeZone) {
+      setShowModal(true);
+    } else {
+      setShowModal(false);
+    }
+  }, [activeZone]);
+
+  useEffect(() => {
     if (zoneEggs) {
       const isItInRadius = (egg) => {
         return isPointWithinRadius(
@@ -154,7 +143,7 @@ export const MapPage = ({ navigation, children }) => {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude
           },
-          100
+          egg.discoveryRadius ? egg.discoveryRadius : 100
         );
       };
 
@@ -164,43 +153,31 @@ export const MapPage = ({ navigation, children }) => {
           replacementEggs.push(egg);
         }
       });
-      setEggsInRange(replacementEggs);
+      replacementEggs !== eggsInRange ? setEggsInRange(replacementEggs) : null;
     }
   }, [location, zoneEggs]);
 
-  //leave this for dicorverd eggs_Yan
-  useEffect(() => {
-    if (!eggsInRange || eggsInRange.length == 0) return;
-    const updatedUser = { ...userInfo };
-    updatedUser.discoverdEggs = updatedUser.discoverdEggs || [];
-    eggsInRange.forEach((eggsInRange) => {
-      if (!updatedUser.discoverdEggs.includes(eggsInRange.id)) {
-        updatedUser.discoverdEggs.push(eggsInRange.id);
-      }
-    });
-  }, [eggsInRange]);
-
   useEffect(() => {
     async function _getTheEggs() {
-      const eggos = await getGeoEggPoints(zoneToHide);
+      const eggos = await getGeoEggPoints(activeZone);
       setZoneEggs(eggos);
     }
 
-    if (zoneToHide) {
+    if (activeZone) {
       _getTheEggs();
     } else {
       setZoneEggs(null);
       setEggsInRange(null);
       setUserStats({});
     }
-  }, [zoneToHide, userInfo]);
+  }, [activeZone, userInfo]);
 
   useEffect(() => {
-    const collectedEggs = userInfo?.likedEggs;
+    const discoveredEggs = userInfo?.discoveredEggs;
     let returnValue = 0;
     const zoneEggLength = zoneEggs?.length;
     zoneEggs?.forEach((zoneEgg) => {
-      if (collectedEggs?.find((discovered) => discovered == zoneEgg.id))
+      if (discoveredEggs?.find((discovered) => discovered == zoneEgg.id))
         returnValue++;
     });
     const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
@@ -214,32 +191,34 @@ export const MapPage = ({ navigation, children }) => {
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <MapView
-        style={styles.map}
-        showsCompass={false}
-        showsUserLocation
-        showsMyLocationButton
-        provider='google'
-        initialRegion={{
-          latitude: 51.049999,
-          longitude: -114.066666,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1
-        }}
-      >
-        {arrayOfZones?.map((zone) => {
-          if (zone?.id === zoneToHide?.id) {
-            return (
-              <Markers
-                key={zone.id}
-                zoneEggs={zoneEggs}
-                eggsInRange={eggsInRange}
-                navigation={navigation}
-              />
-            );
-          } else return <Zones key={zone.id} zone={zone} />;
-        })}
-      </MapView>
+      {location && (
+        <MapView
+          style={styles.map}
+          showsCompass={false}
+          showsUserLocation
+          showsMyLocationButton
+          provider='google'
+          initialRegion={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1
+          }}
+        >
+          {arrayOfZones?.map((zone) => {
+            if (zone?.id === activeZone?.id) {
+              return (
+                <Markers
+                  key={zone.id}
+                  zoneEggs={zoneEggs}
+                  eggsInRange={eggsInRange}
+                  navigation={navigation}
+                />
+              );
+            } else return <Zones key={zone.id} zone={zone} />;
+          })}
+        </MapView>
+      )}
 
       <View style={styles.avatarButtonContainer}>
         <Pressable

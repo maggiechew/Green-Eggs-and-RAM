@@ -1,31 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-  useContext
-} from 'react';
-import { IconButton } from 'react-native-paper';
-import { EggContent } from './EggContent';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import React, {
+  useCallback,
+  useContext, useEffect, useMemo, useRef
+} from 'react';
+import { StyleSheet, Text } from 'react-native';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 import AudioPlayer from './AudioPlayer';
+import { EggContent } from './EggContent';
 
 export default function AudioSheet() {
   const {
-    isPlayerReady,
-    setIsPlayerReady,
-    isPlaying,
-    setIsPlaying,
-    sound,
-    setSound,
     currentEgg,
-    setCurrentEgg,
     sheetOpen,
     setSheetOpen,
-    currentEggID
   } = useContext(EggsUserContext);
 
   const bottomSheetRef = useRef(null);

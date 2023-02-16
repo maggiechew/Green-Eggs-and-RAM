@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
+import * as WebBrowser from 'expo-web-browser';
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import React, { useContext, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import * as WebBrowser from 'expo-web-browser';
 import {
   Avatar,
   Button,
@@ -13,16 +14,35 @@ import {
   Text
 } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
+import { db } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 
 export const ContentScreen = () => {
-  const { currentEgg } = useContext(EggsUserContext);
+  const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
+  const { currentEgg, setCurrentEgg } = useContext(EggsUserContext);
   const creator = currentEgg.Creator;
   const egg = currentEgg.Egg;
   const arLink = egg.eggURIs.arURI;
-
+  const userID = user.uid;
   const navigation = useNavigation();
   const [value, setValue] = useState(currentEgg.eggName);
+
+  const newLikeEggs = async (egg) => {
+    await updateDoc(doc(db, 'users', userID), {
+      likedEggs: arrayUnion(currentEgg.Egg.id)
+    });
+
+    navigation.navigate('MyEggs');
+  };
+
+  const removeEggs = async () => {
+    await updateDoc(doc(db, 'users', userID), {
+      likedEggs: arrayRemove(currentEgg.Egg.id)
+    });
+    navigation.navigate('MyEggs');
+  };
+
   const [result, setResult] = useState(null);
 
   const _handlePressButtonAsync = async () => {
@@ -59,6 +79,22 @@ export const ContentScreen = () => {
             <View style={styles.buttons}></View>
           </Card.Content>
         </Card>
+        <Button
+          onPress={() => {
+            newLikeEggs(currentEgg);
+            console.log('Liked it');
+          }}
+        >
+          Like
+        </Button>
+        <Button
+          onPress={() => {
+            removeEggs(currentEgg);
+            console.log('Remove Egg');
+          }}
+        >
+          Remove
+        </Button>
         {arLink && (
           <Button
             style={styles.arButton}

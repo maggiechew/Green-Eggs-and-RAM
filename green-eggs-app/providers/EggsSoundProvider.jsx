@@ -1,6 +1,4 @@
-import { doc, getDoc } from 'firebase/firestore';
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { db } from '../config';
+import React, { createContext, useContext, useState } from 'react';
 
 export const EggsUserContext = createContext(null);
 
@@ -17,7 +15,6 @@ export default function EggsSoundProvider({ children }) {
   const [showModal, setShowModal] = useState(false);
   const [duration, setDuration] = useState(undefined);
   const [position, setPosition] = useState(0);
-  const [currentEggID, setCurrentEggID] = useState(null);
   // MODAL STATES: enterZone, tutorial, newEgg
   const [modalType, setModalType] = useState('newEgg');
 
@@ -38,8 +35,6 @@ export default function EggsSoundProvider({ children }) {
     setDuration,
     position,
     setPosition,
-    currentEggID,
-    setCurrentEggID,
     modalType,
     setModalType
   };

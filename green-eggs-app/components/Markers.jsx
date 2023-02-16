@@ -1,16 +1,13 @@
-import { arrayUnion, doc, updateDoc, getDoc } from 'firebase/firestore';
-import React, { useContext, useEffect, useState } from 'react';
+import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
+import React, { useContext } from 'react';
 import { Marker } from 'react-native-maps';
 import { IconButton } from 'react-native-paper';
 import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
-import {
-  EggsUserContext,
-  useEggsUserContext
-} from '../providers/EggsSoundProvider';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
 
-export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
-  const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
+export const Markers = ({ zoneEggs, eggsInRange }) => {
+  const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
   const userID = user.uid;
   const { setCurrentEgg, setShowModal, setModalType } =
@@ -50,7 +47,9 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
 
   const lockedContent = () => {
     console.log('Im locked, yo!');
+    console.log('Egg discovery radius is:', egg.discoveryRadius);
   };
+
   return zoneEggs?.map((egg) => {
     let locked = true;
     let discovered = false;
@@ -58,7 +57,7 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
     if (userEggs?.find((foundEgg) => foundEgg === egg.id)) discovered = true;
     return (
       <Marker
-        key={`${egg.id}-${locked}-${discovered}`} //required to make markers change properly (workaround)
+        key={`${egg.id}-${locked}-${discovered}`} //required to make markers change properly (workaround) https://github.com/react-native-maps/react-native-maps/issues/1800#issuecomment-347905340
         coordinate={{
           latitude: egg.geopoint.latitude,
           longitude: egg.geopoint.longitude
@@ -73,8 +72,8 @@ export const Markers = ({ zoneEggs, eggsInRange, navigation }) => {
         pinColor={locked ? 'red' : discovered ? 'yellow' : 'green'}
         onPress={() =>
           locked
-            ? lockedContent()
-            : discovered && egg
+            ? lockedContent(egg)
+            : discovered
             ? oldContent(egg)
             : newContent(egg)
         }
