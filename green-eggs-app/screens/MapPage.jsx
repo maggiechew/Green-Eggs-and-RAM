@@ -4,15 +4,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { Avatar } from 'react-native-paper';
-import AudioSheet from '../components/AudioSheet';
 import AvatarMenu from '../components/AvatarMenu';
 import { Markers } from '../components/Markers';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
+import { zonesFromDB } from '../utils/geopoints';
+import AudioSheet from '../components/AudioSheet';
 import MessagingModal from '../components/MessagingModal';
 import { Zones } from '../components/Zones';
 import { AuthenticatedUserContext } from '../providers';
-import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
-import { zonesFromDB } from '../utils/geopoints';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
@@ -146,7 +146,7 @@ export const MapPage = ({ navigation, children }) => {
           replacementEggs.push(egg);
         }
       });
-      replacementEggs !== eggsInRange ? setEggsInRange(replacementEggs) : null
+      replacementEggs !== eggsInRange ? setEggsInRange(replacementEggs) : null;
     }
   }, [location, zoneEggs]);
 
@@ -187,7 +187,9 @@ export const MapPage = ({ navigation, children }) => {
       {location && (
         <MapView
           style={styles.map}
+          showsCompass={false}
           showsUserLocation
+          showsMyLocationButton
           provider='google'
           initialRegion={{
             latitude: location.coords.latitude,
@@ -218,7 +220,7 @@ export const MapPage = ({ navigation, children }) => {
           }}
         >
           <Avatar.Image
-            style={[styles.avatar, { backgroundColor: 'transparent' }]}
+            style={[styles.avatar, { backgroundColor: 'black' }]}
             source={
               userInfo?.avataruri == null
                 ? defaultPicture
@@ -256,8 +258,15 @@ const styles = StyleSheet.create({
   avatarButtonContainer: {
     paddingLeft: 20,
     paddingTop: 20,
-    zIndex: 46,
-    alignSelf: 'flex-start'
+    zIndex: 46
+    // alignSelf: 'flex-start'
+  },
+  avatar: {
+    borderWidth: 3,
+    borderColor: 'gold',
+    // borderStyle: 'solid',
+    padding: -3,
+    overflow: 'hidden'
   },
 
   playButtonContainer: {

@@ -30,8 +30,7 @@ export default function AudioSheet() {
     }
   }, [currentEgg]);
 
-  useEffect(() => {
-  }, [sheetOpen]);
+  useEffect(() => {}, [sheetOpen]);
 
   return (
     <BottomSheet
@@ -39,6 +38,8 @@ export default function AudioSheet() {
       index={sheetOpen}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
+      backgroundStyle={{ backgroundColor: 'black' }}
+      handleIndicatorStyle={{ color: 'orange', backgroundColor: 'gold' }}
     >
       <AudioPlayer contentButton />
       <BottomSheetScrollView>
@@ -47,5 +48,3 @@ export default function AudioSheet() {
     </BottomSheet>
   );
 }
-
-const styles = StyleSheet.create({});

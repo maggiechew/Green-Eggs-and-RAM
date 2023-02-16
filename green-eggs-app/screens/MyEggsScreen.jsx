@@ -201,28 +201,26 @@ export const MyEggsScreen = () => {
                 <TouchableOpacity
                   style={{
                     ...styles.interactButton,
-                    backgroundColor: 'white',
+                    backgroundColor: 'black',
                     borderWidth: 2,
-                    borderColor: 'orange'
+                    borderColor: 'white'
                   }}
+                  onPress={() => setShowContent('ImagesLikedEggs')}
                 >
-                  <Text
-                    style={{ ...styles.interactButtonText, color: 'orange' }}
-                  >
+                  <Text style={{ ...styles.interactButtonText, color: 'gold' }}>
                     LIKED: {userInfo.likedEggs.length}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
                     ...styles.interactButton,
-                    backgroundColor: 'white',
+                    backgroundColor: 'black',
                     borderWidth: 2,
-                    borderColor: 'orange'
+                    borderColor: 'white'
                   }}
+                  onPress={() => setShowContent('ImagesDiscoveredEggs')}
                 >
-                  <Text
-                    style={{ ...styles.interactButtonText, color: 'orange' }}
-                  >
+                  <Text style={{ ...styles.interactButtonText, color: 'gold' }}>
                     DISCOVERED: {userInfo.discoveredEggs.length}
                   </Text>
                 </TouchableOpacity>
@@ -239,7 +237,19 @@ export const MyEggsScreen = () => {
                   }}
                   onPress={() => setShowContent('ImagesLikedEggs')}
                 >
-                  <Text style={styles.showContentButtonText}>Liked Eggs</Text>
+                  <Text
+                    style={{
+                      color:
+                        showContent === 'ImagesLikedEggs' ? 'gold' : 'orange',
+                      fontFamily:
+                        showContent === 'ImagesLikedEggs'
+                          ? 'SSBold'
+                          : 'SSRegular',
+                      fontSize: 18
+                    }}
+                  >
+                    Liked Eggs
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -250,7 +260,19 @@ export const MyEggsScreen = () => {
                   }}
                   onPress={() => setShowContent('ImagesDiscoveredEggs')}
                 >
-                  <Text style={styles.showContentButtonText}>
+                  <Text
+                    style={{
+                      color:
+                        showContent === 'ImagesDiscoveredEggs'
+                          ? 'gold'
+                          : 'orange',
+                      fontFamily:
+                        showContent === 'ImagesDiscoveredEggs'
+                          ? 'SSBold'
+                          : 'SSRegular',
+                      fontSize: 18
+                    }}
+                  >
                     Discovered Eggs
                   </Text>
                 </TouchableOpacity>
@@ -271,13 +293,13 @@ export const MyEggsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center'
   },
   profileContainer: {
     // height: 1000,
-    backgroundColor: '#fff',
+    backgroundColor: 'black',
     marginTop: -10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20
@@ -289,12 +311,12 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 100,
     borderWidth: 3,
-    borderColor: '#fff'
+    borderColor: 'white'
   },
   countsView: { flexDirection: 'row', marginTop: 20 },
   countView: { flex: 1, alignItems: 'center' },
-  countNum: { fontFamily: 'SSBold', fontSize: 20, color: '#4b7bec' },
-  countText: { fontFamily: 'SSRegular', fontSize: 18, color: '#4b7bec' },
+  countNum: { fontFamily: 'SSBold', fontSize: 20, color: 'gold' },
+  countText: { fontFamily: 'SSRegular', fontSize: 18, color: 'gold' },
   profileContentButtonsView: {
     flexDirection: 'row',
     borderTopWidth: 2,
@@ -306,15 +328,20 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: '#000'
   },
-  showContentButtonText: {
-    color: '#333',
-    fontFamily: 'SSRegular',
-    fontSize: 18
-  },
+  // showContentButtonTextLiked: {
+  //   color: showContent === 'ImagesLikedEggs' ? 'gold' : 'orange',
+  //   fontFamily: 'SSRegular',
+  //   fontSize: 18
+  // },
+  // showContentButtonTextDisc: {
+  //   color: showContent === 'ImagesDiscoveredEggs' ? 'gold' : 'orange',
+  //   fontFamily: 'SSRegular',
+  //   fontSize: 18
+  // },
   name: {
     fontFamily: 'SSBold',
     fontSize: 20,
-    color: '#333',
+    color: 'gold',
     marginTop: 10,
     textAlign: 'center'
   },

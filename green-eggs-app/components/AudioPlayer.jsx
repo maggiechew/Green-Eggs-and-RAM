@@ -12,6 +12,7 @@ import Animated, {
   withSequence,
   withTiming
 } from 'react-native-reanimated';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 import { convertTime } from '../utils/audioHelpers';
 
@@ -29,6 +30,8 @@ const AudioPlayer = ({ contentButton }) => {
     position,
     setPosition
   } = useContext(EggsUserContext);
+
+  const styles = useContext(StyleSheetContext);
 
   const navigation = useNavigation();
 
@@ -133,7 +136,7 @@ const AudioPlayer = ({ contentButton }) => {
   };
 
   return (
-    <View style={styles.modal}>
+    <View style={contentButton ? styles.modal : styles.modalSmall}>
       {!currentEgg ? (
         <Text style={styles.eggName}>'No egg loaded'</Text>
       ) : contentButton ? (
@@ -146,7 +149,8 @@ const AudioPlayer = ({ contentButton }) => {
           <Animated.View style={testAnimation}>
             <IconButton
               icon='egg-outline'
-              containerColor={'#ffffff'}
+              iconColor='gold'
+              containerColor={'black'}
               onPress={() => {
                 navigation.navigate('Content');
               }}
@@ -160,14 +164,16 @@ const AudioPlayer = ({ contentButton }) => {
         {isPlaying ? (
           <IconButton
             icon='pause-circle'
-            containerColor={'#ffffff'}
+            iconColor='gold'
+            containerColor={'black'}
             onPress={() => pausePlayAudio()}
             size={35}
           />
         ) : (
           <IconButton
             icon='play-circle'
-            containerColor={'#ffffff'}
+            iconColor='gold'
+            containerColor={'black'}
             onPress={() => pausePlayAudio()}
             size={35}
           />
@@ -178,6 +184,9 @@ const AudioPlayer = ({ contentButton }) => {
           minimumValue={0}
           maximumValue={1}
           value={calculateSeekBar()}
+          minimumTrackTintColor={'orange'}
+          maximumTrackTintColor={'dimgrey'}
+          thumbTintColor={'gold'}
           onValueChange={(value) => {
             setPosition(value * duration);
           }}
@@ -187,34 +196,12 @@ const AudioPlayer = ({ contentButton }) => {
           }}
           step={0.01}
         />
-        <Text>-{renderCurrentTime()}</Text>
+        <Text style={{ color: 'gold', marginLeft: 8 }}>
+          -{renderCurrentTime()}
+        </Text>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  modal: {
-    backgroundColor: '#fff',
-    height: 140,
-    padding: 10
-  },
-  audioPlayer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginRight: 25,
-    marginTop: 0
-  },
-  eggName: {
-    fontSize: 16,
-    marginLeft: 15,
-    marginTop: 15,
-    marginBottom: -20
-  },
-  animationContainer: {
-  }
-});
 
 export default AudioPlayer;

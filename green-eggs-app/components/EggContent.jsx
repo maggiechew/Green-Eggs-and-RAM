@@ -6,9 +6,11 @@ import {
 import {
   EggsUserContext
 } from '../providers/EggsSoundProvider';
+import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 export const EggContent = () => {
   const { currentEgg } = useContext(EggsUserContext);
+  const styles = useContext(StyleSheetContext);
   const creator = currentEgg.Creator;
   const egg = currentEgg.Egg;
 
@@ -41,14 +43,3 @@ export const EggContent = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    margin: 20,
-    height: '63%'
-  },
-  shortDescription: {
-    marginBottom: 20,
-    marginTop: 10
-  }
-});

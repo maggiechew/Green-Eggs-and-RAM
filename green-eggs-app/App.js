@@ -3,20 +3,21 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootNavigator } from './navigation/RootNavigator';
 import { AuthenticatedUserProvider } from './providers';
 import { AvatarPickProvider } from './providers/AvatarPickProvider';
+// import { Lobster } from '@expo-google-fonts/inter';
 import { useFonts } from 'expo-font';
 import { View, ActivityIndicator } from 'react-native';
-import SSLight from './assets/fonts/SourceSansProLight.ttf';
-import SSRegular from './assets/fonts/SourceSansProRegular.ttf';
-import SSBold from './assets/fonts/SourceSansProBold.ttf';
+
+// import Lobster from './assets/fonts/Lobster-Regular.ttf';
 
 const App = () => {
-  const [loaded] = useFonts({
-    SSLight,
-    SSRegular,
-    SSBold
+  const [fontsLoaded] = useFonts({
+    SSLight: require('./assets/fonts/SourceSansProLight.ttf'),
+    SSRegular: require('./assets/fonts/SourceSansProRegular.ttf'),
+    SSBold: require('./assets/fonts/SourceSansProBold.ttf'),
+    'Lobster-Regular': require('./assets/fonts/Lobster-Regular.ttf')
   });
 
-  if (!loaded) {
+  if (!fontsLoaded) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator size='large' />

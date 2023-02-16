@@ -1,6 +1,7 @@
 import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import React, { useContext } from 'react';
 import { Marker } from 'react-native-maps';
+import { IconButton } from 'react-native-paper';
 import { db } from '../config';
 import { Alert } from 'react-native';
 import { AuthenticatedUserContext } from '../providers';
@@ -10,8 +11,9 @@ export const Markers = ({ zoneEggs, eggsInRange }) => {
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
   const userID = user.uid;
-  const { setCurrentEgg, setShowModal, setModalType } = useContext(EggsUserContext);
-  
+  const { setCurrentEgg, setShowModal, setModalType } =
+    useContext(EggsUserContext);
+
   const getCreator = async (creatorID) => {
     const creatorRef = doc(db, 'creators', creatorID);
     const docSnap = await getDoc(creatorRef);
@@ -47,7 +49,7 @@ export const Markers = ({ zoneEggs, eggsInRange }) => {
   const lockedContent = (egg) => {
     Alert.alert(`I'm locked!`)
   };
-  
+
   return zoneEggs?.map((egg) => {
     let locked = true;
     let discovered = false;
@@ -60,6 +62,13 @@ export const Markers = ({ zoneEggs, eggsInRange }) => {
           latitude: egg.geopoint.latitude,
           longitude: egg.geopoint.longitude
         }}
+        icon={
+          locked
+            ? require('../assets/eggicon_locked.png')
+            : discovered
+            ? require('../assets/eggicon_unlocked.png')
+            : require('../assets/eggicon_undiscovered.png')
+        }
         pinColor={locked ? 'red' : discovered ? 'yellow' : 'green'}
         onPress={() =>
           locked
