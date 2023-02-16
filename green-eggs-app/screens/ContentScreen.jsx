@@ -19,8 +19,8 @@ import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 
 export const ContentScreen = () => {
-  const { userInfo, setUserInfo, user } = useContext(AuthenticatedUserContext);
-  const { currentEgg, setCurrentEgg } = useContext(EggsUserContext);
+  const { userInfo, user } = useContext(AuthenticatedUserContext);
+  const { currentEgg } = useContext(EggsUserContext);
   const creator = currentEgg.Creator;
   const egg = currentEgg.Egg;
   const arLink = egg.eggURIs.arURI;
@@ -28,7 +28,7 @@ export const ContentScreen = () => {
   const navigation = useNavigation();
   const [value, setValue] = useState(currentEgg.eggName);
 
-  const newLikeEggs = async (egg) => {
+  const newLikeEggs = async () => {
     await updateDoc(doc(db, 'users', userID), {
       likedEggs: arrayUnion(currentEgg.Egg.id)
     });
@@ -40,10 +40,9 @@ export const ContentScreen = () => {
     await updateDoc(doc(db, 'users', userID), {
       likedEggs: arrayRemove(currentEgg.Egg.id)
     });
-    navigation.navigate('MyEggs');
   };
 
-  const [result, setResult] = useState(null);
+  const [setResult] = useState(null);
 
   const _handlePressButtonAsync = async () => {
     let result = await WebBrowser.openBrowserAsync(arLink);
@@ -77,36 +76,23 @@ export const ContentScreen = () => {
               <Card.Cover source={{ uri: currentEgg.Egg.eggURIs.imageURI }} />
               <View style={styles.buttons}>
                 <Card.Actions style={styles.buttons}>
-                  {/* <Button
-                    onPress={() => {
-                      console.log('Loved it');
-                    }}
-                  >
-                    Love
-                  </Button> */}
-                  <Button
-                    onPress={() => {
-                      newLikeEggs(currentEgg);
-                      console.log('Liked it');
-                    }}
-                  >
-                    Like
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      removeEggs(currentEgg);
-                      console.log('Remove Egg');
-                    }}
-                  >
-                    Remove
-                  </Button>
-                  {/* <Button
-                    onPress={() => {
-                      console.log('Reported it');
-                    }}
-                  >
-                    Report
-                  </Button> */}
+                  {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
+                    <Button
+                      onPress={() => {
+                        newLikeEggs(currentEgg);
+                      }}
+                    >
+                      Add To My Liked Eggs
+                    </Button>
+                  ) : (
+                    <Button
+                      onPress={() => {
+                        removeEggs(currentEgg);
+                      }}
+                    >
+                      Remove From My Liked Eggs
+                    </Button>
+                  )}
                 </Card.Actions>
               </View>
             </Card.Content>
@@ -177,7 +163,6 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flex: 1,
-
     alignItems: 'center'
   },
   shortDescription: {

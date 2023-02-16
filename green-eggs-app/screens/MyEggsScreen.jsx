@@ -31,7 +31,6 @@ function ImagesLikedEggs() {
   const userLikedEggs = userInfo.likedEggs;
   const navigation = useNavigation();
 
-  console.log('userLikedEggs: ', userLikedEggs);
   const [likeEggsInfo, setLikeEggsInfo] = useState(null);
 
   useEffect(() => {
@@ -57,7 +56,6 @@ function ImagesLikedEggs() {
     }
   }, [userLikedEggs]);
 
-  // console.log('AllLikeEggsInfo', likeEggsInfo);
   const imageURIs = likeEggsInfo?.map(
     (image) => image.eggURIs.imageURI || 'defaultImage'
   );
@@ -66,7 +64,7 @@ function ImagesLikedEggs() {
     const creatorRef = doc(db, 'creators', creatorID);
     const docSnap = await getDoc(creatorRef);
     if (!docSnap.exists) {
-      console.log('No such document!');
+      // console.log('No such document!');
     } else {
       const creatorData = docSnap.data();
       return {
@@ -77,7 +75,6 @@ function ImagesLikedEggs() {
     }
   };
 
-  console.log('imageURIs: ', imageURIs);
   return (
     <View style={{}}>
       <View
@@ -88,11 +85,9 @@ function ImagesLikedEggs() {
         }}
       >
         {likeEggsInfo?.map((egg, index) => (
-          // console.log('egg!!!!: ', egg),
           <TouchableHighlight
             key={index}
             onPress={async () => {
-              console.log('EGGGGG is', egg);
               const creatorInfo = await getCreator(egg.creatorID);
               const combinedEgg = { Egg: egg, Creator: creatorInfo };
               setCurrentEgg(combinedEgg);
@@ -117,7 +112,6 @@ function ImagesDiscoveredEggs() {
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userDiscoveredEggs = userInfo.discoveredEggs;
   const navigation = useNavigation();
-  console.log('userDiscoveredEggs: ', userDiscoveredEggs);
   const [discoverEggsInfo, setDiscoverEggsInfo] = useState(null);
 
   useEffect(() => {
@@ -140,11 +134,9 @@ function ImagesDiscoveredEggs() {
     }
   }, [userDiscoveredEggs]);
 
-  // console.log('AllDiscoverEggsInfo', discoverEggsInfo);
   const imageDiscoverURIs = discoverEggsInfo?.map(
     (image) => image.eggURIs.imageURI || 'defaultImage'
   );
-  console.log('imageDiscoverURIs: ', imageDiscoverURIs);
 
   return (
     <View style={{}}>
@@ -159,7 +151,7 @@ function ImagesDiscoveredEggs() {
           <TouchableHighlight
             key={index}
             onPress={() => {
-              Alert.alert('LIKED the egg, you can see more details');
+              Alert.alert('This egg has only been discovered! Like this egg to see this egg');
             }}
           >
             <Image
@@ -176,7 +168,6 @@ function ImagesDiscoveredEggs() {
 export const MyEggsScreen = () => {
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo } = authContext;
-  console.log('userInfo: ', userInfo);
   const [showContent, setShowContent] = useState('ImagesLikedEggs');
 
   return (

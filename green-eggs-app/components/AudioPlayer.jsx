@@ -1,26 +1,19 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-  useContext
-} from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
-import { IconButton } from 'react-native-paper';
-import { EggContent } from './EggContent';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { EggsUserContext } from '../providers/EggsSoundProvider';
 import { useNavigation } from '@react-navigation/native';
-import { convertTime } from '../utils/audioHelpers';
+import { Audio } from 'expo-av';
+import React, {
+  useContext, useEffect
+} from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
 import Animated, {
   useAnimatedStyle,
   withRepeat,
   withSequence,
   withTiming
 } from 'react-native-reanimated';
+import { EggsUserContext } from '../providers/EggsSoundProvider';
+import { convertTime } from '../utils/audioHelpers';
 
 const AudioPlayer = ({ contentButton }) => {
   const {
@@ -31,9 +24,6 @@ const AudioPlayer = ({ contentButton }) => {
     sound,
     setSound,
     currentEgg,
-    setCurrentEgg,
-    sheetOpen,
-    setSheetOpen,
     duration,
     setDuration,
     position,

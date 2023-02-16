@@ -29,7 +29,6 @@ export const MapPage = ({ navigation, children }) => {
   const [userStats, setUserStats] = useState({});
   const authContext = useContext(AuthenticatedUserContext);
   const { userInfo, user } = authContext;
-  const userID = user.uid;
 
   const defaultPicture = require('../assets/defaultavatar.jpg');
 
@@ -99,7 +98,6 @@ export const MapPage = ({ navigation, children }) => {
                 setActiveZone(usersZone);
                 if (modalType !== 'enterZone' && modalType !== 'tutorial') {
                   setModalType('enterZone');
-                  // setShowModal(true);
                 }
               }
             }
