@@ -21,7 +21,6 @@ export const HomePage = ({ navigation }) => (
         style={styles.buttonContainer}
       >
         <Button
-          // easing= {Easing.sin}
           icon="account"
           mode="contained-tonal"
           style={styles.Button}

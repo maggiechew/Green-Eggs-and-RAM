@@ -4,7 +4,6 @@ import { Text, View } from 'react-native';
 import { db } from '../config';
 import React, { useContext, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-// import { getEggCollection } from './getEggCollection';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
@@ -28,11 +27,6 @@ const EggCollection = () => {
     }
   }, [db, user]);
 
-  // return (
-  //   <View>
-  //     <Text>EggCollection</Text>
-  //   </View>
-  // );
 };
 
 export default EggCollection;

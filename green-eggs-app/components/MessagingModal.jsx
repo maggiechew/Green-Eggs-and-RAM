@@ -68,8 +68,7 @@ export default function MessagingModal({ stats, modalType, userInfo }) {
               />
             </Pressable>
           </View>
-          {/* {modalType === 'enterZone' && stats ? userStats(stats) : console.log('stats', stats)} */}
-          {modalType === 'enterZone' && stats ? userStats(stats, userInfo.discoveredEggs) : <></>}
+          {modalType === 'enterZone' && stats ? userStats(stats, userInfo?.discoveredEggs) : <></>}
           {modalType === 'tutorial' ? tutorialContent() : <></>}
           {modalType === 'newEgg' ? <NewEggDiscover /> : <></>}
 

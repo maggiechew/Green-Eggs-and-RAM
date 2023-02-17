@@ -77,7 +77,7 @@ export const ContentScreen = () => {
             <Card.Cover source={{ uri: currentEgg.Egg.eggURIs.imageURI }} />
             <View style={styles.buttons}>
             <Card.Actions style={styles.buttons}>
-                  {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
+                  {!userInfo.likedEggs?.includes(currentEgg.Egg.id) ? (
                     <Button
                       onPress={() => {
                         newLikeEggs(currentEgg);
@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
     height: '100%',
     alignContent: 'space-between',
     backgroundColor: 'black'
-    // background: 'black'
   },
   buttons: {
     flex: 1,
