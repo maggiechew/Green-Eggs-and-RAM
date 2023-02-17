@@ -16,7 +16,7 @@ import { StyleSheetContext } from '../providers/StyleSheetProvider';
 const NewEggDiscover = () => {
   const { showModal, setShowModal } = useEggsUserContext();
   const navigation = useNavigation();
-  // const styles = useContext(StyleSheetContext);
+  const styles = useContext(StyleSheetContext);
 
   // ANIMATION TEST
   const testAnimation = useAnimatedStyle(() => ({
@@ -58,14 +58,5 @@ const NewEggDiscover = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  tutorialTitle: {
-    color: 'gold'
-  },
-  tutorialText: {
-    color: 'white'
-  }
-});
 
 export default NewEggDiscover;

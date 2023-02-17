@@ -1,12 +1,16 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import React, { useContext } from 'react';
+
+
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
-export const UserStats = ({ userStats }) => {
+export const userStats = (stats) => {
   const styles = useContext(StyleSheetContext);
-  if (userStats && userStats.zoneFound) {
-    let discoveredEggs = userStats.zoneFound;
+
+  if (stats.zoneFoundPercentage) {
+    let discoveredEggs = stats.zoneFoundPercentage
     let undiscovered = 100 - discoveredEggs;
+
     return (
       <View>
         <Text style={styles.tutorialTitle}>Welcome to this zone!</Text>
@@ -14,18 +18,21 @@ export const UserStats = ({ userStats }) => {
           You have discovered {discoveredEggs}% of this zone's eggs
         </Text>
         <Text style={styles.tutorialText}>
-          There are {undiscovered}% of eggs still to discover!{' '}
+          There are {undiscovered}% still to discover!{' '}
         </Text>
       </View>
     );
-  } else return <Text style={styles.tutorialText}>Loading...</Text>;
-};
-
-const styles = StyleSheet.create({
-  tutorialTitle: {
-    color: 'gold'
-  },
-  tutorialText: {
-    color: 'white'
+  } else {
+    return (
+      <View>
+        <Text style={styles.tutorialTitle}>Welcome to this zone!</Text>
+        <Text style={styles.tutorialText}>
+          You haven't discovered any eggs here... yet!
+        </Text>
+        <Text style={styles.tutorialText}>
+          So much left to discover :)
+        </Text>
+      </View>
+    );
   }
-});
+};
