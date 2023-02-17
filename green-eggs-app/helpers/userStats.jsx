@@ -14,7 +14,7 @@ export const userStats = (userStats) => {
           You have discovered {discoveredEggs}% of this zone's eggs
         </Text>
         <Text style={styles.tutorialText}>
-          There are {undiscovered}% of eggs still to discover!{' '}
+          There are {undiscovered}% still to discover!{' '}
         </Text>
       </View>
     );

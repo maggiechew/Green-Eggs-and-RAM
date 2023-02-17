@@ -1,57 +1,46 @@
-import { useNavigation } from '@react-navigation/native';
-import { Audio } from 'expo-av';
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import {
-  useAnimatedStyle,
-  withRepeat,
-  withSequence,
-  withTiming
-} from 'react-native-reanimated';
 import NewEggDiscover from '../helpers/NewEggDiscover';
 import tutorialContent from '../helpers/tutorialContent';
 import { userStats } from '../helpers/userStats';
-import { useEggsUserContext } from '../providers/EggsSoundProvider';
 
-export default function MessagingModal({ stats, modalType }) {
-  const { showModal, setShowModal } = useEggsUserContext();
+// const playSFX = async () => {
+//   const { sound: soundFX } = await Audio.Sound.createAsync(
+//     require('../assets/hit-fiver.mp3'),
+//     { shouldPlay: true }
+//   );
+// };
+// // ANIMATION TEST
+// const testAnimation = useAnimatedStyle(() => ({
+//   transform: [
+//     {
+//       // prettier-ignore
+//       scale: withRepeat(
+//           withSequence(
+//             withTiming(1, { duration: 400 }),
+//             withTiming(0.8, { duration: 400 })
+//           ),
+//           -1,
+//           true
+//         )
+//     }
+//   ]
+// }));
+export default function MessagingModal({ visible, stats, modalType, handleModal }) {
+  // const navigation = useNavigation();
 
-  const navigation = useNavigation();
 
-  const playSFX = async () => {
-    const { sound: soundFX } = await Audio.Sound.createAsync(
-      require('../assets/hit-fiver.mp3'),
-      { shouldPlay: true }
-    );
-  };
-
-  // ANIMATION TEST
-  const testAnimation = useAnimatedStyle(() => ({
-    transform: [
-      {
-        // prettier-ignore
-        scale: withRepeat(
-            withSequence(
-              withTiming(1, { duration: 400 }),
-              withTiming(0.8, { duration: 400 })
-            ),
-            -1,
-            true
-          )
-      }
-    ]
-  }));
 
   return (
     // <Animated.View style={testAnimation}>
     <Modal
       style={styles.modal}
-      visible={showModal}
-      onDismiss={() => setShowModal(false)}
+      visible={visible}
+      onDismiss={() => handleModal()}
       animationType='slide'
       transparent
-      onShow={() => playSFX()}
+      // onShow={() => playSFX()}
     >
       <View style={styles.container}>
         <View style={styles.modalView}>
@@ -62,7 +51,7 @@ export default function MessagingModal({ stats, modalType }) {
                 iconColor={'gold'}
                 containerColor={'black'}
                 onPress={() => {
-                  setShowModal(false);
+                  handleModal();
                 }}
                 size={23}
               />

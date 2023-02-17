@@ -53,6 +53,9 @@ export const MapPage = ({ navigation, children }) => {
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
+  const handleModal = () => {
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     const getForegroundPermission = async () => {
@@ -241,6 +244,7 @@ export const MapPage = ({ navigation, children }) => {
         visible={showModal}
         stats={userStats}
         modalType={modalType}
+        handleModal={handleModal}
       />
 
       <AudioSheet navigation />
