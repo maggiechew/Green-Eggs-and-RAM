@@ -145,17 +145,30 @@ function ImagesDiscoveredEggs() {
           <TouchableHighlight
             key={index}
             onPress={() => {
-              Alert.alert('This egg has only been discovered!\nLike this egg to save it for later');
+              Alert.alert(
+                'This egg has only been discovered!\nLike this egg to save it for later'
+              );
             }}
-          ><>
-            <Image
-              style={{ width: imgWidth, height: imgWidth, tintColor:'#616161' }}
-              source={image == 'defaultImage' ? Images.logo : { uri: image }}
-            />
-            <Image
-              style={{ width: imgWidth, height: imgWidth, position:'absolute', opacity: 0.2 }}
-              source={image == 'defaultImage' ? Images.logo : { uri: image }}
-            /></>
+          >
+            <>
+              <Image
+                style={{
+                  width: imgWidth,
+                  height: imgWidth,
+                  tintColor: '#616161'
+                }}
+                source={image == 'defaultImage' ? Images.logo : { uri: image }}
+              />
+              <Image
+                style={{
+                  width: imgWidth,
+                  height: imgWidth,
+                  position: 'absolute',
+                  opacity: 0.2
+                }}
+                source={image == 'defaultImage' ? Images.logo : { uri: image }}
+              />
+            </>
           </TouchableHighlight>
         ))}
       </View>
@@ -205,7 +218,18 @@ export const MyEggsScreen = () => {
                   }}
                   onPress={() => setShowContent('ImagesLikedEggs')}
                 >
-                  <Text style={{ ...styles.interactButtonText, color: 'gold' }}>
+                  <Text
+                    style={{
+                      ...styles.interactButtonText,
+                      color:
+                        showContent === 'ImagesLikedEggs' ? 'gold' : 'orange',
+                      fontFamily:
+                        showContent === 'ImagesLikedEggs'
+                          ? 'SSBold'
+                          : 'SSRegular',
+                      fontSize: 18
+                    }}
+                  >
                     LIKED: {userInfo?.likedEggs?.length || 0}
                   </Text>
                 </TouchableOpacity>
@@ -218,48 +242,9 @@ export const MyEggsScreen = () => {
                   }}
                   onPress={() => setShowContent('ImagesDiscoveredEggs')}
                 >
-                  <Text style={{ ...styles.interactButtonText, color: 'gold' }}>
-                    DISCOVERED: {userInfo?.discoveredEggs?.length || 0}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              {/* end of test */}
-            </View>
-            {/* Audio Images View */}
-            <View style={{ marginTop: 20 }}>
-              <View style={styles.profileContentButtonsView}>
-                <TouchableOpacity
-                  style={{
-                    ...styles.showContentButton,
-                    borderBottomWidth: showContent === 'ImagesLikedEggs' ? 2 : 0
-                  }}
-                  onPress={() => setShowContent('ImagesLikedEggs')}
-                >
                   <Text
                     style={{
-                      color:
-                        showContent === 'ImagesLikedEggs' ? 'gold' : 'orange',
-                      fontFamily:
-                        showContent === 'ImagesLikedEggs'
-                          ? 'SSBold'
-                          : 'SSRegular',
-                      fontSize: 18
-                    }}
-                  >
-                    Liked Eggs
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={{
-                    ...styles.showContentButton,
-                    borderBottomWidth:
-                      showContent === 'ImagesDiscoveredEggs' ? 2 : 0
-                  }}
-                  onPress={() => setShowContent('ImagesDiscoveredEggs')}
-                >
-                  <Text
-                    style={{
+                      ...styles.interactButtonText,
                       color:
                         showContent === 'ImagesDiscoveredEggs'
                           ? 'gold'
@@ -271,10 +256,23 @@ export const MyEggsScreen = () => {
                       fontSize: 18
                     }}
                   >
-                    Discovered Eggs
+                    DISCOVERED: {userInfo?.discoveredEggs?.length || 0}
                   </Text>
                 </TouchableOpacity>
               </View>
+              {/* end of test */}
+            </View>
+            {/* border */}
+            <View
+              style={{
+                borderBottomColor: 'white',
+                borderBottomWidth: 1,
+                marginTop: 10
+              }}
+            />
+
+            {/* Audio Images View */}
+            <View style={{ marginTop: 20 }}>
               {showContent === 'ImagesLikedEggs' ? (
                 <ImagesLikedEggs />
               ) : (
