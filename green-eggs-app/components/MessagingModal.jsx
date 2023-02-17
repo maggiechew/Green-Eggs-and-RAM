@@ -35,7 +35,7 @@ export default function MessagingModal({ visible, stats, modalType, handleModal 
     <Modal
       style={styles.modal}
       visible={visible}
-      onDismiss={() => handleModal()}
+      // onDismiss={() => handleModal()}
       animationType='slide'
       transparent
       // onShow={() => playSFX()}
