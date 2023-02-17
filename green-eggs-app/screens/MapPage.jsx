@@ -130,10 +130,9 @@ export const MapPage = ({ navigation, children }) => {
   }, [arrayOfZones]);
 
   useEffect(() => {
-
     if (activeZone) {
       _getEggTotal();
-      setShowMenu(false)
+      setShowMenu(false);
       setShowModal(true);
     } else {
       setShowModal(false);
@@ -184,7 +183,7 @@ export const MapPage = ({ navigation, children }) => {
   useEffect(() => {
     const discoveredEggs = userInfo?.discoveredEggs;
     const allDiscoveredEggs = discoveredEggs?.length || 0;
-    
+
     const totalEggs = userStats?.everyEgg;
     let returnValue = 0;
     const zoneEggLength = zoneEggs?.length;
@@ -192,10 +191,19 @@ export const MapPage = ({ navigation, children }) => {
       if (discoveredEggs?.find((discovered) => discovered == zoneEgg.id))
         returnValue++;
     });
-    const percentageZoneDiscovered = Math.ceil((returnValue / zoneEggLength) * 100);
-    const percentageAllDiscovered = Math.ceil((allDiscoveredEggs/totalEggs) *100)
+    const percentageZoneDiscovered = Math.ceil(
+      (returnValue / zoneEggLength) * 100
+    );
+    const percentageAllDiscovered = Math.ceil(
+      (allDiscoveredEggs / totalEggs) * 100
+    );
 
-    setUserStats({ ...userStats, zoneFoundPercentage: percentageZoneDiscovered, allDiscovered: allDiscoveredEggs, allFoundPercentage: percentageAllDiscovered });
+    setUserStats({
+      ...userStats,
+      zoneFoundPercentage: percentageZoneDiscovered,
+      allDiscovered: allDiscoveredEggs,
+      allFoundPercentage: percentageAllDiscovered
+    });
   }, [zoneEggs, userInfo]);
 
   if (arrayOfZones == null) {
@@ -286,7 +294,9 @@ const styles = StyleSheet.create({
   avatar: {
     borderWidth: 3,
     borderColor: 'gold',
-    padding: -3,
+    alignItems: 'center',
+    justifyContent: 'center',
+
     overflow: 'hidden'
   },
 
