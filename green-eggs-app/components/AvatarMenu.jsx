@@ -18,7 +18,6 @@ import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
 const AvatarMenu = ({ visible, handleMenu, navigation }) => {
-  const { sound, setSound } = useEggsUserContext();
   const authContext = useContext(AuthenticatedUserContext);
   const styles = useContext(StyleSheetContext);
   const { userInfo, handleLogout: authLogout } = authContext;
@@ -29,6 +28,7 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
     }
     authLogout();
   };
+  const { sound, setSound } = useEggsUserContext();
 
   return (
     <Modal style={styles.avatarModal} visible={visible} onDismiss={handleMenu}>

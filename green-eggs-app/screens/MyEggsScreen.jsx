@@ -25,9 +25,9 @@ import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 
 function ImagesLikedEggs() {
+  const imgWidth = Dimensions.get('screen').width * 0.5;
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const { currentEgg, setCurrentEgg } = useContext(EggsUserContext);
-  const imgWidth = Dimensions.get('screen').width * 0.5;
   const userLikedEggs = userInfo.likedEggs;
   const navigation = useNavigation();
 
@@ -108,8 +108,8 @@ function ImagesLikedEggs() {
 }
 
 function ImagesDiscoveredEggs() {
-  const { userInfo, user } = useContext(AuthenticatedUserContext);
   const imgWidth = Dimensions.get('screen').width * 0.5;
+  const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userDiscoveredEggs = userInfo.discoveredEggs;
   const navigation = useNavigation();
   const [discoverEggsInfo, setDiscoverEggsInfo] = useState(null);

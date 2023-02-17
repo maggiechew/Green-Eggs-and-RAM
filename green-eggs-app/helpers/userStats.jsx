@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import React, { useContext } from 'react';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
-export const UserStats = ({ userStats }) => {
+export const userStats = (userStats) => {
   const styles = useContext(StyleSheetContext);
   if (userStats && userStats.zoneFound) {
     let discoveredEggs = userStats.zoneFound;
@@ -20,12 +20,3 @@ export const UserStats = ({ userStats }) => {
     );
   } else return <Text style={styles.tutorialText}>Loading...</Text>;
 };
-
-const styles = StyleSheet.create({
-  tutorialTitle: {
-    color: 'gold'
-  },
-  tutorialText: {
-    color: 'white'
-  }
-});
