@@ -1,11 +1,5 @@
 import {
-  getDoc,
-  doc,
-  getDocs,
-  getCountFromServer,
-  query,
-  where,
-  collection
+  collection, getCountFromServer
 } from 'firebase/firestore';
 import { db } from '../config';
 
