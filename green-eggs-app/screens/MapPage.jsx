@@ -214,8 +214,8 @@ export const MapPage = ({ navigation, children }) => {
           initialRegion={{
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02
           }}
         >
           {arrayOfZones?.map((zone) => {
