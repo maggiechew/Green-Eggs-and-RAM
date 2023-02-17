@@ -18,7 +18,6 @@ export const Markers = ({ zoneEggs, eggsInRange }) => {
     const creatorRef = doc(db, 'creators', creatorID);
     const docSnap = await getDoc(creatorRef);
     if (!docSnap.exists) {
-      // console.log('No such document!');
     } else {
       const creatorData = docSnap.data();
       return {

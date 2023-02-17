@@ -26,8 +26,8 @@ import { EggsUserContext } from '../providers/EggsSoundProvider';
 
 function ImagesLikedEggs() {
   const imgWidth = Dimensions.get('screen').width * 0.5;
-  const { userInfo, user } = useContext(AuthenticatedUserContext);
-  const { currentEgg, setCurrentEgg } = useContext(EggsUserContext);
+  const { userInfo } = useContext(AuthenticatedUserContext);
+  const { setCurrentEgg } = useContext(EggsUserContext);
   const userLikedEggs = userInfo.likedEggs;
   const navigation = useNavigation();
 
@@ -56,15 +56,10 @@ function ImagesLikedEggs() {
     }
   }, [userLikedEggs]);
 
-  const imageURIs = likeEggsInfo?.map(
-    (image) => image.eggURIs.imageURI || 'defaultImage'
-  );
-
   const getCreator = async (creatorID) => {
     const creatorRef = doc(db, 'creators', creatorID);
     const docSnap = await getDoc(creatorRef);
     if (!docSnap.exists) {
-      // console.log('No such document!');
     } else {
       const creatorData = docSnap.data();
       return {
@@ -109,9 +104,8 @@ function ImagesLikedEggs() {
 
 function ImagesDiscoveredEggs() {
   const imgWidth = Dimensions.get('screen').width * 0.5;
-  const { userInfo, user } = useContext(AuthenticatedUserContext);
+  const { userInfo } = useContext(AuthenticatedUserContext);
   const userDiscoveredEggs = userInfo.discoveredEggs;
-  const navigation = useNavigation();
   const [discoverEggsInfo, setDiscoverEggsInfo] = useState(null);
 
   useEffect(() => {
@@ -151,13 +145,17 @@ function ImagesDiscoveredEggs() {
           <TouchableHighlight
             key={index}
             onPress={() => {
-              Alert.alert('This egg has only been discovered! Like this egg to see this egg');
+              Alert.alert('This egg has only been discovered!\nLike this egg to save it for later');
             }}
-          >
+          ><>
             <Image
-              style={{ width: imgWidth, height: imgWidth }}
+              style={{ width: imgWidth, height: imgWidth, tintColor:'#616161' }}
               source={image == 'defaultImage' ? Images.logo : { uri: image }}
             />
+            <Image
+              style={{ width: imgWidth, height: imgWidth, position:'absolute', opacity: 0.2 }}
+              source={image == 'defaultImage' ? Images.logo : { uri: image }}
+            /></>
           </TouchableHighlight>
         ))}
       </View>
@@ -208,7 +206,7 @@ export const MyEggsScreen = () => {
                   onPress={() => setShowContent('ImagesLikedEggs')}
                 >
                   <Text style={{ ...styles.interactButtonText, color: 'gold' }}>
-                    LIKED: {userInfo.likedEggs.length}
+                    LIKED: {userInfo?.likedEggs?.length || 0}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -221,7 +219,7 @@ export const MyEggsScreen = () => {
                   onPress={() => setShowContent('ImagesDiscoveredEggs')}
                 >
                   <Text style={{ ...styles.interactButtonText, color: 'gold' }}>
-                    DISCOVERED: {userInfo.discoveredEggs.length}
+                    DISCOVERED: {userInfo?.discoveredEggs?.length || 0}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -298,7 +296,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   profileContainer: {
-    // height: 1000,
     backgroundColor: 'black',
     marginTop: -10,
     borderTopLeftRadius: 20,
@@ -328,16 +325,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: '#000'
   },
-  // showContentButtonTextLiked: {
-  //   color: showContent === 'ImagesLikedEggs' ? 'gold' : 'orange',
-  //   fontFamily: 'SSRegular',
-  //   fontSize: 18
-  // },
-  // showContentButtonTextDisc: {
-  //   color: showContent === 'ImagesDiscoveredEggs' ? 'gold' : 'orange',
-  //   fontFamily: 'SSRegular',
-  //   fontSize: 18
-  // },
   name: {
     fontFamily: 'SSBold',
     fontSize: 20,

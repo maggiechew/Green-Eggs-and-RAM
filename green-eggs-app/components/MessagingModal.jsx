@@ -30,8 +30,6 @@ import { userStats } from '../helpers/userStats';
 export default function MessagingModal({ visible, stats, modalType, handleModal }) {
   // const navigation = useNavigation();
 
-
-
   return (
     // <Animated.View style={testAnimation}>
     <Modal
