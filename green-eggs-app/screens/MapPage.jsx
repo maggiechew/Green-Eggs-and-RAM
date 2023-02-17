@@ -12,6 +12,7 @@ import AudioSheet from '../components/AudioSheet';
 import MessagingModal from '../components/MessagingModal';
 import { Zones } from '../components/Zones';
 import { AuthenticatedUserContext } from '../providers';
+import { eggTotalFetch } from '../utils/eggFetch';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
 
 export const MapPage = ({ navigation, children }) => {
@@ -28,22 +29,30 @@ export const MapPage = ({ navigation, children }) => {
   const [zoneEggs, setZoneEggs] = useState();
   const [userStats, setUserStats] = useState({});
   const authContext = useContext(AuthenticatedUserContext);
-  const { userInfo, user } = authContext;
+  const { userInfo } = authContext;
 
   const defaultPicture = require('../assets/defaultavatar.jpg');
+
+  async function _getEggTotal() {
+    const eggs = await eggTotalFetch();
+    setUserStats({ ...userStats, everyEgg: eggs });
+  }
 
   useEffect(() => {
     async function _getZones() {
       const zones = await zonesFromDB();
       setArrayOfZones(zones);
     }
+
     _getZones();
+    _getEggTotal();
   }, []);
 
   useEffect(() => {
     if (userInfo) {
       if (!userInfo.seenTutorial) {
         setModalType('tutorial');
+        setShowMenu(false);
         setShowModal(true);
       }
     }
@@ -117,7 +126,10 @@ export const MapPage = ({ navigation, children }) => {
   }, [arrayOfZones]);
 
   useEffect(() => {
+
     if (activeZone) {
+      _getEggTotal();
+      setShowMenu(false)
       setShowModal(true);
     } else {
       setShowModal(false);
@@ -167,15 +179,19 @@ export const MapPage = ({ navigation, children }) => {
 
   useEffect(() => {
     const discoveredEggs = userInfo?.discoveredEggs;
+    const allDiscoveredEggs = discoveredEggs?.length || 0;
+    
+    const totalEggs = userStats?.everyEgg;
     let returnValue = 0;
     const zoneEggLength = zoneEggs?.length;
     zoneEggs?.forEach((zoneEgg) => {
       if (discoveredEggs?.find((discovered) => discovered == zoneEgg.id))
         returnValue++;
     });
-    const percentageZoneDiscovered = (returnValue / zoneEggLength) * 100;
+    const percentageZoneDiscovered = Math.ceil((returnValue / zoneEggLength) * 100);
+    const percentageAllDiscovered = Math.ceil((allDiscoveredEggs/totalEggs) *100)
 
-    setUserStats({ ...userStats, zoneFound: percentageZoneDiscovered });
+    setUserStats({ ...userStats, zoneFoundPercentage: percentageZoneDiscovered, allDiscovered: allDiscoveredEggs, allFoundPercentage: percentageAllDiscovered });
   }, [zoneEggs, userInfo]);
 
   if (arrayOfZones == null) {
@@ -194,8 +210,8 @@ export const MapPage = ({ navigation, children }) => {
           initialRegion={{
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.1,
-            longitudeDelta: 0.1
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005
           }}
         >
           {arrayOfZones?.map((zone) => {
@@ -235,9 +251,11 @@ export const MapPage = ({ navigation, children }) => {
         visible={showMenu}
         handleMenu={handleMenu}
         navigation={navigation}
+        userStats={userStats}
       />
       <MessagingModal
         visible={showModal}
+        userInfo={userInfo}
         stats={userStats}
         modalType={modalType}
       />
@@ -259,12 +277,10 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 20,
     zIndex: 46
-    // alignSelf: 'flex-start'
   },
   avatar: {
     borderWidth: 3,
     borderColor: 'gold',
-    // borderStyle: 'solid',
     padding: -3,
     overflow: 'hidden'
   },

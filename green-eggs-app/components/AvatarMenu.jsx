@@ -1,23 +1,17 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
 import React, { useContext } from 'react';
+import { Pressable, Text, View } from 'react-native';
 import {
-  Provider,
-  Modal,
-  Portal,
   Button,
-  IconButton
+  IconButton, Modal
 } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import { auth } from '../config';
+import { AuthenticatedUserContext } from '../providers';
 import {
-  EggsUserContext,
   useEggsUserContext
 } from '../providers/EggsSoundProvider';
-import { AuthenticatedUserContext } from '../providers';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
-const AvatarMenu = ({ visible, handleMenu, navigation }) => {
+const AvatarMenu = ({ visible, handleMenu, navigation, userStats }) => {
   const authContext = useContext(AuthenticatedUserContext);
   const styles = useContext(StyleSheetContext);
   const { userInfo, handleLogout: authLogout } = authContext;
@@ -28,8 +22,9 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
     }
     authLogout();
   };
-  const { sound, setSound } = useEggsUserContext();
+  const { sound } = useEggsUserContext();
 
+const allFound= userStats?.allFoundPercentage;
   return (
     <Modal style={styles.avatarModal} visible={visible} onDismiss={handleMenu}>
       <View style={styles.closeX}>
@@ -51,16 +46,7 @@ const AvatarMenu = ({ visible, handleMenu, navigation }) => {
             : userInfo?.firstname}
           !
         </Text>
-        <Text style={styles.modalText}>
-          Display Name: {userInfo?.firstname + ' ' + userInfo?.lastname}{' '}
-        </Text>
-        <Text style={styles.modalText}>Login email: {userInfo?.email}</Text>
-
-        {/* <View style={styles.avatarButtonClose}>
-          <Button onPress={() => handleMenu()}>
-            <Text style={styles.avatarButtonText}>Close</Text>
-          </Button>
-        </View> */}
+        {allFound ? <Text style={styles.modalText}>You have discovered {allFound}% of all available eggs</Text> : null}
         <View style={styles.bottom}>
           <Button
             style={styles.avatarButton}

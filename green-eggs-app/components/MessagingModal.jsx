@@ -14,7 +14,7 @@ import tutorialContent from '../helpers/tutorialContent';
 import { userStats } from '../helpers/userStats';
 import { useEggsUserContext } from '../providers/EggsSoundProvider';
 
-export default function MessagingModal({ stats, modalType }) {
+export default function MessagingModal({ stats, modalType, userInfo }) {
   const { showModal, setShowModal } = useEggsUserContext();
 
   const navigation = useNavigation();
@@ -68,7 +68,8 @@ export default function MessagingModal({ stats, modalType }) {
               />
             </Pressable>
           </View>
-          {modalType === 'enterZone' && stats ? userStats(stats) : <></>}
+          {/* {modalType === 'enterZone' && stats ? userStats(stats) : console.log('stats', stats)} */}
+          {modalType === 'enterZone' && stats ? userStats(stats, userInfo.discoveredEggs) : <></>}
           {modalType === 'tutorial' ? tutorialContent() : <></>}
           {modalType === 'newEgg' ? <NewEggDiscover /> : <></>}
 

@@ -28,11 +28,11 @@ const EggCollection = () => {
     }
   }, [db, user]);
 
-  return (
-    <View>
-      <Text>EggCollection</Text>
-    </View>
-  );
+  // return (
+  //   <View>
+  //     <Text>EggCollection</Text>
+  //   </View>
+  // );
 };
 
 export default EggCollection;

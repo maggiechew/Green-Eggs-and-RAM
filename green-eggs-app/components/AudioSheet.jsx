@@ -20,6 +20,8 @@ export default function AudioSheet() {
   const handleSheetChanges = useCallback((index) => {}, []);
   const handleClosePress = () => bottomSheetRef.current.close();
 
+
+  const audioURI= currentEgg?.Egg.eggURIs.audioURI
   useEffect(() => {
     if (currentEgg) {
       setSheetOpen(0);
@@ -41,7 +43,7 @@ export default function AudioSheet() {
       backgroundStyle={{ backgroundColor: 'black' }}
       handleIndicatorStyle={{ color: 'orange', backgroundColor: 'gold' }}
     >
-      <AudioPlayer contentButton />
+      {audioURI && <AudioPlayer contentButton />}
       <BottomSheetScrollView>
         {currentEgg !== null ? <EggContent /> : <Text>Loading...</Text>}
       </BottomSheetScrollView>
