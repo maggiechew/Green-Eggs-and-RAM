@@ -66,7 +66,7 @@ export const ContentScreen = () => {
             )}
           />
           <View style={styles.likeView}>
-            <AudioPlayer contentButton={false} />
+            <AudioPlayer contentButton={false} notNewEgg={true} />
             {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
               <View style={styles.likeView}>
                 <IconButton

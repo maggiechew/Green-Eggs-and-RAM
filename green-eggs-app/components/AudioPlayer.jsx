@@ -14,7 +14,7 @@ import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 import { convertTime } from '../utils/audioHelpers';
 
-const AudioPlayer = ({ contentButton }) => {
+const AudioPlayer = ({ contentButton, notNewEgg }) => {
   const {
     isPlayerReady,
     setIsPlayerReady,
@@ -26,7 +26,8 @@ const AudioPlayer = ({ contentButton }) => {
     duration,
     setDuration,
     position,
-    setPosition
+    setPosition,
+    sheetOpen
   } = useContext(EggsUserContext);
 
   const styles = useContext(StyleSheetContext);
@@ -51,13 +52,17 @@ const AudioPlayer = ({ contentButton }) => {
   }));
 
   useEffect(() => {
-    if (currentEgg) {
+    console.log('AUDIOEFFECT: ', currentEgg);
+    if (currentEgg && !notNewEgg) {
       loadAudio(currentEgg);
     }
     if (currentEgg === null) {
+      console.log('AUDIO: i am a null egg');
       setIsPlayerReady(false);
       unloadAudio();
+      // setSound(undefined);
     }
+    console.log('audio player', currentEgg);
   }, [currentEgg]);
 
   useEffect(() => {
@@ -65,7 +70,6 @@ const AudioPlayer = ({ contentButton }) => {
       await sound.pauseAsync();
       setPosition(1);
       await sound.setPositionAsync(1);
-      console.log('1');
       setIsPlaying(false);
     }
     if (sound) {
@@ -94,6 +98,7 @@ const AudioPlayer = ({ contentButton }) => {
 
   async function loadAudio(passedEgg) {
     if (sound && isPlaying) {
+      console.log('LOADAUDIO: sound and isplaying');
       await sound.pauseAsync();
       await sound.unloadAsync();
       setSound(undefined);
@@ -101,6 +106,7 @@ const AudioPlayer = ({ contentButton }) => {
       setIsPlayerReady(false);
     }
     if (passedEgg !== null) {
+      console.log('LOAD AUDIO: i am loading');
       const { sound: soundData } = await Audio.Sound.createAsync(
         { uri: passedEgg.Egg.eggURIs.audioURI },
         { shouldPlay: false }
@@ -122,9 +128,13 @@ const AudioPlayer = ({ contentButton }) => {
   }
 
   async function pausePlayAudio() {
+    if (!sound) {
+      return;
+    }
     if (!isPlaying && isPlayerReady) {
       await sound.playAsync();
       setIsPlaying(true);
+      console.log('PLAYING: ', currentEgg);
     }
     if (isPlaying && isPlayerReady) {
       await sound.pauseAsync();

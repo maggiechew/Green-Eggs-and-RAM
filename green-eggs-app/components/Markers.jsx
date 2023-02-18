@@ -11,7 +11,7 @@ export const Markers = ({ zoneEggs, eggsInRange }) => {
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const userEggs = userInfo.discoveredEggs;
   const userID = user.uid;
-  const { setCurrentEgg, setShowModal, setModalType } =
+  const { currentEgg, setCurrentEgg, setShowModal, setModalType } =
     useContext(EggsUserContext);
 
   const getCreator = async (creatorID) => {
@@ -40,13 +40,15 @@ export const Markers = ({ zoneEggs, eggsInRange }) => {
   };
 
   const oldContent = async (egg) => {
-    const creatorInfo = await getCreator(egg.creatorID);
-    const combinedEgg = { Egg: egg, Creator: creatorInfo };
-    setCurrentEgg(combinedEgg);
+    if (egg !== currentEgg) {
+      const creatorInfo = await getCreator(egg.creatorID);
+      const combinedEgg = { Egg: egg, Creator: creatorInfo };
+      setCurrentEgg(combinedEgg);
+    }
   };
 
   const lockedContent = (egg) => {
-    Alert.alert(`I'm locked!`)
+    Alert.alert(`I'm locked!`);
   };
 
   return zoneEggs?.map((egg) => {

@@ -12,7 +12,15 @@ import AudioPlayer from './AudioPlayer';
 import { EggContent } from './EggContent';
 
 export default function AudioSheet() {
-  const { currentEgg, sheetOpen, setSheetOpen } = useContext(EggsUserContext);
+  const {
+    currentEgg,
+    sheetOpen,
+    setSheetOpen,
+    sound,
+    setSound,
+    setIsPlayerReady,
+    setIsPlaying
+  } = useContext(EggsUserContext);
 
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['20%', '64%'], []);
@@ -27,6 +35,13 @@ export default function AudioSheet() {
     if (currentEgg === null) {
       setSheetOpen(-1);
       handleClosePress();
+      if (sound) {
+        sound.pauseAsync();
+        sound.unloadAsync();
+      }
+      setSound(undefined);
+      setIsPlayerReady(false);
+      setIsPlaying(false);
     }
   }, [currentEgg]);
 
@@ -41,7 +56,7 @@ export default function AudioSheet() {
       backgroundStyle={{ backgroundColor: `#111111` }}
       handleIndicatorStyle={{ color: 'orange', backgroundColor: 'gold' }}
     >
-      {audioURI && <AudioPlayer contentButton />}
+      {audioURI && <AudioPlayer contentButton notNewEgg={false} />}
       <BottomSheetScrollView>
         {currentEgg !== null ? <EggContent /> : <Text>Loading...</Text>}
       </BottomSheetScrollView>

@@ -10,6 +10,8 @@ const AvatarMenu = ({ visible, handleMenu, navigation, userStats }) => {
   const authContext = useContext(AuthenticatedUserContext);
   const styles = useContext(StyleSheetContext);
   const { userInfo, handleLogout: authLogout } = authContext;
+  const { sound } = useEggsUserContext();
+
   const handleLogout = () => {
     if (sound) {
       sound.pauseAsync();
@@ -17,12 +19,11 @@ const AvatarMenu = ({ visible, handleMenu, navigation, userStats }) => {
     }
     authLogout();
   };
-  const { sound } = useEggsUserContext();
 
   const allFound = userStats?.allFoundPercentage;
   return (
     <Modal style={styles.avatarModal} visible={visible} onDismiss={handleMenu}>
-      <View style={styles.closeX}>
+      {/* <View style={styles.closeX}>
         <Pressable>
           <IconButton
             icon='window-close'
@@ -32,7 +33,7 @@ const AvatarMenu = ({ visible, handleMenu, navigation, userStats }) => {
             size={23}
           />
         </Pressable>
-      </View>
+      </View> */}
       <View>
         <Text style={styles.modalText}>
           Welcome,{' '}
