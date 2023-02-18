@@ -97,6 +97,7 @@ const AudioPlayer = ({ contentButton, notNewEgg }) => {
   }, [sound, isPlayerReady]);
 
   async function loadAudio(passedEgg) {
+    console.log('LOAD: ', sound);
     if (sound && isPlaying) {
       console.log('LOADAUDIO: sound and isplaying');
       await sound.pauseAsync();

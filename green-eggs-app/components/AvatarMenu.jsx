@@ -10,12 +10,13 @@ const AvatarMenu = ({ visible, handleMenu, navigation, userStats }) => {
   const authContext = useContext(AuthenticatedUserContext);
   const styles = useContext(StyleSheetContext);
   const { userInfo, handleLogout: authLogout } = authContext;
-  const { sound } = useEggsUserContext();
+  const { sound, setSound } = useEggsUserContext();
 
   const handleLogout = () => {
     if (sound) {
       sound.pauseAsync();
       sound.unloadAsync();
+      setSound(undefined);
     }
     authLogout();
   };
