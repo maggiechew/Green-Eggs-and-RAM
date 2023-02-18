@@ -52,7 +52,7 @@ const AudioPlayer = ({ contentButton, contentScreen, fromMyEgg }) => {
   }));
 
   useEffect(() => {
-    console.log('AUDIOEFFECT: ', currentEgg);
+    // console.log('AUDIOEFFECT: ', currentEgg);
     if (
       (currentEgg && !contentScreen) ||
       (currentEgg && contentScreen && fromMyEgg)
@@ -60,12 +60,12 @@ const AudioPlayer = ({ contentButton, contentScreen, fromMyEgg }) => {
       loadAudio(currentEgg);
     }
     if (currentEgg === null) {
-      console.log('AUDIO: i am a null egg');
+      // console.log('AUDIO: i am a null egg');
       setIsPlayerReady(false);
       unloadAudio();
       // setSound(undefined);
     }
-    console.log('audio player', currentEgg);
+    // console.log('audio player', currentEgg);
   }, [currentEgg]);
 
   useEffect(() => {
@@ -100,9 +100,9 @@ const AudioPlayer = ({ contentButton, contentScreen, fromMyEgg }) => {
   }, [sound, isPlayerReady]);
 
   async function loadAudio(passedEgg) {
-    console.log('LOAD: ', sound);
+    // console.log('LOAD: ', sound);
     if (sound && isPlaying) {
-      console.log('LOADAUDIO: sound and isplaying'); // UNHANDLED HERE!!
+      // console.log('LOADAUDIO: sound and isplaying'); // UNHANDLED HERE!!
       await sound.pauseAsync();
       // await sound.unloadAsync();
       await setSound(undefined);
@@ -110,7 +110,7 @@ const AudioPlayer = ({ contentButton, contentScreen, fromMyEgg }) => {
       setIsPlayerReady(false);
     }
     if (passedEgg !== null) {
-      console.log('LOAD AUDIO: i am loading');
+      // console.log('LOAD AUDIO: i am loading');
       const { sound: soundData } = await Audio.Sound.createAsync(
         { uri: passedEgg.Egg.eggURIs.audioURI },
         { shouldPlay: false }
@@ -138,7 +138,7 @@ const AudioPlayer = ({ contentButton, contentScreen, fromMyEgg }) => {
     if (!isPlaying && isPlayerReady) {
       await sound.playAsync();
       setIsPlaying(true);
-      console.log('PLAYING: ', currentEgg);
+      // console.log('PLAYING: ', currentEgg);
     }
     if (isPlaying && isPlayerReady) {
       await sound.pauseAsync();
