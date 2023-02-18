@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   screenTitle: {
+    fontFamily: 'Lobster-Regular',
     fontSize: 32,
     fontWeight: '300',
     color: 'gold',
