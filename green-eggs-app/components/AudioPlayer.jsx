@@ -51,7 +51,7 @@ const AudioPlayer = ({ contentButton }) => {
   }));
 
   useEffect(() => {
-    if (!isPlaying && currentEgg) {
+    if (currentEgg) {
       loadAudio(currentEgg);
     }
     if (currentEgg === null) {
@@ -93,6 +93,13 @@ const AudioPlayer = ({ contentButton }) => {
   }, [sound, isPlayerReady]);
 
   async function loadAudio(passedEgg) {
+    if (sound && isPlaying) {
+      await sound.pauseAsync();
+      await sound.unloadAsync();
+      setSound(undefined);
+      setIsPlaying(false);
+      setIsPlayerReady(false);
+    }
     if (passedEgg !== null) {
       const { sound: soundData } = await Audio.Sound.createAsync(
         { uri: passedEgg.Egg.eggURIs.audioURI },
