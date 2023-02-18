@@ -56,7 +56,9 @@ export default function AudioSheet() {
       backgroundStyle={{ backgroundColor: `#111111` }}
       handleIndicatorStyle={{ color: 'orange', backgroundColor: 'gold' }}
     >
-      {audioURI && <AudioPlayer contentButton notNewEgg={false} />}
+      {audioURI && (
+        <AudioPlayer contentButton contentPage={false} fromMyEgg={false} />
+      )}
       <BottomSheetScrollView>
         {currentEgg !== null ? <EggContent /> : <Text>Loading...</Text>}
       </BottomSheetScrollView>

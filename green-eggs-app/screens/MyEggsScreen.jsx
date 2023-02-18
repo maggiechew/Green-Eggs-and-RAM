@@ -86,7 +86,7 @@ function ImagesLikedEggs() {
               const creatorInfo = await getCreator(egg.creatorID);
               const combinedEgg = { Egg: egg, Creator: creatorInfo };
               setCurrentEgg(combinedEgg);
-              navigation.navigate('Content');
+              navigation.navigate('Content', { fromMyEgg: true });
             }}
           >
             <Image

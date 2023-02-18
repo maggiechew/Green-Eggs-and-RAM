@@ -19,7 +19,7 @@ import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 
-export const ContentScreen = () => {
+export const ContentScreen = ({ fromMyEgg }) => {
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const { currentEgg } = useContext(EggsUserContext);
   const creator = currentEgg.Creator;
@@ -66,7 +66,11 @@ export const ContentScreen = () => {
             )}
           />
           <View style={styles.likeView}>
-            <AudioPlayer contentButton={false} notNewEgg={true} />
+            <AudioPlayer
+              contentButton={false}
+              contentScreen={true}
+              fromMyEgg={fromMyEgg}
+            />
             {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
               <View style={styles.likeView}>
                 <IconButton

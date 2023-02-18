@@ -14,7 +14,7 @@ import { StyleSheetContext } from '../providers/StyleSheetProvider';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 import { convertTime } from '../utils/audioHelpers';
 
-const AudioPlayer = ({ contentButton, notNewEgg }) => {
+const AudioPlayer = ({ contentButton, contentScreen, fromMyEgg }) => {
   const {
     isPlayerReady,
     setIsPlayerReady,
@@ -53,7 +53,10 @@ const AudioPlayer = ({ contentButton, notNewEgg }) => {
 
   useEffect(() => {
     console.log('AUDIOEFFECT: ', currentEgg);
-    if (currentEgg && !notNewEgg) {
+    if (
+      (currentEgg && !contentScreen) ||
+      (currentEgg && contentScreen && fromMyEgg)
+    ) {
       loadAudio(currentEgg);
     }
     if (currentEgg === null) {
@@ -99,10 +102,10 @@ const AudioPlayer = ({ contentButton, notNewEgg }) => {
   async function loadAudio(passedEgg) {
     console.log('LOAD: ', sound);
     if (sound && isPlaying) {
-      console.log('LOADAUDIO: sound and isplaying');
+      console.log('LOADAUDIO: sound and isplaying'); // UNHANDLED HERE!!
       await sound.pauseAsync();
-      await sound.unloadAsync();
-      setSound(undefined);
+      // await sound.unloadAsync();
+      await setSound(undefined);
       setIsPlaying(false);
       setIsPlayerReady(false);
     }
