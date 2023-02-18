@@ -145,17 +145,30 @@ function ImagesDiscoveredEggs() {
           <TouchableHighlight
             key={index}
             onPress={() => {
-              Alert.alert('This egg has only been discovered!\nLike this egg to save it for later');
+              Alert.alert(
+                'This egg has only been discovered!\nLike this egg to save it for later'
+              );
             }}
-          ><>
-            <Image
-              style={{ width: imgWidth, height: imgWidth, tintColor:'#616161' }}
-              source={image == 'defaultImage' ? Images.logo : { uri: image }}
-            />
-            <Image
-              style={{ width: imgWidth, height: imgWidth, position:'absolute', opacity: 0.2 }}
-              source={image == 'defaultImage' ? Images.logo : { uri: image }}
-            /></>
+          >
+            <>
+              <Image
+                style={{
+                  width: imgWidth,
+                  height: imgWidth,
+                  tintColor: '#616161'
+                }}
+                source={image == 'defaultImage' ? Images.logo : { uri: image }}
+              />
+              <Image
+                style={{
+                  width: imgWidth,
+                  height: imgWidth,
+                  position: 'absolute',
+                  opacity: 0.2
+                }}
+                source={image == 'defaultImage' ? Images.logo : { uri: image }}
+              />
+            </>
           </TouchableHighlight>
         ))}
       </View>
@@ -199,7 +212,7 @@ export const MyEggsScreen = () => {
                 <TouchableOpacity
                   style={{
                     ...styles.interactButton,
-                    backgroundColor: 'black',
+                    backgroundColor: `#111111`,
                     borderWidth: 2,
                     borderColor: 'white'
                   }}
@@ -212,7 +225,7 @@ export const MyEggsScreen = () => {
                 <TouchableOpacity
                   style={{
                     ...styles.interactButton,
-                    backgroundColor: 'black',
+                    backgroundColor: `#111111`,
                     borderWidth: 2,
                     borderColor: 'white'
                   }}
@@ -291,12 +304,12 @@ export const MyEggsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: `#111111`,
     alignItems: 'center',
     justifyContent: 'center'
   },
   profileContainer: {
-    backgroundColor: 'black',
+    backgroundColor: `#111111`,
     marginTop: -10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20

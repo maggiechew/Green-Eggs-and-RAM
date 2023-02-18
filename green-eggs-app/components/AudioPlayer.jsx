@@ -1,9 +1,7 @@
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
-import React, {
-  useContext, useEffect
-} from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import Animated, {
@@ -63,6 +61,13 @@ const AudioPlayer = ({ contentButton }) => {
   }, [currentEgg]);
 
   useEffect(() => {
+    async function justFinished() {
+      await sound.pauseAsync();
+      setPosition(1);
+      await sound.setPositionAsync(1);
+      console.log('1');
+      setIsPlaying(false);
+    }
     if (sound) {
       sound.setOnPlaybackStatusUpdate((status) => {
         if (!status.isLoaded && currentEgg) {
@@ -81,9 +86,7 @@ const AudioPlayer = ({ contentButton }) => {
           setDuration(status.durationMillis);
         }
         if (status.didJustFinish) {
-          sound.pauseAsync();
-          sound.setPositionAsync(1);
-          setIsPlaying(false);
+          justFinished();
         }
       });
     }
@@ -150,7 +153,7 @@ const AudioPlayer = ({ contentButton }) => {
             <IconButton
               icon='egg-outline'
               iconColor='gold'
-              containerColor={'black'}
+              containerColor={`#111111`}
               onPress={() => {
                 navigation.navigate('Content');
               }}
@@ -165,7 +168,7 @@ const AudioPlayer = ({ contentButton }) => {
           <IconButton
             icon='pause-circle'
             iconColor='gold'
-            containerColor={'black'}
+            containerColor={`#111111`}
             onPress={() => pausePlayAudio()}
             size={35}
           />
@@ -173,7 +176,7 @@ const AudioPlayer = ({ contentButton }) => {
           <IconButton
             icon='play-circle'
             iconColor='gold'
-            containerColor={'black'}
+            containerColor={`#111111`}
             onPress={() => pausePlayAudio()}
             size={35}
           />
@@ -187,12 +190,29 @@ const AudioPlayer = ({ contentButton }) => {
           minimumTrackTintColor={'orange'}
           maximumTrackTintColor={'dimgrey'}
           thumbTintColor={'gold'}
-          onValueChange={(value) => {
-            setPosition(value * duration);
+          onValueChange={async (value) => {
+            // await sound.setPositionAsync(value * duration);
+            // console.log('2');
+            // await setPosition(value * duration);
           }}
+          // onSlidingStart={async () => {
+          //   if (!isPlaying) return;
+
+          //   try {
+          //     await pausePlayAudio();
+          //   } catch (error) {
+          //     console.log('error inside onSlidingStart callback', error);
+          //   }
+          // }}
           onSlidingComplete={async (value) => {
-            await sound.setPositionAsync(value * duration);
-            setPosition(value * duration);
+            try {
+              const status = await sound.setPositionAsync(
+                Math.floor(duration * value)
+              );
+              setPosition(Math.floor(duration * value));
+            } catch (error) {
+              console.log('error inside onSlidingComplete callback', error);
+            }
           }}
           step={0.01}
         />

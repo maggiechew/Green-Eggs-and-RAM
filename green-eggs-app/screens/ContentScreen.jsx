@@ -33,8 +33,6 @@ export const ContentScreen = () => {
     await updateDoc(doc(db, 'users', userID), {
       likedEggs: arrayUnion(currentEgg.Egg.id)
     });
-
-    // navigation.navigate('MyEggs');
   };
 
   const removeEggs = async () => {
@@ -53,7 +51,7 @@ export const ContentScreen = () => {
   return (
     <View style={styles.background}>
       <ScrollView style={styles.container}>
-        <Card mode='elevated' style={{ backgroundColor: 'black' }}>
+        <Card mode='elevated' style={{ backgroundColor: `#111111` }}>
           <Card.Title
             title={egg.eggName}
             titleStyle={{ color: 'gold', fontSize: 16 }}
@@ -70,37 +68,28 @@ export const ContentScreen = () => {
           <View style={styles.likeView}>
             <AudioPlayer contentButton={false} />
             {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
-              // <Button
-              //   onPress={() => {
-              //     newLikeEggs(currentEgg);
-              //   }}
-              // >
-              //   Add To My Liked Eggs
-              // </Button>
               <View style={styles.likeView}>
                 <IconButton
                   icon='heart-outline'
                   iconColor='gold'
-                  containerColor={'black'}
+                  containerColor={`#111111`}
                   onPress={() => {
                     newLikeEggs(currentEgg);
                   }}
                   size={35}
                 />
-                {/* <Text style={styles.titleText}>Click to like!</Text> */}
               </View>
             ) : (
               <View style={styles.likeView}>
                 <IconButton
                   icon='heart'
                   iconColor='gold'
-                  containerColor={'black'}
+                  containerColor={`#111111`}
                   onPress={() => {
                     removeEggs(currentEgg);
                   }}
                   size={35}
                 />
-                {/* <Text style={styles.titleText}>Click to remove like!</Text> */}
               </View>
             )}
           </View>
@@ -110,27 +99,6 @@ export const ContentScreen = () => {
 
             <Divider />
             <Card.Cover source={{ uri: currentEgg.Egg.eggURIs.imageURI }} />
-            <View style={styles.buttons}>
-              <Card.Actions style={styles.buttons}>
-                {!userInfo.likedEggs?.includes(currentEgg.Egg.id) ? (
-                  <Button
-                    onPress={() => {
-                      newLikeEggs(currentEgg);
-                    }}
-                  >
-                    Add To My Liked Eggs
-                  </Button>
-                ) : (
-                  <Button
-                    onPress={() => {
-                      removeEggs(currentEgg);
-                    }}
-                  >
-                    Remove From My Liked Eggs
-                  </Button>
-                )}
-              </Card.Actions>
-            </View>
           </Card.Content>
         </Card>
 
@@ -186,12 +154,8 @@ const styles = StyleSheet.create({
   background: {
     height: '100%',
     alignContent: 'space-between',
-    backgroundColor: 'black'
+    backgroundColor: `#111111`
   },
-  // buttons: {
-  //   flex: 1,
-  //   alignItems: 'center'
-  // },
   shortDescription: {
     paddingVertical: 10,
     paddingTop: 15,
@@ -212,12 +176,11 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: 'gold',
-    // marginVertical: 10,
-    // marginBottom: 0,
+    marginTop: 10,
     fontSize: 16
   },
   creatorView: {
-    margin: 10
+    margin: 20
   },
   likeView: {
     flex: 1,

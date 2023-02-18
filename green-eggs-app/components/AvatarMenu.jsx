@@ -1,13 +1,8 @@
 import React, { useContext } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import {
-  Button,
-  IconButton, Modal
-} from 'react-native-paper';
+import { Button, IconButton, Modal } from 'react-native-paper';
 import { AuthenticatedUserContext } from '../providers';
-import {
-  useEggsUserContext
-} from '../providers/EggsSoundProvider';
+import { useEggsUserContext } from '../providers/EggsSoundProvider';
 import { StyleSheetContext } from '../providers/StyleSheetProvider';
 
 // embedded this in AppStack since useContext hook required for sound player state (and no hooks in non-component functions)
@@ -24,7 +19,7 @@ const AvatarMenu = ({ visible, handleMenu, navigation, userStats }) => {
   };
   const { sound } = useEggsUserContext();
 
-const allFound= userStats?.allFoundPercentage;
+  const allFound = userStats?.allFoundPercentage;
   return (
     <Modal style={styles.avatarModal} visible={visible} onDismiss={handleMenu}>
       <View style={styles.closeX}>
@@ -32,7 +27,7 @@ const allFound= userStats?.allFoundPercentage;
           <IconButton
             icon='window-close'
             iconColor={'gold'}
-            containerColor={'black'}
+            containerColor={`#111111`}
             onPress={() => handleMenu()}
             size={23}
           />
@@ -46,7 +41,11 @@ const allFound= userStats?.allFoundPercentage;
             : userInfo?.firstname}
           !
         </Text>
-        {allFound ? <Text style={styles.modalText}>You have discovered {allFound}% of all available eggs</Text> : null}
+        {allFound ? (
+          <Text style={styles.modalText}>
+            You have discovered {allFound}% of all available eggs
+          </Text>
+        ) : null}
         <View style={styles.bottom}>
           <Button
             style={styles.avatarButton}
