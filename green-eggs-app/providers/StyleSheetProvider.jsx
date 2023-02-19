@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   animationContainer: {},
   avatarModal: {
-    backgroundColor: 'black',
+    backgroundColor: `#111111cc`,
     flex: 1,
     justifyContent: 'flex-end',
     theme: 'dark',

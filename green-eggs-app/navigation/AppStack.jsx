@@ -23,7 +23,7 @@ export const AppStack = () => {
         options={{
           title: 'Egg Hunter Map',
           headerTitleStyle: { color: 'gold', fontFamily: 'Lobster-Regular' },
-          headerStyle: { backgroundColor: 'black' }
+          headerStyle: { backgroundColor: `#111111` }
         }}
       />
 
@@ -37,7 +37,7 @@ export const AppStack = () => {
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
-              <Entypo name='chevron-left' size={24} color='black' />
+              <Entypo name='chevron-left' size={24} color={`#111111`} />
             </TouchableOpacity>
           )
         }}
@@ -47,7 +47,7 @@ export const AppStack = () => {
         component={MyEggsScreen}
         options={{
           headerTitleStyle: { color: 'gold', fontFamily: 'Lobster-Regular' },
-          headerStyle: { backgroundColor: 'black' },
+          headerStyle: { backgroundColor: `#111111` },
           headerLeft: () => (
             <TouchableOpacity
               style={styles.backButton}
@@ -63,7 +63,7 @@ export const AppStack = () => {
         component={ContentScreen}
         options={{
           headerTitleStyle: { color: 'gold', fontFamily: 'Lobster-Regular' },
-          headerStyle: { backgroundColor: 'black' },
+          headerStyle: { backgroundColor: `#111111` },
           headerLeft: () => (
             <TouchableOpacity
               style={styles.backButton}

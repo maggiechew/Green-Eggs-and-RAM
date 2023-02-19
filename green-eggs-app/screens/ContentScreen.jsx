@@ -9,16 +9,14 @@ import {
   Button,
   Card,
   Divider,
-  List,
-  SegmentedButtons,
-  Text
+  IconButton, Text
 } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
 import { db } from '../config';
 import { AuthenticatedUserContext } from '../providers';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 
-export const ContentScreen = () => {
+export const ContentScreen = ({ fromMyEgg }) => {
   const { userInfo, user } = useContext(AuthenticatedUserContext);
   const { currentEgg } = useContext(EggsUserContext);
   const creator = currentEgg.Creator;
@@ -32,8 +30,6 @@ export const ContentScreen = () => {
     await updateDoc(doc(db, 'users', userID), {
       likedEggs: arrayUnion(currentEgg.Egg.id)
     });
-
-    navigation.navigate('MyEggs');
   };
 
   const removeEggs = async () => {
@@ -52,7 +48,7 @@ export const ContentScreen = () => {
   return (
     <View style={styles.background}>
       <ScrollView style={styles.container}>
-        <Card mode='elevated' style={{ backgroundColor: 'black' }}>
+        <Card mode='elevated' style={{ backgroundColor: `#111111` }}>
           <Card.Title
             title={egg.eggName}
             titleStyle={{ color: 'gold', fontSize: 16 }}
@@ -66,60 +62,65 @@ export const ContentScreen = () => {
               />
             )}
           />
-          <AudioPlayer contentButton={false} />
+          <View style={styles.audioContainer}>
+            {currentEgg.Egg.eggURIs.audioURI ? (
+              <AudioPlayer
+                contentButton={false}
+                contentScreen={true}
+                fromMyEgg={fromMyEgg}
+              />
+            ) : null}
+
+            {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
+              <View>
+                <IconButton
+                  icon='heart-outline'
+                  iconColor='gold'
+                  containerColor={`#111111`}
+                  onPress={() => {
+                    newLikeEggs(currentEgg);
+                  }}
+                  size={35}
+                />
+              </View>
+            ) : (
+              <View>
+                <IconButton
+                  icon='heart'
+                  iconColor='gold'
+                  containerColor={`#111111`}
+                  onPress={() => {
+                    removeEggs(currentEgg);
+                  }}
+                  size={35}
+                />
+              </View>
+            )}
+          </View>
           <Card.Content>
-            {/* <Divider /> */}
-            <Text variant='bodyMedium' style={styles.shortDescription}>
-              {egg.eggBlurb}
-            </Text>
+            {arLink && (
+              <Button
+                style={styles.arButton}
+                onPress={() => {
+                  _handlePressButtonAsync();
+                }}
+              >
+                <Text>Try an Augmented Reality (AR) experience</Text>
+              </Button>
+            )}
+            <Text style={styles.shortDescription}>{egg.eggBlurb}</Text>
 
             <Divider />
             <Card.Cover source={{ uri: currentEgg.Egg.eggURIs.imageURI }} />
-            <View style={styles.buttons}>
-            <Card.Actions style={styles.buttons}>
-                  {!userInfo.likedEggs?.includes(currentEgg.Egg.id) ? (
-                    <Button
-                      onPress={() => {
-                        newLikeEggs(currentEgg);
-                      }}
-                    >
-                      Add To My Liked Eggs
-                    </Button>
-                  ) : (
-                    <Button
-                      onPress={() => {
-                        removeEggs(currentEgg);
-                      }}
-                    >
-                      Remove From My Liked Eggs
-                    </Button>
-                  )}
-                  </Card.Actions>
-
-
-
-            </View>
           </Card.Content>
         </Card>
-       
-        {arLink && (
-          <Button
-            style={styles.arButton}
-            onPress={() => {
-              _handlePressButtonAsync();
-            }}
-          >
-            <Text>Click here for an Augmented Reality (AR) experience</Text>
-          </Button>
-        )}
+
         <View>
           <Text style={styles.bodyText}>{egg.eggDescription}</Text>
         </View>
         <View>
           <View style={styles.creatorView}>
-            <Text style={[styles.bodyText, styles.titleText]}>
-              About the Creator
-            </Text>
+            <Text style={styles.titleText}>About the Creator</Text>
             <Card.Title
               subtitleStyle={{ color: 'white' }}
               subtitle={creator.creatorName}
@@ -154,11 +155,7 @@ const styles = StyleSheet.create({
   background: {
     height: '100%',
     alignContent: 'space-between',
-    backgroundColor: 'black'
-  },
-  buttons: {
-    flex: 1,
-    alignItems: 'center'
+    backgroundColor: `#111111`
   },
   shortDescription: {
     paddingVertical: 10,
@@ -170,21 +167,30 @@ const styles = StyleSheet.create({
   },
   arButton: {
     marginVertical: 5,
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     textColor: 'white',
     backgroundColor: '#FFCC33'
   },
   bodyText: {
     color: 'white',
-    marginHorizontal: 20
+    marginTop: 10,
+    paddingTop: 10,
+    paddingHorizontal: 10,
+    textAlign: 'justify'
   },
+
   titleText: {
     color: 'gold',
-    marginVertical: 10,
-    marginBottom: 0,
+    marginTop: 10,
     fontSize: 16
   },
   creatorView: {
-    margin: 10
+    margin:10
+  },
+
+  audioContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    flex: 1
   }
 });

@@ -86,7 +86,7 @@ function ImagesLikedEggs() {
               const creatorInfo = await getCreator(egg.creatorID);
               const combinedEgg = { Egg: egg, Creator: creatorInfo };
               setCurrentEgg(combinedEgg);
-              navigation.navigate('Content');
+              navigation.navigate('Content', { fromMyEgg: true });
             }}
           >
             <Image
@@ -212,7 +212,7 @@ export const MyEggsScreen = () => {
                 <TouchableOpacity
                   style={{
                     ...styles.interactButton,
-                    backgroundColor: 'black',
+                    backgroundColor: `#111111`,
                     borderWidth: 2,
                     borderColor: 'white'
                   }}
@@ -236,7 +236,7 @@ export const MyEggsScreen = () => {
                 <TouchableOpacity
                   style={{
                     ...styles.interactButton,
-                    backgroundColor: 'black',
+                    backgroundColor: `#111111`,
                     borderWidth: 2,
                     borderColor: 'white'
                   }}
@@ -289,12 +289,12 @@ export const MyEggsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: `#111111`,
     alignItems: 'center',
     justifyContent: 'center'
   },
   profileContainer: {
-    backgroundColor: 'black',
+    backgroundColor: `#111111`,
     marginTop: -10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20

@@ -27,7 +27,12 @@ import { userStats } from '../helpers/userStats';
 //     }
 //   ]
 // }));
-export default function MessagingModal({ visible, stats, modalType, handleModal }) {
+export default function MessagingModal({
+  visible,
+  stats,
+  modalType,
+  handleModal
+}) {
   // const navigation = useNavigation();
 
   return (
@@ -47,7 +52,7 @@ export default function MessagingModal({ visible, stats, modalType, handleModal 
               <IconButton
                 icon='window-close'
                 iconColor={'gold'}
-                containerColor={'black'}
+                containerColor={`#111111`}
                 onPress={() => {
                   handleModal();
                 }}
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
     color: 'gold'
   },
   modalView: {
-    backgroundColor: 'black',
+    backgroundColor: `#111111`,
     margin: 20,
     borderRadius: 20,
     padding: 35,

@@ -125,7 +125,7 @@ export const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: `#111111`,
     paddingHorizontal: 12
   },
   logoContainer: {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     color: 'gold'
   },
   footer: {
-    backgroundColor: 'black',
+    backgroundColor: `#111111`,
     paddingHorizontal: 12,
     paddingBottom: 48,
     alignItems: 'center'

@@ -14,13 +14,22 @@ import { Zones } from '../components/Zones';
 import { AuthenticatedUserContext } from '../providers';
 import { eggTotalFetch } from '../utils/eggFetch';
 import { getGeoEggPoints } from '../utils/geoeggpoints';
+import { mapStyle } from '../components/mapStyle';
 
 export const MapPage = ({ navigation, children }) => {
   const [arrayOfZones, setArrayOfZones] = useState();
   const [showMenu, setShowMenu] = useState(false);
 
-  const { setCurrentEgg, showModal, setShowModal, modalType, setModalType } =
-    useEggsUserContext();
+  const {
+    setCurrentEgg,
+    currentEgg,
+    showModal,
+    setShowModal,
+    modalType,
+    setModalType,
+    sound,
+    setSound
+  } = useEggsUserContext();
   // MODAL STATES: enterZone, tutorial, newEgg
 
   const [activeZone, setActiveZone] = useState(null);
@@ -107,6 +116,7 @@ export const MapPage = ({ navigation, children }) => {
               if (usersZone === undefined) {
                 setActiveZone(null);
                 setCurrentEgg(null);
+                console.log('MAPPAGE: i determined zone', currentEgg);
               } else {
                 setActiveZone(usersZone);
                 if (modalType !== 'enterZone' && modalType !== 'tutorial') {
@@ -176,6 +186,8 @@ export const MapPage = ({ navigation, children }) => {
     } else {
       setZoneEggs(null);
       setEggsInRange(null);
+      setCurrentEgg(null);
+
       setUserStats({});
     }
   }, [activeZone, userInfo]);
@@ -216,6 +228,7 @@ export const MapPage = ({ navigation, children }) => {
         <MapView
           style={styles.map}
           showsCompass={false}
+          customMapStyle={mapStyle}
           showsUserLocation
           showsMyLocationButton
           provider='google'
@@ -248,7 +261,7 @@ export const MapPage = ({ navigation, children }) => {
           }}
         >
           <Avatar.Image
-            style={[styles.avatar, { backgroundColor: 'black' }]}
+            style={[styles.avatar, { backgroundColor: `#111111` }]}
             source={
               userInfo?.avataruri == null
                 ? defaultPicture
@@ -293,10 +306,10 @@ const styles = StyleSheet.create({
   },
   avatar: {
     borderWidth: 3,
+    margin: 2,
     borderColor: 'gold',
     alignItems: 'center',
     justifyContent: 'center',
-
     overflow: 'hidden'
   },
 
