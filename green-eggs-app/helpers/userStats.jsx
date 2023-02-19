@@ -10,7 +10,17 @@ export const userStats = (stats) => {
   if (stats.zoneFoundPercentage) {
     let discoveredEggs = stats.zoneFoundPercentage
     let undiscovered = 100 - discoveredEggs;
-
+if (undiscovered === 0) {
+  return ( <View>
+  <Text style={styles.tutorialTitle}>Welcome to this zone!</Text>
+  <Text style={styles.tutorialText}>
+    You have discovered all of this zone's eggs!
+  </Text>
+  <Text style={styles.tutorialText}>
+    Well done, you!{' '}
+  </Text>
+</View>)
+}
     return (
       <View>
         <Text style={styles.tutorialTitle}>Welcome to this zone!</Text>
