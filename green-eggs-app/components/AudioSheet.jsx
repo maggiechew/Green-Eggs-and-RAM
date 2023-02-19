@@ -6,7 +6,8 @@ import React, {
   useMemo,
   useRef
 } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { EggsUserContext } from '../providers/EggsSoundProvider';
 import AudioPlayer from './AudioPlayer';
 import { EggContent } from './EggContent';
@@ -21,6 +22,8 @@ export default function AudioSheet() {
     setIsPlayerReady,
     setIsPlaying
   } = useContext(EggsUserContext);
+  const navigation = useNavigation();
+
 
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['20%', '64%'], []);
@@ -60,7 +63,9 @@ export default function AudioSheet() {
         <AudioPlayer contentButton contentPage={false} fromMyEgg={false} />
       )}
       <BottomSheetScrollView>
-        {currentEgg !== null ? <EggContent /> : <Text>Loading...</Text>}
+        {currentEgg !== null ? <Pressable onPress={() => {
+                navigation.navigate('Content');
+              }}><EggContent /></Pressable> : <Text>Loading...</Text>}
       </BottomSheetScrollView>
     </BottomSheet>
   );

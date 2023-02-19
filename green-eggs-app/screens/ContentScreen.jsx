@@ -9,10 +9,7 @@ import {
   Button,
   Card,
   Divider,
-  IconButton,
-  List,
-  SegmentedButtons,
-  Text
+  IconButton, Text
 } from 'react-native-paper';
 import AudioPlayer from '../components/AudioPlayer';
 import { db } from '../config';
@@ -65,14 +62,17 @@ export const ContentScreen = ({ fromMyEgg }) => {
               />
             )}
           />
-          <View style={styles.likeView}>
-            <AudioPlayer
-              contentButton={false}
-              contentScreen={true}
-              fromMyEgg={fromMyEgg}
-            />
+          <View style={styles.audioContainer}>
+            {currentEgg.Egg.eggURIs.audioURI ? (
+              <AudioPlayer
+                contentButton={false}
+                contentScreen={true}
+                fromMyEgg={fromMyEgg}
+              />
+            ) : null}
+
             {!userInfo.likedEggs.includes(currentEgg.Egg.id) ? (
-              <View style={styles.likeView}>
+              <View>
                 <IconButton
                   icon='heart-outline'
                   iconColor='gold'
@@ -84,7 +84,7 @@ export const ContentScreen = ({ fromMyEgg }) => {
                 />
               </View>
             ) : (
-              <View style={styles.likeView}>
+              <View>
                 <IconButton
                   icon='heart'
                   iconColor='gold'
@@ -98,7 +98,16 @@ export const ContentScreen = ({ fromMyEgg }) => {
             )}
           </View>
           <Card.Content>
-            {/* <Divider /> */}
+            {arLink && (
+              <Button
+                style={styles.arButton}
+                onPress={() => {
+                  _handlePressButtonAsync();
+                }}
+              >
+                <Text>Try an Augmented Reality (AR) experience</Text>
+              </Button>
+            )}
             <Text style={styles.shortDescription}>{egg.eggBlurb}</Text>
 
             <Divider />
@@ -106,24 +115,12 @@ export const ContentScreen = ({ fromMyEgg }) => {
           </Card.Content>
         </Card>
 
-        {arLink && (
-          <Button
-            style={styles.arButton}
-            onPress={() => {
-              _handlePressButtonAsync();
-            }}
-          >
-            <Text>Try an Augmented Reality (AR) experience</Text>
-          </Button>
-        )}
         <View>
           <Text style={styles.bodyText}>{egg.eggDescription}</Text>
         </View>
         <View>
           <View style={styles.creatorView}>
-            <Text style={[styles.bodyText, styles.titleText]}>
-              About the Creator
-            </Text>
+            <Text style={styles.titleText}>About the Creator</Text>
             <Card.Title
               subtitleStyle={{ color: 'white' }}
               subtitle={creator.creatorName}
@@ -176,22 +173,24 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     color: 'white',
-    marginHorizontal: 20
+    marginTop: 10,
+    paddingTop: 10,
+    paddingHorizontal: 10,
+    textAlign: 'justify'
   },
+
   titleText: {
     color: 'gold',
     marginTop: 10,
     fontSize: 16
   },
   creatorView: {
-    margin: 20
+    margin:10
   },
-  likeView: {
-    flex: 1,
+
+  audioContainer: {
+    justifyContent: 'space-between',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginRight: 25,
-    marginTop: 0
+    flex: 1
   }
 });
