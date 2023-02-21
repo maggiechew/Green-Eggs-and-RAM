@@ -38,11 +38,11 @@ export const ContentScreen = ({ fromMyEgg }) => {
     });
   };
 
-  const [setResult] = useState(null);
+  const [theResult, setResult] = useState(null);
 
   const _handlePressButtonAsync = async () => {
     let result = await WebBrowser.openBrowserAsync(arLink);
-    setResult(result);
+    result? setResult(result) : null;
   };
 
   return (

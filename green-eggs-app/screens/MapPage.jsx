@@ -116,7 +116,6 @@ export const MapPage = ({ navigation, children }) => {
               if (usersZone === undefined) {
                 setActiveZone(null);
                 setCurrentEgg(null);
-                console.log('MAPPAGE: i determined zone', currentEgg);
               } else {
                 setActiveZone(usersZone);
                 if (modalType !== 'enterZone' && modalType !== 'tutorial') {
@@ -210,12 +209,13 @@ export const MapPage = ({ navigation, children }) => {
       (allDiscoveredEggs / totalEggs) * 100
     );
 
-    setUserStats({
+    const toSetStats = {
       ...userStats,
       zoneFoundPercentage: percentageZoneDiscovered,
       allDiscovered: allDiscoveredEggs,
       allFoundPercentage: percentageAllDiscovered
-    });
+    };
+    setUserStats(toSetStats);
   }, [zoneEggs, userInfo]);
 
   if (arrayOfZones == null) {
