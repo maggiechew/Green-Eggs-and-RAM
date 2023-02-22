@@ -457,7 +457,7 @@ footer {
 }
 
 .bios-rows .col-1-of-2 {
-	width: calc((100% - 6rem) / 2);
+	width: calc((80% - 4rem) / 2);
 }
 
 .bios-rows .col-1-of-3 {
@@ -586,8 +586,9 @@ footer {
 }
 
 .features__photo {
-	width: 55%;
-	box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+	/* width: 5rem; */
+	/* box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4); */
+	margin: auto;
 	border-radius: 0.01px;
 	position: absolute;
 	z-index: 10;
@@ -616,7 +617,9 @@ footer {
 }
 
 .features__photo--p2 {
-	right: 0;
+	right: 20%;
+	width: 15rem;
+	margin: auto;
 	top: 2rem;
 }
 
