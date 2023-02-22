@@ -70,7 +70,7 @@ export const SignupScreen = ({ navigation }) => {
               <TextInput
                 name='firstname'
                 leftIconName='account'
-                placeholder='Enter firstname'
+                placeholder='First name'
                 autoCapitalize='none'
                 keyboardType='text'
                 textContentType='firstName'
@@ -85,7 +85,7 @@ export const SignupScreen = ({ navigation }) => {
               <TextInput
                 name='lastname'
                 leftIconName='account'
-                placeholder='Enter lastname'
+                placeholder='Last name'
                 autoCapitalize='none'
                 keyboardType='text'
                 textContentType='lastName'
