@@ -60,7 +60,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
       discoveredEggs: [],
       likedEggs: [],
       friends: [],
-      tutorial: false
+      seenTutorial: false
     });
     return user;
   };
