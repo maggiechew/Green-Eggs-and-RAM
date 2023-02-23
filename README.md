@@ -54,9 +54,8 @@ to start the app.
 These are the cornerstones of our app; users can sign in or create a new account, interact with zones to discover eggs, view or hear new content, or revisit old favorites.
 </p>
 
-<p align="center">
-<img src="green-eggs-app/assets/appScreens.png" width="800">
-</p>
+<kbd><img src="green-eggs-app/assets/screenshots-gif-maker.gif" alt="Watch this repo"/></kbd>
+
 <p>
 As a geocaching game, the Egghunter app tracks the users movements and allows them to discover and interact with content that is only accessible in specific regions of the city.
 Zone and egg geographic coordinates persist in the database, and their content including images, audio and related data are retrieved when their egg is available.
