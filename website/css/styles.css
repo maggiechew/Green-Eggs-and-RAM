@@ -251,18 +251,18 @@ textarea:focus {
 	background-color: none;
 }
 
-#samples {
+#experience {
 	background-image: url(../img/a-pic-calgary-skyline-night.jpg);
 	background-color: none;
 }
 
-#samples ul li {
+#experience ul li {
 	display: inline-block;
 	width: 48%;
 	min-height: 200px;
 }
 
-#samples ul {
+#experience ul {
 	padding: 10px;
 	list-style-type: none;
 }
@@ -272,7 +272,7 @@ textarea:focus {
 	background-color: white;
 }
 
-#bios {
+#team {
 	background-image: url(../img/a-pic-bow-building-calgary.jpg);
 	background-color: white;
 }
