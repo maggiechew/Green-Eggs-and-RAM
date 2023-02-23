@@ -91,9 +91,11 @@ function ImagesLikedEggs() {
           >
             <Image
               style={{ width: imgWidth, height: imgWidth }}
-              source={{
-                uri: egg.eggURIs.imageURI ? egg.eggURIs.imageURI : Images.logo
-              }}
+              source={
+                      egg.eggURIs?.imageURI
+                        ? { uri: egg.eggURIs.imageURI }
+                        : require('../wonderlandSculpture-egg.jpg')
+                    }
             />
           </TouchableHighlight>
         ))}
@@ -118,7 +120,10 @@ function ImagesDiscoveredEggs() {
         const querySnapshot = await getDocs(q);
         const discoverEggsInfo = [];
         querySnapshot.forEach((doc) => {
-          discoverEggsInfo.push(doc.data());
+          discoverEggsInfo.push({
+            id: doc.id,
+            ...doc.data()
+          });
         });
         setDiscoverEggsInfo(discoverEggsInfo);
       };
@@ -127,10 +132,6 @@ function ImagesDiscoveredEggs() {
       setDiscoverEggsInfo([]);
     }
   }, [userDiscoveredEggs]);
-
-  const imageDiscoverURIs = discoverEggsInfo?.map(
-    (image) => image.eggURIs.imageURI || 'defaultImage'
-  );
 
   return (
     <View style={{}}>
@@ -141,36 +142,49 @@ function ImagesDiscoveredEggs() {
           alignItems: 'flex-start'
         }}
       >
-        {imageDiscoverURIs?.map((image, index) => (
-          <TouchableHighlight
-            key={index}
-            onPress={() => {
-              Alert.alert(
-                'This egg has only been discovered!\nLike this egg to save it for later'
-              );
-            }}
-          >
-            <>
-              <Image
-                style={{
-                  width: imgWidth,
-                  height: imgWidth,
-                  tintColor: '#616161'
+        {discoverEggsInfo?.map(
+          (egg, index) => (
+            (
+              <TouchableHighlight
+                key={index}
+                onPress={() => {
+                  Alert.alert(
+                    'This egg has only been discovered!\nLike this egg to save it for later'
+                  );
                 }}
-                source={image == 'defaultImage' ? Images.logo : { uri: image }}
-              />
-              <Image
-                style={{
-                  width: imgWidth,
-                  height: imgWidth,
-                  position: 'absolute',
-                  opacity: 0.2
-                }}
-                source={image == 'defaultImage' ? Images.logo : { uri: image }}
-              />
-            </>
-          </TouchableHighlight>
-        ))}
+              >
+                <>
+                  <Image
+                    style={{
+                      width: imgWidth,
+                      height: imgWidth,
+                      tintColor: '#616161'
+                    }}
+                    source={
+                      egg.eggURIs?.imageURI
+                        ? { uri: egg.eggURIs.imageURI }
+                        : require('../wonderlandSculpture-egg.jpg')
+                    }
+                  />
+
+                  <Image
+                    style={{
+                      width: imgWidth,
+                      height: imgWidth,
+                      position: 'absolute',
+                      opacity: 0.2
+                    }}
+                    source={
+                      egg.eggURIs?.imageURI
+                        ? { uri: egg.eggURIs.imageURI }
+                        : require('../wonderlandSculpture-egg.jpg')
+                    }
+                  />
+                </>
+              </TouchableHighlight>
+            )
+          )
+        )}
       </View>
     </View>
   );

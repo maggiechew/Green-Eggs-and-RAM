@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import {collection, doc, setDoc, onSnapshot} from 'firebase/firestore';
+import { collection, doc, setDoc, onSnapshot } from 'firebase/firestore';
 import { getAuth, signOut } from 'firebase/auth';
 import { AvatarPickContext } from './AvatarPickProvider';
 import { Alert } from 'react-native';
@@ -35,7 +35,11 @@ export const AuthenticatedUserProvider = ({ children }) => {
   const handleLogin = async (values) => {
     const { email, password } = values;
 
-    signInWithEmailAndPassword(auth, email, password);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch {
+      Alert.alert('No such user exists! Please try again');
+    }
   };
 
   const handleSignup = async (values) => {
@@ -56,7 +60,7 @@ export const AuthenticatedUserProvider = ({ children }) => {
       discoveredEggs: [],
       likedEggs: [],
       friends: [],
-      tutorial: false
+      seenTutorial: false
     });
     return user;
   };
