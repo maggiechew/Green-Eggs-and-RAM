@@ -91,8 +91,20 @@ Next, we need to decide what type of database would best support our application
 
 ## 🤝 About the Team
 
+<p>
+
+[**Maggie Chew**](https://github.com/maggiechew) - Tech Lead, product manager
+
+[**Vince Iannelli**](https://github.com/vinceiannelli) - Creative Experience Champion
+
+[**Yan Liu**](https://github.com/yanliu1111) - Firebase Maven
+
+[**Greg Richardson**](https://github.com/gregnr) - Scrum Master
+
+</p>
+
 ---
 
 ## ❓ FAQ
 
-If you have questions about Expo and want answers, then check out our [**WEBSITE**](www.egghunter.site) and contact us!
+If you have questions about this project and want answers, then check out our [**WEBSITE**](www.egghunter.site) and contact us in Github!
